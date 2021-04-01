@@ -1,9 +1,14 @@
+# o-dapp-starter template
+## Quickstart
 ```shell
-# First install all dependencies
-npm i
-lerna bootstrap
+# Checkout
+git clone https://github.com/circlesland/o-dapp-starter.git
 
-# Then run it
-cd dapps
+# Build
+cd o-dapp-starter
+./build.sh
+
+# Run
+cd shell
 npm run dev
 ```

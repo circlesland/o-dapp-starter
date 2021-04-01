@@ -125,16 +125,4 @@ fission.yaml
 node_modules
 
 # Project exclude paths
-/dapps/public/
-/dapps/src/dapp/actions/bubble.js
-/dapps/src/dapp/actions/show.js
-/dapps/src/dapp/processes/shell/shellProcess.js
-/dapps/src/dapp/processes/upsertProfile/upsertProfile.js
-/dapps/src/dapp/manifest.js
-/dapps/src/libs/o-os/interfaces/shell.js
-/dapps/src/libs/o-os/blockIndex.js
-/dapps/src/libs/o-os/loader.js
-/dapps/src/libs/o-os/o.js
-/dapps/src/libs/o-os/shellEvents.js
-/dapps/src/apiConnection.js
-/packages/omo-process/src/interfaces/processContext.js
+/shell/src/**/.js

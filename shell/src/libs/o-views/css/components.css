@@ -1,0 +1,5 @@
+@import "tailwindcss/components";
+
+@import "./global.css";
+@import "./webfonts.css";
+@import "./fonts.css";
