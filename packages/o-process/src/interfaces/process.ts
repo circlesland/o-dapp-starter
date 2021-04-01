@@ -1,5 +1,5 @@
 import { ProcessEvent } from "./processEvent";
-import { OmoEvent } from "@o-platform/o-events/dist/omoEvent";
+import { PlatformEvent } from "@o-platform/o-events/dist/platformEvent";
 import {Bubble} from "../events/bubble";
 import {Observable} from "rxjs";
 
@@ -27,7 +27,7 @@ export interface Process {
   /**
    * The process' in-stream.
    */
-  sendEvent(event: OmoEvent) : void;
+  sendEvent(event: PlatformEvent) : void;
 
-  sendAnswer(answer:OmoEvent) : void;
+  sendAnswer(answer:PlatformEvent) : void;
 }

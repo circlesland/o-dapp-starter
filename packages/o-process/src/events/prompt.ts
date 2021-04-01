@@ -1,11 +1,11 @@
-import { OmoEvent } from "@o-platform/o-events/dist/omoEvent";
-import { OmoEventTypes } from "@o-platform/o-events/dist/eventTypes";
+import { PlatformEvent } from "@o-platform/o-events/dist/platformEvent";
+import { PlatformEventTypes } from "@o-platform/o-events/dist/eventTypes";
 
 /**
  * Can be used to ask for user input or to display status information.
  */
-export class Prompt implements OmoEvent {
-  type: OmoEventTypes = "process.prompt";
+export class Prompt implements PlatformEvent {
+  type: PlatformEventTypes = "process.prompt";
 
   fieldName?:string;
 

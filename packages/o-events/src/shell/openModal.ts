@@ -1,6 +1,6 @@
-import { OmoEvent } from "../omoEvent";
-import { OmoEventTypes } from "../eventTypes";
+import { PlatformEvent } from "../platformEvent";
+import { PlatformEventTypes } from "../eventTypes";
 
-export class OpenModal implements OmoEvent {
-  type: OmoEventTypes = "shell.openModal";
+export class OpenModal implements PlatformEvent {
+  type: PlatformEventTypes = "shell.openModal";
 }

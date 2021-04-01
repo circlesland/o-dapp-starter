@@ -1,5 +1,5 @@
 import {ProcessDefinition} from "@o-platform/o-process/dist/interfaces/processManifest";
-import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
+import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
 import {ProcessContext} from "@o-platform/o-process/dist/interfaces/processContext";
 import {createMachine, actions} from "xstate";
 import {Bubble} from "@o-platform/o-process/dist/events/bubble";
@@ -17,7 +17,7 @@ export class ShellProcessContext extends ProcessContext<any> {
  * Wraps a process and provides shell services to it.
  */
 const processDefinition = (progressView: any, successView: any, errorView: any) => {
-  return createMachine<ShellProcessContext, OmoEvent>({
+  return createMachine<ShellProcessContext, PlatformEvent>({
     id: "shellProcess",
     initial: "idle",
     states: {

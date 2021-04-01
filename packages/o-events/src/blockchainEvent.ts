@@ -1,6 +1,6 @@
-import {OmoEvent} from "./omoEvent";
+import {PlatformEvent} from "./platformEvent";
 
-export interface BlockchainEvent extends OmoEvent
+export interface BlockchainEvent extends PlatformEvent
 {
     cached?:boolean;
     event: string;

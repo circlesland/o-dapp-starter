@@ -1,9 +1,9 @@
 import { State } from "xstate";
-import { OmoEvent } from "@o-platform/o-events/dist/omoEvent";
+import { PlatformEvent } from "@o-platform/o-events/dist/platformEvent";
 
 export interface ProcessEvent {
   stopped: boolean;
-  currentState?: State<any, OmoEvent, any>;
-  previousState?: State<any, OmoEvent, any>;
-  event?: OmoEvent;
+  currentState?: State<any, PlatformEvent, any>;
+  previousState?: State<any, PlatformEvent, any>;
+  event?: PlatformEvent;
 }

@@ -1,8 +1,8 @@
-import { OmoEvent } from "../omoEvent";
-import { OmoEventTypes } from "../eventTypes";
+import { PlatformEvent } from "../platformEvent";
+import { PlatformEventTypes } from "../eventTypes";
 
-export class ShowModal implements OmoEvent {
-  type: OmoEventTypes = "shell.showModal";
+export class ShowModal implements PlatformEvent {
+  type: PlatformEventTypes = "shell.showModal";
 
   readonly component: any;
 

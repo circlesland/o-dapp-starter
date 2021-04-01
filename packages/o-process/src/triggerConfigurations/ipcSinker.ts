@@ -1,6 +1,6 @@
 import {actions} from "xstate";
 import {Sinker} from "../events/sinker";
-import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
+import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
 import {IProcessContext} from "../interfaces/processContext";
 const {send} = actions;
 
@@ -11,7 +11,7 @@ export const ipcSinker = (id:string) => {
       cond: (context: IProcessContext, event: Sinker) => {
         return event.levels == 1;
       },
-      actions: send((context: any, event: any) => {
+      actions: send((context: IProcessContext, event: Sinker) => {
         return event.wrappedEvent;
       }, {
         to: (context: IProcessContext, event: Sinker) => {
@@ -28,8 +28,8 @@ export const ipcSinker = (id:string) => {
         return event.levels > 0
             && (!event.trace?.length || event.trace[event.trace.length - 1] != id)
       },
-      actions: send((context: any, event: any) => {
-        const newSinker = <OmoEvent>{
+      actions: send((context: IProcessContext, event: Sinker) => {
+        const newSinker = <PlatformEvent>{
           type: "process.ipc.sinker",
           levels: event.levels - 1,
           tag: event.tag,

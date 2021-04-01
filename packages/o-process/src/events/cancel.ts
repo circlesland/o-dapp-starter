@@ -1,6 +1,6 @@
-import { OmoEvent } from "@o-platform/o-events/dist/omoEvent";
-import { OmoEventTypes } from "@o-platform/o-events/dist/eventTypes";
+import { PlatformEvent } from "@o-platform/o-events/dist/platformEvent";
+import { PlatformEventTypes } from "@o-platform/o-events/dist/eventTypes";
 
-export class Cancel implements OmoEvent {
-  type: OmoEventTypes = "process.cancel";
+export class Cancel implements PlatformEvent {
+  type: PlatformEventTypes = "process.cancel";
 }

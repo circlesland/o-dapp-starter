@@ -1,7 +1,7 @@
 import { DappManifest } from "@o-platform/o-interfaces/dist/dappManifest";
 import { PageManifest } from "@o-platform/o-interfaces/dist/pageManifest";
 import { RuntimeDapp } from "@o-platform/o-interfaces/dist/runtimeDapp";
-import { OmoEvent } from "@o-platform/o-events/dist/omoEvent";
+import { PlatformEvent } from "@o-platform/o-events/dist/platformEvent";
 import { shellEvents } from "./shared/shellEvents";
 import {EventBroker} from "@o-platform/o-utils/dist/eventBroker";
 import {Generate} from "@o-platform/o-utils/dist/generate";
@@ -93,8 +93,8 @@ function constructRoutes(dappManifests: DappManifest<any>[]) {
 export const dappEvents = new EventBroker();
 
 function createDappTopics(runtimeDapp: RuntimeDapp<any>): RuntimeDapp<any> {
-  const inTopic = dappEvents.createTopic<OmoEvent>(runtimeDapp.dappId, "in");
-  const outTopic = dappEvents.createTopic<OmoEvent>(runtimeDapp.dappId, "in");
+  const inTopic = dappEvents.createTopic<PlatformEvent>(runtimeDapp.dappId, "in");
+  const outTopic = dappEvents.createTopic<PlatformEvent>(runtimeDapp.dappId, "in");
   return <RuntimeDapp<any>>{
     ...runtimeDapp,
     shellEvents: shellEvents,

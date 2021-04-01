@@ -1,7 +1,7 @@
-import { OmoEvent } from "@o-platform/o-events/dist/omoEvent";
-import { OmoEventTypes } from "@o-platform/o-events/dist/eventTypes";
+import { PlatformEvent } from "@o-platform/o-events/dist/platformEvent";
+import { PlatformEventTypes } from "@o-platform/o-events/dist/eventTypes";
 
-export class Success implements OmoEvent {
-  type: OmoEventTypes = "process.success";
+export class Success implements PlatformEvent {
+  type: PlatformEventTypes = "process.success";
   result: any;
 }

@@ -1,4 +1,4 @@
-export type OmoEventTypes =
+export type PlatformEventTypes =
     "shell.runProcess"
     | "shell.runProcessInShell"
     | "shell.showModal"

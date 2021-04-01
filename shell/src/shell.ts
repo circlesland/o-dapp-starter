@@ -6,7 +6,7 @@ import {ProcessDefinition} from "@o-platform/o-process/dist/interfaces/processMa
 import {Subject} from "rxjs";
 import {ProcessEvent} from "@o-platform/o-process/dist/interfaces/processEvent";
 import {Bubble} from "@o-platform/o-process/dist/events/bubble";
-import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
+import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
 import {Sinker} from "@o-platform/o-process/dist/events/sinker";
 
 import LoadingIndicator from "./shared/atoms/LoadingIndicator.svelte";
@@ -78,7 +78,7 @@ export const shell: Shell = {
         events: <any>processEvents,
         lastReceivedBubble: null,
         sendEvent: (event: any) => send(event),
-        sendAnswer(answer: OmoEvent) {
+        sendAnswer(answer: PlatformEvent) {
           if(!this.lastReceivedBubble || this.lastReceivedBubble.noReply) {
             throw new window.Error("Cannot answer because no Bubble event was received before or the event hat the 'noReply' property set.")
           }

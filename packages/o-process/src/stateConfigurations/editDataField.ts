@@ -2,7 +2,7 @@ import {actions} from "xstate";
 import {ProcessContext} from "../interfaces/processContext";
 import {show} from "../actions/show";
 import {Continue} from "../events/continue";
-import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
+import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
 const {assign} = actions;
 
 /**
@@ -12,7 +12,7 @@ const {assign} = actions;
  *
  * @param spec
  */
-export function editDataField<TContext extends ProcessContext<any>, TEvent extends OmoEvent>(spec: {
+export function editDataField<TContext extends ProcessContext<any>, TEvent extends PlatformEvent>(spec: {
   fieldName: string,
   component: any,
   navigation?: {

@@ -1,12 +1,12 @@
-import { OmoEvent } from "../omoEvent";
-import { OmoEventTypes } from "../eventTypes";
+import { PlatformEvent } from "../platformEvent";
+import { PlatformEventTypes } from "../eventTypes";
 
-export abstract class Signal implements OmoEvent
+export abstract class Signal implements PlatformEvent
 {
-    readonly type: OmoEventTypes;
+    readonly type: PlatformEventTypes;
     readonly timestamp: number = Date.now();
 
-    constructor(type:OmoEventTypes)
+    constructor(type:PlatformEventTypes)
     {
         this.type = type;
     }

@@ -1,8 +1,8 @@
-import { OmoEvent } from "../omoEvent";
-import { OmoEventTypes } from "../eventTypes";
+import { PlatformEvent } from "../platformEvent";
+import { PlatformEventTypes } from "../eventTypes";
 
-export class ShowNotification implements OmoEvent {
-  type: OmoEventTypes = "shell.showNotification";
+export class ShowNotification implements PlatformEvent {
+  type: PlatformEventTypes = "shell.showNotification";
 
   readonly component: any;
   readonly mapping: any;

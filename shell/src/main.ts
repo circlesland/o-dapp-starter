@@ -13,7 +13,7 @@ import {Subject} from "rxjs";
 import {ProcessEvent} from "@o-platform/o-process/dist/interfaces/processEvent";
 import {Bubble} from "@o-platform/o-process/dist/events/bubble";
 import {Process} from "@o-platform/o-process/dist/interfaces/process";
-import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
+import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
 import {Sinker} from "@o-platform/o-process/dist/events/sinker";
 import {ApiConnection} from "./shared/apiConnection";
 import {getProcessContext} from "./shell";
@@ -81,7 +81,7 @@ const shell: Shell = {
         events: <any>processEvents,
         lastReceivedBubble: null,
         sendEvent: (event: any) => send(event),
-        sendAnswer(answer: OmoEvent) {
+        sendAnswer(answer: PlatformEvent) {
           if (!this.lastReceivedBubble || this.lastReceivedBubble.noReply) {
             throw new window.Error("Cannot answer because no Bubble event was received before or the event hat the 'noReply' property set.")
           }
@@ -102,11 +102,11 @@ const shell: Shell = {
   TODO: Cast to <any> because of:
   ERROR in /home/daniel/src/o-dapp-starter/shell/src/main.ts
   [tsl] ERROR in /home/daniel/src/o-dapp-starter/shell/src/main.ts(90,3)
-        TS2322: Type 'import("/home/daniel/src/o-dapp-starter/packages/o-utils/node_modules/rxjs/internal/Subject").Subject<import("/home/daniel/src/o-dapp-starter/packages/o-events/dist/omoEvent").OmoEvent>' is not assignable to type 'import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/Subject").Subject<import("/home/daniel/src/o-dapp-starter/packages/o-events/dist/omoEvent").OmoEvent>'.
+        TS2322: Type 'import("/home/daniel/src/o-dapp-starter/packages/o-utils/node_modules/rxjs/internal/Subject").Subject<import("/home/daniel/src/o-dapp-starter/packages/o-events/dist/omoEvent").PlatformEvent>' is not assignable to type 'import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/Subject").Subject<import("/home/daniel/src/o-dapp-starter/packages/o-events/dist/omoEvent").PlatformEvent>'.
     Types of property 'lift' are incompatible.
-      Type '<R>(operator: import("/home/daniel/src/o-dapp-starter/packages/o-utils/node_modules/rxjs/internal/Operator").Operator<import("/home/daniel/src/o-dapp-starter/packages/o-events/dist/omoEvent").OmoEvent, R>) => import("/home/daniel/src/o-dapp-starter/packages/o-utils/node_modules/rxjs/internal/Observable").Observable<...' is not assignable to type '<R>(operator: import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/Operator").Operator<import("/home/daniel/src/o-dapp-starter/packages/o-events/dist/omoEvent").OmoEvent, R>) => import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/Observable").Observable<...>'.
+      Type '<R>(operator: import("/home/daniel/src/o-dapp-starter/packages/o-utils/node_modules/rxjs/internal/Operator").Operator<import("/home/daniel/src/o-dapp-starter/packages/o-events/dist/omoEvent").PlatformEvent, R>) => import("/home/daniel/src/o-dapp-starter/packages/o-utils/node_modules/rxjs/internal/Observable").Observable<...' is not assignable to type '<R>(operator: import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/Operator").Operator<import("/home/daniel/src/o-dapp-starter/packages/o-events/dist/omoEvent").PlatformEvent, R>) => import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/Observable").Observable<...>'.
         Types of parameters 'operator' and 'operator' are incompatible.
-          Type 'import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/Operator").Operator<import("/home/daniel/src/o-dapp-starter/packages/o-events/dist/omoEvent").OmoEvent, R>' is not assignable to type 'import("/home/daniel/src/o-dapp-starter/packages/o-utils/node_modules/rxjs/internal/Operator").Operator<import("/home/daniel/src/o-dapp-starter/packages/o-events/dist/omoEvent").OmoEvent, R>'.
+          Type 'import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/Operator").Operator<import("/home/daniel/src/o-dapp-starter/packages/o-events/dist/omoEvent").PlatformEvent, R>' is not assignable to type 'import("/home/daniel/src/o-dapp-starter/packages/o-utils/node_modules/rxjs/internal/Operator").Operator<import("/home/daniel/src/o-dapp-starter/packages/o-events/dist/omoEvent").PlatformEvent, R>'.
             Types of property 'call' are incompatible.
               Type '(subscriber: import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/Subscriber").Subscriber<R>, source: any) => import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/types").TeardownLogic' is not assignable to type '(subscriber: import("/home/daniel/src/o-dapp-starter/packages/o-utils/node_modules/rxjs/internal/Subscriber").Subscriber<R>, source: any) => import("/home/daniel/src/o-dapp-starter/packages/o-utils/node_modules/rxjs/internal/types").TeardownLogic'.
                 Types of parameters 'subscriber' and 'subscriber' are incompatible.

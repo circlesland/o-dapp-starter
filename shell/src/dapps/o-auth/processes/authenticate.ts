@@ -1,4 +1,4 @@
-import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
+import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
 import {ProcessDefinition} from "@o-platform/o-process/dist/interfaces/processManifest";
 import {ProcessContext} from "@o-platform/o-process/dist/interfaces/processContext";
 import TextEditor from "@o-platform/o-editors/src/TextEditor.svelte";
@@ -136,12 +136,12 @@ const processDefinition = (processId?:string) => createMachine<AuthenticateConte
       id: "error",
       type: 'final',
       // TODO: Escalate custom error object instead of the original xstate error
-      entry: escalate((context, event: OmoEvent & { data: Error }) => event.data)
+      entry: escalate((context, event: PlatformEvent & { data: Error }) => event.data)
     },
     success: {
       id: "success",
       type: 'final',
-      data: (context, event: OmoEvent & { data: any }) => {
+      data: (context, event: PlatformEvent & { data: any }) => {
         console.log("Nice! Here's the result of your process:", event.data);
 
         // This last return corresponds roughly to the exit-code of a regular os-process

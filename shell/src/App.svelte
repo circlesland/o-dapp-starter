@@ -8,7 +8,7 @@
   import Modal from "./shared/molecules/Modal.svelte";
   import ProcessContainer from "./shared/molecules/ProcessContainer.svelte";
   import {Process} from "@o-platform/o-process/dist/interfaces/process";
-  import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
+  import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
   import {RunProcess} from "@o-platform/o-process/dist/events/runProcess";
   import {shellProcess, ShellProcessContext} from "./shared/processes/shellProcess";
   import {NavigateTo} from "@o-platform/o-events/dist/shell/navigateTo";
@@ -28,7 +28,7 @@
     percent: number;
   };
 
-  window.o.events.subscribe(async (event: OmoEvent) => {
+  window.o.events.subscribe(async (event: PlatformEvent) => {
     if (event.type === "shell.closeModal") {
       isOpen = false;
     }

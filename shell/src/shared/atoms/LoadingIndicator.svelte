@@ -1,6 +1,6 @@
 <script lang="ts">
   import {onDestroy, onMount} from "svelte";
-  import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
+  import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
   import {ProgressSignal} from "@o-platform/o-events/dist/signals/progressSignal";
   import {Subscription} from "rxjs";
   import LoadingSpinner from "./LoadingSpinner.svelte";
@@ -9,7 +9,7 @@
   let subscription: Subscription;
 
   onMount(() => {
-    subscription = window.o.events.subscribe((event: OmoEvent) => {
+    subscription = window.o.events.subscribe((event: PlatformEvent) => {
       if (event.type === "shell.begin") {
       }
       if (event.type === "shell.done") {

@@ -13,7 +13,7 @@
   import {Prompt as PromptEvent} from "@o-platform/o-process/dist/events/prompt";
   import {Continue} from "@o-platform/o-process/dist/events/continue";
   import {Subscription} from "rxjs";
-  import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
+  import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
   import {Bubble} from "@o-platform/o-process/dist/events/bubble";
   import {Sinker} from "@o-platform/o-process/dist/events/sinker";
 
@@ -77,7 +77,7 @@
 
         console.log("ProcessContainer received: ", next.event);
 
-        let event:OmoEvent;
+        let event:PlatformEvent;
         if (next.event?.type === "process.ipc.bubble") {
           console.log("ProcessContainer received Bubble: ", next);
           lastBubble = next.event;

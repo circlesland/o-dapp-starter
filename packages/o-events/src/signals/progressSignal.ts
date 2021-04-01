@@ -1,4 +1,4 @@
-import { OmoEventTypes } from "../eventTypes";
+import { PlatformEventTypes } from "../eventTypes";
 import {Signal} from "./signal";
 
 export class ProgressSignal extends Signal
@@ -9,7 +9,7 @@ export class ProgressSignal extends Signal
 
     constructor(message: string, percent: number, dummy?:any)
     {
-        super(<OmoEventTypes>"signal.progress");
+        super(<PlatformEventTypes>"signal.progress");
         this.message = message;
         this.percent = percent;
         this.dummy = dummy;

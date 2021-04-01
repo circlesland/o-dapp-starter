@@ -1,8 +1,8 @@
-import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
+import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
 
-export interface Bubble extends OmoEvent {
+export interface Bubble extends PlatformEvent {
   type: "process.ipc.bubble",
-  wrappedEvent: OmoEvent,
+  wrappedEvent: PlatformEvent,
   noReply?:boolean, // If set, indicates that the backtrace cannot be used to send events back
   levels: number, // How many levels the event already bubbled
   tag?: string // Can be used to identify the event

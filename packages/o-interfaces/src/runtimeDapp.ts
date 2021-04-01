@@ -1,5 +1,5 @@
 import {DappManifest} from "./dappManifest";
-import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
+import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
 import {Topic} from "@o-platform/o-utils/dist/eventBroker";
 import {StatePropagation} from "./statePropagation";
 import {Signal} from "@o-platform/o-events/dist/signals/signal"
@@ -15,11 +15,11 @@ export interface RuntimeDapp<TState extends {[x:string]:any}> extends DappManife
   /**
    * Used by the auth to receive incoming events.
    */
-  inEvents?:Topic<OmoEvent>,
+  inEvents?:Topic<PlatformEvent>,
   /**
    * Used by the auth to send outgoing events for other dapps to subscribe.
    */
-  outEvents?:Topic<OmoEvent>,
+  outEvents?:Topic<PlatformEvent>,
 
 
   state: BehaviorSubject<StatePropagation<TState>>

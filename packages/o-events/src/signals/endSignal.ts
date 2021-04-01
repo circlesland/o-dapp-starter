@@ -1,10 +1,10 @@
-import { OmoEventTypes } from "../eventTypes";
+import { PlatformEventTypes } from "../eventTypes";
 import {Signal} from "./signal";
 
 export class EndSignal extends Signal
 {
     constructor()
     {
-        super(<OmoEventTypes>"signal.end");
+        super(<PlatformEventTypes>"signal.end");
     }
 }

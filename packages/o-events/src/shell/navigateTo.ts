@@ -1,8 +1,8 @@
-import { OmoEvent } from "../omoEvent";
-import { OmoEventTypes } from "../eventTypes";
+import { PlatformEvent } from "../platformEvent";
+import { PlatformEventTypes } from "../eventTypes";
 
-export class NavigateTo implements OmoEvent {
-  type: OmoEventTypes = "shell.navigateTo";
+export class NavigateTo implements PlatformEvent {
+  type: PlatformEventTypes = "shell.navigateTo";
 
   readonly route: string;
 

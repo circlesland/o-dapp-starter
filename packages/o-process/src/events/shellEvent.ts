@@ -1,11 +1,11 @@
-import { OmoEvent } from "@o-platform/o-events/dist/omoEvent";
-import { OmoEventTypes } from "@o-platform/o-events/dist/eventTypes";
+import { PlatformEvent } from "@o-platform/o-events/dist/platformEvent";
+import { PlatformEventTypes } from "@o-platform/o-events/dist/eventTypes";
 
-export class ShellEvent implements OmoEvent {
-  type: OmoEventTypes = "process.shellEvent";
-  payload: OmoEvent;
+export class ShellEvent implements PlatformEvent {
+  type: PlatformEventTypes = "process.shellEvent";
+  payload: PlatformEvent;
 
-  constructor(payload:OmoEvent)
+  constructor(payload:PlatformEvent)
   {
     this.payload = payload;
   }
