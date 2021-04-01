@@ -1,8 +1,6 @@
 <script lang="ts">
   import NavItem from "../atoms/NavItem.svelte";
   import {
-    faArrowLeft,
-    faForward,
     faTimes,
   } from "@fortawesome/free-solid-svg-icons";
   import Prompt from "./Prompt.svelte";
@@ -80,8 +78,8 @@
         let event:PlatformEvent;
         if (next.event?.type === "process.ipc.bubble") {
           console.log("ProcessContainer received Bubble: ", next);
-          lastBubble = next.event;
-          event = next.event.wrappedEvent;
+          lastBubble = <Bubble>next.event;
+          event = lastBubble.wrappedEvent;
         } else {
           event = next.event;
         }

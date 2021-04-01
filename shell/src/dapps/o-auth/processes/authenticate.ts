@@ -1,12 +1,10 @@
-import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
 import {ProcessDefinition} from "@o-platform/o-process/dist/interfaces/processManifest";
 import {ProcessContext} from "@o-platform/o-process/dist/interfaces/processContext";
 import TextEditor from "@o-platform/o-editors/src/TextEditor.svelte";
 import {editDataField} from "@o-platform/o-process/dist/stateConfigurations/editDataField";
-import {createMachine, actions} from "xstate";
+import {errorState} from "@o-platform/o-process/dist/stateConfigurations/errorState";
+import {createMachine} from "xstate";
 import gql from 'graphql-tag';
-
-const {escalate} = actions;
 
 export type AuthenticateContextData = {
   appId?: string,
@@ -33,6 +31,8 @@ const processDefinition = (processId?:string) => createMachine<AuthenticateConte
   id: processId ?? "authenticate",
   initial: "findEntryPoint",
   states: {
+    ...errorState<AuthenticateContext, any>(),
+
     // If a 'code' was supplied, we skip right to the 'exchangeCodeForToken' step,
     // else we ask the user for the e-mail address and send a challenge.
     findEntryPoint: {
@@ -130,23 +130,6 @@ const processDefinition = (processId?:string) => createMachine<AuthenticateConte
       id: "redirectToApplication",
       entry: (context, event) => {
         window.location = event.data;
-      }
-    },
-    error: {
-      id: "error",
-      type: 'final',
-      // TODO: Escalate custom error object instead of the original xstate error
-      entry: escalate((context, event: PlatformEvent & { data: Error }) => event.data)
-    },
-    success: {
-      id: "success",
-      type: 'final',
-      data: (context, event: PlatformEvent & { data: any }) => {
-        console.log("Nice! Here's the result of your process:", event.data);
-
-        // This last return corresponds roughly to the exit-code of a regular os-process
-        // and can be used by the caller.
-        return event.data;
       }
     }
   }

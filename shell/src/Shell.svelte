@@ -3,23 +3,18 @@
   import "./shared/css/components.css";
   import "./shared/css/utilities.css";
 
-  import Router, {push} from "svelte-spa-router";
   import routes from "./loader";
+
+  import Router, {push} from "svelte-spa-router";
   import Modal from "./shared/molecules/Modal.svelte";
   import ProcessContainer from "./shared/molecules/ProcessContainer.svelte";
+
   import {Process} from "@o-platform/o-process/dist/interfaces/process";
   import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
   import {RunProcess} from "@o-platform/o-process/dist/events/runProcess";
-  import {shellProcess, ShellProcessContext} from "./shared/processes/shellProcess";
   import {NavigateTo} from "@o-platform/o-events/dist/shell/navigateTo";
   import {ProgressSignal} from "@o-platform/o-events/dist/signals/progressSignal";
 
-  import Error from "./shared/atoms/Error.svelte";
-  import LoadingIndicator from "./shared/atoms/LoadingIndicator.svelte";
-  import Success from "./shared/atoms/Success.svelte";
-  import {authenticate} from "./dapps/o-auth/processes/authenticate";
-
-  let actions = [];
   let isOpen:boolean = false;
   let runningProcess: Process;
 

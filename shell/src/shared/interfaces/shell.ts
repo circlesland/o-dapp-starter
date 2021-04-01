@@ -6,7 +6,7 @@ import {ProcessContext} from "@o-platform/o-process/dist/interfaces/processConte
 import ApolloClient from "apollo-client";
 import {NormalizedCacheObject} from "apollo-cache-inmemory";
 
-export interface Shell {
+export interface IShell {
   contactUsername?: string;
   graphQLClient?: ApolloClient<NormalizedCacheObject>,
   lastError?: any;

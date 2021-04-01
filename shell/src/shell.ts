@@ -1,5 +1,5 @@
 import {useMachine} from "xstate-svelte";
-import {Shell} from "./shared/interfaces/shell";
+import {IShell} from "./shared/interfaces/shell";
 import {ProcessContext} from "@o-platform/o-process/dist/interfaces/processContext";
 import {Process} from "@o-platform/o-process/dist/interfaces/process";
 import {ProcessDefinition} from "@o-platform/o-process/dist/interfaces/processManifest";
@@ -19,7 +19,7 @@ export async function getProcessContext(): Promise<ProcessContext<any>> {
   };
 }
 
-export const shell: Shell = {
+export const shell: IShell = {
   stateMachines: {
     async run<TContext>(definition: ProcessDefinition<any,any>, contextModifier?: (processContext: ProcessContext<any>) => Promise<TContext>)
     {

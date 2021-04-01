@@ -1,14 +1,10 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import {Shell} from "./shared/interfaces/shell";
-import App from "src/App.svelte";
+import {IShell} from "./shared/interfaces/shell";
 import {shellEvents} from "./shared/shellEvents";
 import {ProcessDefinition} from "@o-platform/o-process/dist/interfaces/processManifest";
 import {ProcessContext} from "@o-platform/o-process/dist/interfaces/processContext";
 import {useMachine} from "xstate-svelte";
-import LoadingIndicator from "./shared/atoms/LoadingIndicator.svelte";
-import Success from "./shared/atoms/Success.svelte";
-import Error from "./shared/atoms/Error.svelte";
 import {Subject} from "rxjs";
 import {ProcessEvent} from "@o-platform/o-process/dist/interfaces/processEvent";
 import {Bubble} from "@o-platform/o-process/dist/events/bubble";
@@ -18,15 +14,20 @@ import {Sinker} from "@o-platform/o-process/dist/events/sinker";
 import {ApiConnection} from "./shared/apiConnection";
 import {getProcessContext} from "./shell";
 
+import LoadingIndicator from "./shared/atoms/LoadingIndicator.svelte";
+import Success from "./shared/atoms/Success.svelte";
+import Error from "./shared/atoms/Error.svelte";
+import Shell from "src/Shell.svelte";
+
 dayjs.extend(relativeTime)
 
 declare global {
   interface Window {
-    o: Shell
+    o: IShell
   }
 }
 
-const shell: Shell = {
+const shell: IShell = {
   stateMachines: {
     async run<TContext>(definition: ProcessDefinition<any, any>, contextModifier?: (processContext: ProcessContext<any>) => Promise<TContext>) {
       console.log("Starting process:", definition);
@@ -132,6 +133,6 @@ console.log("Starting ..", {
   userAgent: navigator.userAgent
 })
 
-export default new App({
+export default new Shell({
   target: document.body,
 });
