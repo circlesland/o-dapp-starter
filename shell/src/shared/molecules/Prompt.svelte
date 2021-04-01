@@ -37,7 +37,6 @@
   }
 </script>
 
-Hi! I'm the Prompt that's displayed whenever a process wants to communicate with a user. My conent follows below:<hr/>
 {#if componentContext}
   <svelte:component
     this={prompt.component}

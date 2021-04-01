@@ -2,21 +2,21 @@ import { DappManifest } from "omo-kernel-interfaces/dist/dappManifest";
 import { PageManifest } from "omo-kernel-interfaces/dist/pageManifest";
 import { RuntimeDapp } from "omo-kernel-interfaces/dist/runtimeDapp";
 import { OmoEvent } from "omo-events/dist/omoEvent";
-import { shellEvents } from "./shellEvents";
-
-import {dapp} from "../../dapp/manifest";
-
-import LoadingIndicator from 'src/libs/o-views/atoms/LoadingIndicator.svelte'
-import ErrorIndicator from 'src/libs/o-views/atoms/ErrorIndicator.svelte'
-import NotFound from 'src/libs/o-views/pages/NotFound.svelte'
-import wrap from "svelte-spa-router/wrap";
+import { shellEvents } from "./shared/shellEvents";
 import {EventBroker} from "omo-utils/dist/eventBroker";
 import {Generate} from "omo-utils/dist/generate";
+
+import LoadingIndicator from 'src/shared/atoms/LoadingIndicator.svelte'
+import ErrorIndicator from 'src/shared/atoms/ErrorIndicator.svelte'
+import NotFound from 'src/shared/pages/NotFound.svelte'
+import wrap from "svelte-spa-router/wrap";
+
+import {auth} from "./dapps/o-auth.manifest";
 
 const errorIndicator = ErrorIndicator;
 
 export const dapps: DappManifest<any>[] = [
-  dapp
+  auth
 ];
 
 export const loadedDapps: RuntimeDapp<any>[] = [];
@@ -41,15 +41,15 @@ async function getDappEntryPoint(dappManifest:DappManifest<any>, pageManifest:Pa
   try {
     let runtimeDapp = loadedDapps.find(o => o.dappId == dappManifest.dappId);
     if (!runtimeDapp) {
-      // The dapp isn't yet loaded
+      // The auth isn't yet loaded
       const freshRuntimeDapp = await loadDapp([], dappManifest);
 
       if (freshRuntimeDapp.cancelDependencyLoading) {
         console.log("A dependency requested the cancellation of the dependency loading process.")
 
         if (!freshRuntimeDapp.initialPage) {
-          // TODO: Every dapp needs a initial page for all conditions, else the generic loader error is displayed
-          throw new Error("The dapp '" + freshRuntimeDapp.runtimeDapp.dappId  + "' has no 'initialPage' attribute or its value is null.");
+          // TODO: Every auth needs a initial page for all conditions, else the generic loader error is displayed
+          throw new Error("The auth '" + freshRuntimeDapp.runtimeDapp.dappId  + "' has no 'initialPage' attribute or its value is null.");
         }
 
         return freshRuntimeDapp.initialPage.component;
@@ -132,7 +132,7 @@ async function initializeDapp(stack: RuntimeDapp<any>[], runtimeDapp: RuntimeDap
 
         const dappManifest = dapps.find(o => o.dappId == dep);
         if (!dappManifest) {
-          throw new Error(logPrefix + "Couldn't find the manifest for dapp '" + dep + "' (Dependency of '" + runtimeDapp.dappId + "')");
+          throw new Error(logPrefix + "Couldn't find the manifest for auth '" + dep + "' (Dependency of '" + runtimeDapp.dappId + "')");
         }
         const loadDappResult = await loadDapp(nextStack, dappManifest);
         if (loadDappResult.cancelDependencyLoading) {

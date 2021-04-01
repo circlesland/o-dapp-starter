@@ -6,8 +6,8 @@ import {DappState} from "./dappState";
 export interface DappManifest<TState extends DappState>
 {
   /**
-   * A unique identifier for this dapp manifest.
-   * This identifier is used as a namespace for all incoming and outgoing events of the dapp.
+   * A unique identifier for this auth manifest.
+   * This identifier is used as a namespace for all incoming and outgoing events of the auth.
    */
   dappId: string,
 
@@ -17,46 +17,46 @@ export interface DappManifest<TState extends DappState>
   isSingleton: boolean;
 
   /**
-   * If the dapp should be hidden in menus.
+   * If the auth should be hidden in menus.
    */
   isHidden?: boolean,
   /**
-   * This icon will be displayed in the dapp overview.
+   * This icon will be displayed in the auth overview.
    */
   icon?: IconDefinition,
   /**
-   * This title will be displayed as the dapp name.
+   * This title will be displayed as the auth name.
    */
   title: string,
 
   /**
-   * The route of the entry page of this dapp.
+   * The route of the entry page of this auth.
    */
   routeParts: string[],
 
   /**
-   * Can be used to indicate a status in the dapp overview next to the icon.
+   * Can be used to indicate a status in the auth overview next to the icon.
    */
   tag: Promise<string|null|undefined>,
   /**
-   * Can be used to indicate if this dapp is currently available in the dapp overview (greyed out or not)
+   * Can be used to indicate if this auth is currently available in the auth overview (greyed out or not)
    */
   isEnabled: boolean,
 
   /**
-   * Contains all pages of the dapp.
+   * Contains all pages of the auth.
    */
   pages: PageManifest[],
 
   /**
    * Dapps can depend on other dapps.
-   * When a dapp depends on another dapp, then the dependent dapp cannot be initialized
+   * When a auth depends on another auth, then the dependent auth cannot be initialized
    * before the dependency was initialized.
    */
   dependencies?: string[],
 
   /**
-   * If the dapp needs to initialize things before it can be used,
+   * If the auth needs to initialize things before it can be used,
    * then these steps must be performed in this factory.
    * @param runtimeDapp
    */

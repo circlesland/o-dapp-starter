@@ -1,24 +1,23 @@
 <script lang="ts">
-  import "./libs/o-views/css/base.css";
-  import "./libs/o-views/css/components.css";
-  import "./libs/o-views/css/utilities.css";
+  import "./shared/css/base.css";
+  import "./shared/css/components.css";
+  import "./shared/css/utilities.css";
 
   import Router, {push} from "svelte-spa-router";
-  import routes from "./libs/o-os/loader";
-  import Modal from "./libs/o-views/molecules/Modal.svelte";
-  import ProcessContainer from "./libs/o-views/molecules/ProcessContainer.svelte";
+  import routes from "./loader";
+  import Modal from "./shared/molecules/Modal.svelte";
+  import ProcessContainer from "./shared/molecules/ProcessContainer.svelte";
   import {Process} from "omo-process/dist/interfaces/process";
   import {OmoEvent} from "omo-events/dist/omoEvent";
   import {RunProcess} from "omo-process/dist/events/runProcess";
-  import {shellProcess, ShellProcessContext} from "./dapp/processes/shell/shellProcess";
-  import {upsertProfile} from "./dapp/processes/upsertProfile/upsertProfile";
+  import {shellProcess, ShellProcessContext} from "./shared/processes/shellProcess";
   import {NavigateTo} from "omo-events/dist/shell/navigateTo";
   import {ProgressSignal} from "omo-events/dist/signals/progressSignal";
 
-  import Error from "./libs/o-views/atoms/Error.svelte";
-  import LoadingIndicator from "./libs/o-views/atoms/LoadingIndicator.svelte";
-  import Success from "./libs/o-views/atoms/Success.svelte";
-  import {Continue} from "omo-process/dist/events/continue";
+  import Error from "./shared/atoms/Error.svelte";
+  import LoadingIndicator from "./shared/atoms/LoadingIndicator.svelte";
+  import Success from "./shared/atoms/Success.svelte";
+  import {authenticate} from "./dapps/o-auth/processes/authenticate";
 
   let actions = [];
   let isOpen:boolean = false;
@@ -60,26 +59,6 @@
     }
   });
 
-  function runProcess() {
-    // We start a 'shellProcess' which provides access to the UI and give it the process definition
-    // that we eventually want to run.
-    // When the shellProcess runs, it starts the child process with the 'childContext', let's it run
-    // and passes bubbling and sinking events until the child process ends.
-    window.o.publishEvent(new RunProcess<ShellProcessContext>(shellProcess, async ctx => {
-      ctx.childProcessDefinition = upsertProfile;
-      ctx.childContext = {
-        data: {},
-        dirtyFlags: {},
-        environment: {
-          errorView: Error,
-          progressView: LoadingIndicator,
-          successView: Success
-        }
-      }
-      return ctx;
-    }));
-  }
-
   function modalWantsToClose() {
     // Use this to cancel the close request etc.
   }
@@ -92,19 +71,10 @@
     // Pretty self explanatory. For more lookup the svelte-spa-router docs,
   }
 </script>
-<div class="appContainer">
-  Hello from App.svelte
-  <br/>
-  <button on:click={runProcess}>&gt; Run process</button><br/>
-  <a href="#/dapp1/main">&gt; Open dapp (route: '#/dapp1/main' - see the dapp-manifest's routeParts-property)</a><br/>
-</div><br/>
-Router output follows below:<hr/>
-<div>
-  <Router
-    {routes}
-    on:conditionsFailed={conditionsFailed}
-    on:routeLoading={routeLoading} />
-</div>
+<Router
+  {routes}
+  on:conditionsFailed={conditionsFailed}
+  on:routeLoading={routeLoading} />
 <Modal bind:isOpen on:closeRequest={modalWantsToClose}>
   <div class="font-primary">
     {#if runningProcess}

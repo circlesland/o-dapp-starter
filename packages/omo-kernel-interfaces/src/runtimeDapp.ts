@@ -14,11 +14,11 @@ export interface RuntimeDapp<TState extends DappState> extends DappManifest<TSta
   // shell: Shell,
 
   /**
-   * Used by the dapp to receive incoming events.
+   * Used by the auth to receive incoming events.
    */
   inEvents?:Topic<OmoEvent>,
   /**
-   * Used by the dapp to send outgoing events for other dapps to subscribe.
+   * Used by the auth to send outgoing events for other dapps to subscribe.
    */
   outEvents?:Topic<OmoEvent>,
 

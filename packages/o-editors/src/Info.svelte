@@ -16,33 +16,22 @@
         }
     }
 </script>
-Hello from ={name}.svelte= for field: {context.fieldName}<br/>
-<br>
-
-== Your options: ===<br/>
-&gt; <button on:click={() => context.process.sendAnswer(new Back())}>Go back</button><br/>
-&gt; <button on:click={() => {
-    const answer = new Continue();
-    answer.data = context.data;
-    context.process.sendAnswer(answer);
-}}>Submit</button><br/>
-&gt; <button on:click={() => context.process.sendAnswer(new Skip())}>Skip</button><br/>
-<br>
-
-== Some infos: ===<br>
-Current field value (editable): <br/>
+{context.params.label}: <br/>
 {#if context.fieldName}
     <input style="border:solid 1px gray;" type="text" bind:value={context.data[context.fieldName]} /><br/>
 {:else}
     - not available -
 {/if}
 
-Current context.params: <br/>
-<pre>
-    {JSON.stringify(context.params)}
-</pre><br/>
-
+<button on:click={() => context.process.sendAnswer(new Back())}>&lt; Go back</button> |
+<button on:click={() => {
+    const answer = new Continue();
+    answer.data = context.data;
+    context.process.sendAnswer(answer);
+}}>[ Submit ]</button> |
+<button on:click={() => context.process.sendAnswer(new Skip())}>Skip &gt;</button>
+<br/><br/>
 Current context.data: <br/>
 <pre>
-    {JSON.stringify(context.data)}
+    {JSON.stringify(context.data, undefined, 2)}
 </pre><br/>

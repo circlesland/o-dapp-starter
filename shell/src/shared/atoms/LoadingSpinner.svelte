@@ -132,7 +132,7 @@
     }
   }
 
-  @-o-keyframes cssload-dot-move {
+  @-shell-keyframes cssload-dot-move {
     0% {
       -o-transform: translateY(0);
     }
@@ -198,7 +198,7 @@
     }
   }
 
-  @-o-keyframes cssload-dot-colors {
+  @-shell-keyframes cssload-dot-colors {
     0% {
       background-color: rgb(251,211,1);
     }
@@ -279,7 +279,7 @@
     }
   }
 
-  @-o-keyframes cssload-dot-rotate-1 {
+  @-shell-keyframes cssload-dot-rotate-1 {
     0% {
       -o-transform: rotate(-105deg);
     }
@@ -324,7 +324,7 @@
     }
   }
 
-  @-o-keyframes cssload-dot-rotate-2 {
+  @-shell-keyframes cssload-dot-rotate-2 {
     0% {
       -o-transform: rotate(165deg);
     }
@@ -369,7 +369,7 @@
     }
   }
 
-  @-o-keyframes cssload-dot-rotate-3 {
+  @-shell-keyframes cssload-dot-rotate-3 {
     0% {
       -o-transform: rotate(435deg);
     }
@@ -414,7 +414,7 @@
     }
   }
 
-  @-o-keyframes cssload-dot-rotate-4 {
+  @-shell-keyframes cssload-dot-rotate-4 {
     0% {
       -o-transform: rotate(705deg);
     }

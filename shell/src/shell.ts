@@ -1,11 +1,11 @@
 import {useMachine} from "xstate-svelte";
-import { Shell } from "./interfaces/shell";
+import { Shell } from "./shared/interfaces/shell";
 import {ProcessContext} from "omo-process/dist/interfaces/processContext";
 import {Process} from "omo-process/dist/interfaces/process";
 import {ProcessDefinition} from "omo-process/dist/interfaces/processManifest";
-import LoadingIndicator from "../o-views/atoms/LoadingIndicator.svelte";
-import Success from "../o-views/atoms/Success.svelte";
-import Error from "../o-views/atoms/Error.svelte";
+import LoadingIndicator from "./shared/atoms/LoadingIndicator.svelte";
+import Success from "./shared/atoms/Success.svelte";
+import Error from "./shared/atoms/Error.svelte";
 import {OmoSubject} from "omo-quirks/dist/OmoSubject";
 import {ProcessEvent} from "omo-process/dist/interfaces/processEvent";
 import {Bubble} from "omo-process/dist/events/bubble";
@@ -18,7 +18,7 @@ export async function getProcessContext(): Promise<ProcessContext<any>> {
   };
 }
 
-export const o: Shell = {
+export const shell: Shell = {
   stateMachines: {
     async run<TContext>(definition: ProcessDefinition<any,any>, contextModifier?: (processContext: ProcessContext<any>) => Promise<TContext>)
     {
