@@ -1,10 +1,10 @@
-import { DappManifest } from "omo-kernel-interfaces/dist/dappManifest";
-import { PageManifest } from "omo-kernel-interfaces/dist/pageManifest";
-import { RuntimeDapp } from "omo-kernel-interfaces/dist/runtimeDapp";
-import { OmoEvent } from "omo-events/dist/omoEvent";
+import { DappManifest } from "@o-platform/o-interfaces/dist/dappManifest";
+import { PageManifest } from "@o-platform/o-interfaces/dist/pageManifest";
+import { RuntimeDapp } from "@o-platform/o-interfaces/dist/runtimeDapp";
+import { OmoEvent } from "@o-platform/o-events/dist/omoEvent";
 import { shellEvents } from "./shared/shellEvents";
-import {EventBroker} from "omo-utils/dist/eventBroker";
-import {Generate} from "omo-utils/dist/generate";
+import {EventBroker} from "@o-platform/o-utils/dist/eventBroker";
+import {Generate} from "@o-platform/o-utils/dist/generate";
 
 import LoadingIndicator from 'src/shared/atoms/LoadingIndicator.svelte'
 import ErrorIndicator from 'src/shared/atoms/ErrorIndicator.svelte'

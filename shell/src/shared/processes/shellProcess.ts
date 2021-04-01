@@ -1,10 +1,10 @@
-import {ProcessDefinition} from "omo-process/dist/interfaces/processManifest";
-import {OmoEvent} from "omo-events/dist/omoEvent";
-import {ProcessContext} from "omo-process/dist/interfaces/processContext";
+import {ProcessDefinition} from "@o-platform/o-process/dist/interfaces/processManifest";
+import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
+import {ProcessContext} from "@o-platform/o-process/dist/interfaces/processContext";
 import {createMachine, actions} from "xstate";
-import {Bubble} from "omo-process/dist/events/bubble";
-import {ipcSinker} from "omo-process/dist/patterns/ipcSinker";
-import {show} from "omo-process/dist/actions/show";
+import {Bubble} from "@o-platform/o-process/dist/events/bubble";
+import {ipcSinker} from "@o-platform/o-process/dist/patterns/ipcSinker";
+import {show} from "@o-platform/o-process/dist/actions/show";
 const {send} = actions;
 
 export class ShellProcessContext extends ProcessContext<any> {
@@ -81,10 +81,13 @@ const processDefinition = (progressView: any, successView: any, errorView: any) 
         }
       },
       showError: {
-        entry: <any>show({ // TODO: fix <any> cast
-          component: Error,
-          params: {}
-        }),
+        entry: [
+          (context, event) => console.log("ShellProcess encountered an error:", event),
+          <any>show({ // TODO: fix <any> cast
+            component: Error,
+            params: {}
+          }
+        )],
         on: {
           "process.continue": {
             target: "run",

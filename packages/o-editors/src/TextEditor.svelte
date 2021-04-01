@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {Process} from "omo-process/dist/interfaces/process";
+    import {Process} from "@o-platform/o-process/dist/interfaces/process";
     import Info from "./Info.svelte";
 
     export let context: {

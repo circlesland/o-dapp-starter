@@ -7,15 +7,15 @@
   } from "@fortawesome/free-solid-svg-icons";
   import Prompt from "./Prompt.svelte";
   import { createEventDispatcher } from "svelte";
-  import {Process} from "omo-process/dist/interfaces/process";
-  import {ShellEvent} from "omo-process/dist/events/shellEvent";
-  import {Cancel} from "omo-process/dist/events/cancel";
-  import {Prompt as PromptEvent} from "omo-process/dist/events/prompt";
-  import {Continue} from "omo-process/dist/events/continue";
-  import {OmoSubscription} from "omo-quirks/dist/OmoSubscription";
-  import {OmoEvent} from "omo-events/dist/omoEvent";
-  import {Bubble} from "omo-process/dist/events/bubble";
-  import {Sinker} from "omo-process/dist/events/sinker";
+  import {Process} from "@o-platform/o-process/dist/interfaces/process";
+  import {ShellEvent} from "@o-platform/o-process/dist/events/shellEvent";
+  import {Cancel} from "@o-platform/o-process/dist/events/cancel";
+  import {Prompt as PromptEvent} from "@o-platform/o-process/dist/events/prompt";
+  import {Continue} from "@o-platform/o-process/dist/events/continue";
+  import {OmoSubscription} from "@o-platform/o-dependencies/dist/OmoSubscription";
+  import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
+  import {Bubble} from "@o-platform/o-process/dist/events/bubble";
+  import {Sinker} from "@o-platform/o-process/dist/events/sinker";
 
   /**
    * A channel to an already running process.

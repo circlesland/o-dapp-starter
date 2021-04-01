@@ -1,9 +1,9 @@
 {
-  "name": "@o-platform/editors",
+  "name": "@o-platform/o-editors",
   "version": "0.1.0",
   "description": "Editors intended for the use with dapp processes",
   "dependencies": {
-    "omo-process":"1.0.0"
+    "@o-platform/o-process":"0.1.0"
   },
   "devDependencies": {
     "typescript": "^4.1.3"

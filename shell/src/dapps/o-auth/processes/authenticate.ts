@@ -1,8 +1,8 @@
-import {OmoEvent} from "omo-events/dist/omoEvent";
-import {ProcessDefinition} from "omo-process/dist/interfaces/processManifest";
-import {ProcessContext} from "omo-process/dist/interfaces/processContext";
+import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
+import {ProcessDefinition} from "@o-platform/o-process/dist/interfaces/processManifest";
+import {ProcessContext} from "@o-platform/o-process/dist/interfaces/processContext";
 import TextEditor from "@o-platform/editors/src/TextEditor.svelte";
-import {editDataField} from "../../../shared/stateNodes/editDataField";
+import {editDataField} from "@o-platform/o-process/dist/stateConfigurations/editDataField";
 import {createMachine, actions} from "xstate";
 import gql from 'graphql-tag';
 
@@ -12,7 +12,6 @@ export type AuthenticateContextData = {
   appId?: string,
   loginEmail?: string,
   code?: string,
-  authResponse?: string
 }
 
 /**
@@ -30,11 +29,13 @@ const strings = {
   labelVerificationCode: "Enter your authentication code below or click the link in the e-mail to sign-in"
 }
 
-const processDefinition = () => createMachine<AuthenticateContext, any>({
-  id: "upsertProfile",
-  initial: "checkEntryPoint",
+const processDefinition = (processId?:string) => createMachine<AuthenticateContext, any>({
+  id: processId ?? "authenticate",
+  initial: "findEntryPoint",
   states: {
-    checkEntryPoint: {
+    // If a 'code' was supplied, we skip right to the 'exchangeCodeForToken' step,
+    // else we ask the user for the e-mail address and send a challenge.
+    findEntryPoint: {
       always: [{
         cond: (context) => typeof context.data.code === "string",
         target: "exchangeCodeForToken"
@@ -42,8 +43,8 @@ const processDefinition = () => createMachine<AuthenticateContext, any>({
         target: "loginEmail"
       }]
     },
-    // Include all data-collection steps
-    loginEmail: editDataField({
+    // Ask the user for the e-mail address
+    loginEmail: editDataField<AuthenticateContext, any>({
       fieldName: "loginEmail",
       component: TextEditor,
       params: {
@@ -53,6 +54,8 @@ const processDefinition = () => createMachine<AuthenticateContext, any>({
         next: "#requestAuthCode"
       }
     }),
+    // Request an auth code to the given e-mail address
+    // and then go to the 'code' input step.
     requestAuthCode: {
       id: "requestAuthCode",
       invoke: {
@@ -80,7 +83,8 @@ const processDefinition = () => createMachine<AuthenticateContext, any>({
         onError: "#error"
       }
     },
-    code: editDataField({
+    // Wait for the user to enter the code he received in the login-email
+    code: editDataField<AuthenticateContext, any>({
       fieldName: "code",
       component: TextEditor,
       params: {
@@ -90,6 +94,8 @@ const processDefinition = () => createMachine<AuthenticateContext, any>({
         next: "#exchangeCodeForToken"
       }
     }),
+    // The code was either manually entered or pre-configured at launch.
+    // Exchange it for the actual token and redirect the user to the application.
     exchangeCodeForToken: {
       id: "exchangeCodeForToken",
       invoke: {
@@ -129,6 +135,7 @@ const processDefinition = () => createMachine<AuthenticateContext, any>({
     error: {
       id: "error",
       type: 'final',
+      // TODO: Escalate custom error object instead of the original xstate error
       entry: escalate((context, event: OmoEvent & { data: Error }) => event.data)
     },
     success: {

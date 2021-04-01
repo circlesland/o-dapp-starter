@@ -3,28 +3,28 @@ echo "Installing build dependencies .."
 npm i
 npx --no-install lerna bootstrap || exit
 
-echo "Building 'omo-quirks' .."
-cd packages/omo-quirks || exit
+echo "Building 'o-dependencies' .."
+cd packages/o-dependencies || exit
 npx --no-install tsc || exit
 cd .. || exit
 
-echo "Building 'omo-utils' .."
-cd omo-utils || exit
+echo "Building 'o-utils' .."
+cd o-utils || exit
 npx --no-install tsc || exit
 cd .. || exit
 
-echo "Building 'omo-events' .."
-cd omo-events || exit
+echo "Building 'o-events' .."
+cd o-events || exit
 npx --no-install tsc || exit
 cd .. || exit
 
-echo "Building 'omo-process' .."
-cd omo-process || exit
+echo "Building 'o-process' .."
+cd o-process || exit
 npx --no-install tsc || exit
 cd .. || exit
 
-echo "Building 'omo-kernel-interfaces' .."
-cd omo-kernel-interfaces || exit
+echo "Building 'o-interfaces' .."
+cd o-interfaces || exit
 npx --no-install tsc || exit
 cd ../.. || exit
 

@@ -1,16 +1,17 @@
 import {useMachine} from "xstate-svelte";
-import { Shell } from "./shared/interfaces/shell";
-import {ProcessContext} from "omo-process/dist/interfaces/processContext";
-import {Process} from "omo-process/dist/interfaces/process";
-import {ProcessDefinition} from "omo-process/dist/interfaces/processManifest";
+import {Shell} from "./shared/interfaces/shell";
+import {ProcessContext} from "@o-platform/o-process/dist/interfaces/processContext";
+import {Process} from "@o-platform/o-process/dist/interfaces/process";
+import {ProcessDefinition} from "@o-platform/o-process/dist/interfaces/processManifest";
+import {OmoSubject} from "@o-platform/o-dependencies/dist/OmoSubject";
+import {ProcessEvent} from "@o-platform/o-process/dist/interfaces/processEvent";
+import {Bubble} from "@o-platform/o-process/dist/events/bubble";
+import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
+import {Sinker} from "@o-platform/o-process/dist/events/sinker";
+
 import LoadingIndicator from "./shared/atoms/LoadingIndicator.svelte";
 import Success from "./shared/atoms/Success.svelte";
 import Error from "./shared/atoms/Error.svelte";
-import {OmoSubject} from "omo-quirks/dist/OmoSubject";
-import {ProcessEvent} from "omo-process/dist/interfaces/processEvent";
-import {Bubble} from "omo-process/dist/events/bubble";
-import {OmoEvent} from "omo-events/dist/omoEvent";
-import {Sinker} from "omo-process/dist/events/sinker";
 
 export async function getProcessContext(): Promise<ProcessContext<any>> {
   return <ProcessContext<any>>{

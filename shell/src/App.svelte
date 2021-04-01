@@ -7,12 +7,12 @@
   import routes from "./loader";
   import Modal from "./shared/molecules/Modal.svelte";
   import ProcessContainer from "./shared/molecules/ProcessContainer.svelte";
-  import {Process} from "omo-process/dist/interfaces/process";
-  import {OmoEvent} from "omo-events/dist/omoEvent";
-  import {RunProcess} from "omo-process/dist/events/runProcess";
+  import {Process} from "@o-platform/o-process/dist/interfaces/process";
+  import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
+  import {RunProcess} from "@o-platform/o-process/dist/events/runProcess";
   import {shellProcess, ShellProcessContext} from "./shared/processes/shellProcess";
-  import {NavigateTo} from "omo-events/dist/shell/navigateTo";
-  import {ProgressSignal} from "omo-events/dist/signals/progressSignal";
+  import {NavigateTo} from "@o-platform/o-events/dist/shell/navigateTo";
+  import {ProgressSignal} from "@o-platform/o-events/dist/signals/progressSignal";
 
   import Error from "./shared/atoms/Error.svelte";
   import LoadingIndicator from "./shared/atoms/LoadingIndicator.svelte";

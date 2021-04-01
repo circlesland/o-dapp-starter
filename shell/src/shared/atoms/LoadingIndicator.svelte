@@ -1,8 +1,8 @@
 <script lang="ts">
   import {onDestroy, onMount} from "svelte";
-  import {OmoEvent} from "omo-events/dist/omoEvent";
-  import {ProgressSignal} from "omo-events/dist/signals/progressSignal";
-  import {OmoSubscription} from "omo-quirks/dist/OmoSubscription";
+  import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
+  import {ProgressSignal} from "@o-platform/o-events/dist/signals/progressSignal";
+  import {OmoSubscription} from "@o-platform/o-dependencies/dist/OmoSubscription";
   import LoadingSpinner from "./LoadingSpinner.svelte";
 
   let progressIndicator: { message: string, percent: number };

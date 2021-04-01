@@ -1,8 +1,8 @@
 <script lang="ts">
-    import {Process} from "omo-process/dist/interfaces/process";
-    import {Back} from "omo-process/dist/events/back";
-    import {Skip} from "omo-process/dist/events/skip";
-    import {Continue} from "omo-process/dist/events/continue";
+    import {Process} from "@o-platform/o-process/dist/interfaces/process";
+    import {Back} from "@o-platform/o-process/dist/events/back";
+    import {Skip} from "@o-platform/o-process/dist/events/skip";
+    import {Continue} from "@o-platform/o-process/dist/events/continue";
 
     export let name:string;
     export let context: {

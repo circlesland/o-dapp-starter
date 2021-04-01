@@ -1,7 +1,7 @@
 <script lang="ts">
-  import {Process} from "omo-process/dist/interfaces/process";
-  import {Prompt} from "omo-process/dist/events/prompt";
-  import {Continue} from "omo-process/dist/events/continue";
+  import {Process} from "@o-platform/o-process/dist/interfaces/process";
+  import {Prompt} from "@o-platform/o-process/dist/events/prompt";
+  import {Continue} from "@o-platform/o-process/dist/events/continue";
 
   export let process: Process;
   export let prompt: Prompt;

@@ -2,8 +2,8 @@ import {
   faPeopleArrows,
 } from "@fortawesome/free-solid-svg-icons";
 import Home from "./o-auth/pages/Home.svelte";
-import {PageManifest} from "omo-kernel-interfaces/dist/pageManifest";
-import {DappManifest} from "omo-kernel-interfaces/dist/dappManifest";
+import {PageManifest} from "@o-platform/o-interfaces/dist/pageManifest";
+import {DappManifest} from "@o-platform/o-interfaces/dist/dappManifest";
 
 const index : PageManifest = {
   isDefault: true,

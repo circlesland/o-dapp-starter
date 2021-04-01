@@ -1,7 +1,7 @@
 import ApolloClient, {DefaultOptions} from "apollo-client";
 import {InMemoryCache, NormalizedCacheObject} from "apollo-cache-inmemory";
 import {HttpLink} from "apollo-link-http";
-import {AsyncBroadcast} from "omo-utils/dist/asyncBroadcast";
+import {AsyncBroadcast} from "@o-platform/o-utils/dist/asyncBroadcast";
 
 export class ApiConnection
 {
