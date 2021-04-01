@@ -1,0 +1,7 @@
+{
+  "packages": [
+    "packages/*",
+    "dapps"
+  ],
+  "version": "0.0.1"
+}
