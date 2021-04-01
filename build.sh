@@ -3,13 +3,8 @@ echo "Installing build dependencies .."
 npm i
 npx --no-install lerna bootstrap || exit
 
-echo "Building 'o-dependencies' .."
-cd packages/o-dependencies || exit
-npx --no-install tsc || exit
-cd .. || exit
-
 echo "Building 'o-utils' .."
-cd o-utils || exit
+cd packages/o-utils || exit
 npx --no-install tsc || exit
 cd .. || exit
 

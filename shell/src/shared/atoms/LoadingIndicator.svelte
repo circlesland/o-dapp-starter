@@ -2,11 +2,11 @@
   import {onDestroy, onMount} from "svelte";
   import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
   import {ProgressSignal} from "@o-platform/o-events/dist/signals/progressSignal";
-  import {OmoSubscription} from "@o-platform/o-dependencies/dist/OmoSubscription";
+  import {Subscription} from "rxjs";
   import LoadingSpinner from "./LoadingSpinner.svelte";
 
   let progressIndicator: { message: string, percent: number };
-  let subscription: OmoSubscription;
+  let subscription: Subscription;
 
   onMount(() => {
     subscription = window.o.events.subscribe((event: OmoEvent) => {

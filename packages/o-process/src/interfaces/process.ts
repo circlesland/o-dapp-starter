@@ -1,7 +1,7 @@
 import { ProcessEvent } from "./processEvent";
 import { OmoEvent } from "@o-platform/o-events/dist/omoEvent";
-import {OmoObservable} from "@o-platform/o-dependencies/dist/OmoObservable";
 import {Bubble} from "../events/bubble";
+import {Observable} from "rxjs";
 
 /**
  * Provides a connection to a running process.
@@ -19,7 +19,7 @@ export interface Process {
   /**
    * The process' out-stream.
    */
-  events: OmoObservable<ProcessEvent>;
+  events: Observable<ProcessEvent>;
   /**
    * Stores the last received Bubble-event for the use with the 'sendAnswer' function
    */

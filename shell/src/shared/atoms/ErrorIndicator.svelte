@@ -1,29 +1,10 @@
 <script lang="ts">
   import {onMount} from "svelte";
-  import {mapStackTrace} from "sourcemapped-stacktrace";
 
   let error:any = window.o.lastError;
 
   onMount(() => {
     console.error(`An error occurred:`, window.o.lastError);
-  /*
-  if (window.o.lastError)
-  {
-    error = window.o.lastError;
-    mapStackTrace(error.stack, function(mappedStack) {
-      // do what you want with mappedStack here
-      error = {
-        message: error.message,
-        stack: mappedStack
-      }
-    }, {
-      filter: function (line) {
-        // process only sources containing `spec.js`
-        return /(spec\.js)/.test(line);
-      }
-    });
-  }
-  */
 });
 
 </script>

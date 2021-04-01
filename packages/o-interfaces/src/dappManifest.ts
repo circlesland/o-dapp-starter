@@ -1,9 +1,8 @@
 import {IconDefinition} from "@fortawesome/fontawesome-common-types";
 import {PageManifest} from "./pageManifest";
 import {RuntimeDapp} from "./runtimeDapp";
-import {DappState} from "./dappState";
 
-export interface DappManifest<TState extends DappState>
+export interface DappManifest<TState extends {[x:string]:any}>
 {
   /**
    * A unique identifier for this auth manifest.

@@ -3,7 +3,7 @@ import {Shell} from "./shared/interfaces/shell";
 import {ProcessContext} from "@o-platform/o-process/dist/interfaces/processContext";
 import {Process} from "@o-platform/o-process/dist/interfaces/process";
 import {ProcessDefinition} from "@o-platform/o-process/dist/interfaces/processManifest";
-import {OmoSubject} from "@o-platform/o-dependencies/dist/OmoSubject";
+import {Subject} from "rxjs";
 import {ProcessEvent} from "@o-platform/o-process/dist/interfaces/processEvent";
 import {Bubble} from "@o-platform/o-process/dist/events/bubble";
 import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
@@ -33,7 +33,7 @@ export const shell: Shell = {
             : await getProcessContext()
         });
 
-      const processEvents = new OmoSubject<ProcessEvent>();
+      const processEvents = new Subject<ProcessEvent>();
 
       service.onTransition((state1, event) =>
       {
@@ -64,7 +64,18 @@ export const shell: Shell = {
 
       const process: Process = {
         id: 0,
-        events: processEvents,
+        /*
+        TODO: Cast to <any> because of:
+        ERROR in /home/daniel/src/o-dapp-starter/shell/src/shell.ts
+        [tsl] ERROR in /home/daniel/src/o-dapp-starter/shell/src/shell.ts(67,9)
+              TS2322: Type 'Subject<ProcessEvent>' is not assignable to type 'Observable<ProcessEvent>'.
+          The types of 'source.operator.call' are incompatible between these types.
+            Type '(subscriber: import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/Subscriber").Subscriber<any>, source: any) => import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/types").TeardownLogic' is not assignable to type '(subscriber: import("/home/daniel/src/o-dapp-starter/node_modules/rxjs/internal/Subscriber").Subscriber<any>, source: any) => import("/home/daniel/src/o-dapp-starter/node_modules/rxjs/internal/types").TeardownLogic'.
+              Types of parameters 'subscriber' and 'subscriber' are incompatible.
+                Type 'import("/home/daniel/src/o-dapp-starter/node_modules/rxjs/internal/Subscriber").Subscriber<any>' is not assignable to type 'import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/Subscriber").Subscriber<any>'.
+                  Property 'isStopped' is protected but type 'Subscriber<T>' is not a class derived from 'Subscriber<T>'.
+         */
+        events: <any>processEvents,
         lastReceivedBubble: null,
         sendEvent: (event: any) => send(event),
         sendAnswer(answer: OmoEvent) {

@@ -1,4 +1,4 @@
-import {OmoSubject} from "@o-platform/o-dependencies/dist/OmoSubject";
+import {Subject} from "rxjs";
 
 export class EventBroker
 {
@@ -85,17 +85,17 @@ export class Topic<T>
     /**
      * The event source for regular subscribers.
      */
-    public get observable(): OmoSubject<T> {
+    public get observable(): Subject<T> {
         return this._observable;
     }
 
-    private _observable: OmoSubject<T>;
+    private _observable: Subject<T>;
 
     constructor(namespace: string, name: string) {
         this._namespace = namespace;
         this._name = name;
 
-        this._observable = new OmoSubject<T>();
+        this._observable = new Subject<T>();
     }
 
     /**

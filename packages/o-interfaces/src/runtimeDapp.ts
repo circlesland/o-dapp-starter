@@ -2,11 +2,10 @@ import {DappManifest} from "./dappManifest";
 import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
 import {Topic} from "@o-platform/o-utils/dist/eventBroker";
 import {StatePropagation} from "./statePropagation";
-import {DappState} from "./dappState";
-import {Signal} from "@o-platform/o-events/dist/signals/signal";
-import {OmoBehaviorSubject} from "@o-platform/o-dependencies/dist/OmoBehaviorSubject";
+import {Signal} from "@o-platform/o-events/dist/signals/signal"
+import {BehaviorSubject} from "rxjs";
 
-export interface RuntimeDapp<TState extends DappState> extends DappManifest<TState>
+export interface RuntimeDapp<TState extends {[x:string]:any}> extends DappManifest<TState>
 {
   runtimeId:string,
   route: string,
@@ -23,7 +22,7 @@ export interface RuntimeDapp<TState extends DappState> extends DappManifest<TSta
   outEvents?:Topic<OmoEvent>,
 
 
-  state: OmoBehaviorSubject<StatePropagation<TState>>
+  state: BehaviorSubject<StatePropagation<TState>>
 
   emitSignal: (signal:Signal) => void;
   emitState: (state:TState) => void;

@@ -12,7 +12,7 @@
   import {Cancel} from "@o-platform/o-process/dist/events/cancel";
   import {Prompt as PromptEvent} from "@o-platform/o-process/dist/events/prompt";
   import {Continue} from "@o-platform/o-process/dist/events/continue";
-  import {OmoSubscription} from "@o-platform/o-dependencies/dist/OmoSubscription";
+  import {Subscription} from "rxjs";
   import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
   import {Bubble} from "@o-platform/o-process/dist/events/bubble";
   import {Sinker} from "@o-platform/o-process/dist/events/sinker";
@@ -22,7 +22,7 @@
    */
   export let process: Process;
 
-  let subscription: OmoSubscription;
+  let subscription: Subscription;
   let canSkip = false;
   let canGoBack = false;
   let prompt: PromptEvent;

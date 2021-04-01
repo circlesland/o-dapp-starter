@@ -9,7 +9,7 @@ import {useMachine} from "xstate-svelte";
 import LoadingIndicator from "./shared/atoms/LoadingIndicator.svelte";
 import Success from "./shared/atoms/Success.svelte";
 import Error from "./shared/atoms/Error.svelte";
-import {OmoSubject} from "@o-platform/o-dependencies/dist/OmoSubject";
+import {Subject} from "rxjs";
 import {ProcessEvent} from "@o-platform/o-process/dist/interfaces/processEvent";
 import {Bubble} from "@o-platform/o-process/dist/events/bubble";
 import {Process} from "@o-platform/o-process/dist/interfaces/process";
@@ -39,7 +39,7 @@ const shell: Shell = {
             : await getProcessContext()
         });
 
-      const processEvents = new OmoSubject<ProcessEvent>();
+      const processEvents = new Subject<ProcessEvent>();
 
       service.onTransition((state1, event) => {
         if (event.type == 'error.platform') {
@@ -67,7 +67,18 @@ const shell: Shell = {
 
       const process: Process = {
         id: 0,
-        events: processEvents,
+        /*
+        TODO: Cast to <any> because of:
+        ERROR in /home/daniel/src/o-dapp-starter/shell/src/main.ts
+        [tsl] ERROR in /home/daniel/src/o-dapp-starter/shell/src/main.ts(70,9)
+              TS2322: Type 'Subject<ProcessEvent>' is not assignable to type 'Observable<ProcessEvent>'.
+          The types of 'source.operator.call' are incompatible between these types.
+            Type '(subscriber: import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/Subscriber").Subscriber<any>, source: any) => import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/types").TeardownLogic' is not assignable to type '(subscriber: import("/home/daniel/src/o-dapp-starter/node_modules/rxjs/internal/Subscriber").Subscriber<any>, source: any) => import("/home/daniel/src/o-dapp-starter/node_modules/rxjs/internal/types").TeardownLogic'.
+              Types of parameters 'subscriber' and 'subscriber' are incompatible.
+                Type 'import("/home/daniel/src/o-dapp-starter/node_modules/rxjs/internal/Subscriber").Subscriber<any>' is not assignable to type 'import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/Subscriber").Subscriber<any>'.
+                  Property 'isStopped' is protected but type 'Subscriber<T>' is not a class derived from 'Subscriber<T>'.
+         */
+        events: <any>processEvents,
         lastReceivedBubble: null,
         sendEvent: (event: any) => send(event),
         sendAnswer(answer: OmoEvent) {
@@ -87,7 +98,23 @@ const shell: Shell = {
       return process;
     }
   },
-  events: shellEvents.observable,
+  /*
+  TODO: Cast to <any> because of:
+  ERROR in /home/daniel/src/o-dapp-starter/shell/src/main.ts
+  [tsl] ERROR in /home/daniel/src/o-dapp-starter/shell/src/main.ts(90,3)
+        TS2322: Type 'import("/home/daniel/src/o-dapp-starter/packages/o-utils/node_modules/rxjs/internal/Subject").Subject<import("/home/daniel/src/o-dapp-starter/packages/o-events/dist/omoEvent").OmoEvent>' is not assignable to type 'import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/Subject").Subject<import("/home/daniel/src/o-dapp-starter/packages/o-events/dist/omoEvent").OmoEvent>'.
+    Types of property 'lift' are incompatible.
+      Type '<R>(operator: import("/home/daniel/src/o-dapp-starter/packages/o-utils/node_modules/rxjs/internal/Operator").Operator<import("/home/daniel/src/o-dapp-starter/packages/o-events/dist/omoEvent").OmoEvent, R>) => import("/home/daniel/src/o-dapp-starter/packages/o-utils/node_modules/rxjs/internal/Observable").Observable<...' is not assignable to type '<R>(operator: import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/Operator").Operator<import("/home/daniel/src/o-dapp-starter/packages/o-events/dist/omoEvent").OmoEvent, R>) => import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/Observable").Observable<...>'.
+        Types of parameters 'operator' and 'operator' are incompatible.
+          Type 'import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/Operator").Operator<import("/home/daniel/src/o-dapp-starter/packages/o-events/dist/omoEvent").OmoEvent, R>' is not assignable to type 'import("/home/daniel/src/o-dapp-starter/packages/o-utils/node_modules/rxjs/internal/Operator").Operator<import("/home/daniel/src/o-dapp-starter/packages/o-events/dist/omoEvent").OmoEvent, R>'.
+            Types of property 'call' are incompatible.
+              Type '(subscriber: import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/Subscriber").Subscriber<R>, source: any) => import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/types").TeardownLogic' is not assignable to type '(subscriber: import("/home/daniel/src/o-dapp-starter/packages/o-utils/node_modules/rxjs/internal/Subscriber").Subscriber<R>, source: any) => import("/home/daniel/src/o-dapp-starter/packages/o-utils/node_modules/rxjs/internal/types").TeardownLogic'.
+                Types of parameters 'subscriber' and 'subscriber' are incompatible.
+                  Type 'import("/home/daniel/src/o-dapp-starter/packages/o-utils/node_modules/rxjs/internal/Subscriber").Subscriber<R>' is not assignable to type 'import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/Subscriber").Subscriber<R>'.
+                    Property 'isStopped' is protected but type 'Subscriber<T>' is not a class derived from 'Subscriber<T>'.
+
+   */
+  events: <any>shellEvents.observable,
   publishEvent: event => shellEvents.publish(event),
   graphQLClient: null
 };
@@ -96,7 +123,6 @@ async function connectToApi() {
   const apiConnection = new ApiConnection("http://localhost:1234/");
   shell.graphQLClient = await apiConnection.client.subscribeToResult();
   console.log("GraphQL client ready:", shell.graphQLClient);
-
 }
 connectToApi();
 

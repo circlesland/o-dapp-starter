@@ -1,7 +1,7 @@
 import {OmoEvent} from "@o-platform/o-events/dist/omoEvent";
 import {ProcessDefinition} from "@o-platform/o-process/dist/interfaces/processManifest";
 import {ProcessContext} from "@o-platform/o-process/dist/interfaces/processContext";
-import TextEditor from "@o-platform/editors/src/TextEditor.svelte";
+import TextEditor from "@o-platform/o-editors/src/TextEditor.svelte";
 import {editDataField} from "@o-platform/o-process/dist/stateConfigurations/editDataField";
 import {createMachine, actions} from "xstate";
 import gql from 'graphql-tag';
