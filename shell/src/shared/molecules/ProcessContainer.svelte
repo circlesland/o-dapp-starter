@@ -83,7 +83,6 @@
         } else {
           event = next.event;
         }
-
         if (event.type === "process.shellEvent")
         {
           console.log("ProcessContainer received 'process.shellEvent' event: ", next);

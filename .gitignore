@@ -1,3 +1,6 @@
+# All 'dot-files':
+.*
+
 # Logs
 logs
 *.log
@@ -65,7 +68,6 @@ typings/
 # Output of 'npm pack'
 *.tgz
 
-
 # Yarn Integrity file
 .yarn-integrity
 
@@ -105,8 +107,8 @@ dist
 .tern-port
 
 # Svelte build
-omo-app/public/build
-omo-app/public/index.css
+shell/public/build
+shellapp/public/index.css
 
 .history
 .DS_Store
@@ -118,11 +120,10 @@ bundle.css
 bundle.js.LICENSE.txt
 
 fission.yaml
-/omo-directory/node_modules/
 
 */**/.idea
 
 node_modules
 
-# Project exclude paths
-/shell/src/**/.js
+# Don't include *.js files anywhere in the 'src' directories.
+**/src/**/.js

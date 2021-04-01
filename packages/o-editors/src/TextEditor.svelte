@@ -4,7 +4,6 @@
     import {Skip} from "@o-platform/o-process/dist/events/skip";
     import {Continue} from "@o-platform/o-process/dist/events/continue";
 
-    export let name:string;
     export let context: {
         process: Process,
         fieldName: string,
