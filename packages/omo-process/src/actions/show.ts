@@ -1,5 +1,5 @@
 import {bubble} from "./bubble";
-import {Prompt} from "omo-process/dist/events/prompt";
+import {Prompt} from "../events/prompt";
 
 /**
  * Bubbles a 'process.prompt' event in order to show the specified component to the user.

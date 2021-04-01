@@ -1,7 +1,7 @@
 import {ProcessContext} from "omo-process/dist/interfaces/processContext";
-import {show} from "../actions/show";
 import {Continue} from "omo-process/dist/events/continue";
 import {actions} from "xstate";
+import {show} from "omo-process/dist/actions/show";
 const {assign} = actions;
 
 /**
@@ -25,7 +25,7 @@ export function editDataField(spec: {
     label: string
   }
 }) {
-  const editDataFieldConfig = {
+  const editDataFieldConfig:any = { // TODO: Fix need for 'any'
     id: spec.fieldName,
     initial: 'show',
     states: {

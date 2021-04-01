@@ -4,7 +4,7 @@ import {ProcessContext} from "omo-process/dist/interfaces/processContext";
 import {createMachine, actions} from "xstate";
 import {Bubble} from "omo-process/dist/events/bubble";
 import {ipcSinker} from "omo-process/dist/patterns/ipcSinker";
-import {show} from "../../actions/show";
+import {show} from "omo-process/dist/actions/show";
 const {send} = actions;
 
 export class ShellProcessContext extends ProcessContext<any> {
@@ -81,7 +81,7 @@ const processDefinition = (progressView: any, successView: any, errorView: any) 
         }
       },
       showError: {
-        entry: show({
+        entry: <any>show({ // TODO: fix <any> cast
           component: Error,
           params: {}
         }),

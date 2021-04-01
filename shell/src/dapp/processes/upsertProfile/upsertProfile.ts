@@ -87,7 +87,7 @@ const processDefinition = () => createMachine<UpsertProfileContext, any>({
   id: "upsertProfile",
   initial: "firstName",
   states: {
-    // Includ all data-collection steps
+    // Include all data-collection steps
     ...dataCollectionStates,
     // Use a promise to do the actual work.
     // At this point you can access the ProcessContext.dirtyFlags

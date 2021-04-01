@@ -1,7 +1,7 @@
-import {ProcessContext} from "omo-process/dist/interfaces/processContext";
 import {OmoEvent} from "omo-events/dist/omoEvent";
-import {Bubble} from "omo-process/dist/events/bubble";
 import {actions} from "xstate";
+import {ProcessContext} from "../interfaces/processContext";
+import {Bubble} from "../events/bubble";
 const {sendParent} = actions;
 
 /**
