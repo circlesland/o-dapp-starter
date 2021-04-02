@@ -22,4 +22,12 @@ export class Prompt implements PlatformEvent {
    * The component specific params.
    */
   params:{[x:string]:any} = {};
+
+  navigation: {
+    canSkip: boolean,
+    canGoBack: boolean
+  } = {
+    canSkip: false,
+    canGoBack: false
+  };
 }

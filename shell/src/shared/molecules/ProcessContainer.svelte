@@ -9,7 +9,6 @@
   import {ShellEvent} from "@o-platform/o-process/dist/events/shellEvent";
   import {Cancel} from "@o-platform/o-process/dist/events/cancel";
   import {Prompt as PromptEvent} from "@o-platform/o-process/dist/events/prompt";
-  import {Continue} from "@o-platform/o-process/dist/events/continue";
   import {Subscription} from "rxjs";
   import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
   import {Bubble} from "@o-platform/o-process/dist/events/bubble";
@@ -38,7 +37,6 @@
 
   $: {
     if (outEventSubscription) {
-      //console.log("unsubscribe()");
       outEventSubscription.unsubscribe();
       outEventSubscription = null;
     }
@@ -49,7 +47,6 @@
     if (process) {
       subscribeToProcess();
     } else {
-      //console.log("clear");
       canSkip = false;
       prompt = null;
     }
@@ -95,7 +92,6 @@
         // Unpack bubbled events if necessary
         let event: PlatformEvent;
         if (next.event?.type === "process.ipc.bubble") {
-          //console.log("ProcessContainer received Bubble: ", next);
           const bubble = <Bubble>next.event;
           if (!bubble.end) {
             return;
@@ -118,8 +114,6 @@
 
         // publish shell events if requested by the process
         if (event.type === "process.shellEvent") {
-          //console.log("ProcessContainer received 'process.shellEvent' event: ", next);
-          //console.log("publishing shell event:", event);
           window.o.publishEvent((<ShellEvent>event).payload);
         }
 
@@ -170,13 +164,11 @@
 </script>
 
 {#if waiting}
-  <LoadingIndicator></LoadingIndicator>
+  <LoadingIndicator />
 {:else if error}
   <Error data={{error}} />
 {:else if process && prompt}
-  <div className="w-full">
-    <Prompt process={process} prompt={prompt} bubble={lastBubble}/>
-  </div>
+  <Prompt process={process} prompt={prompt} bubble={lastBubble}/>
 {:else}
   Undefined state
 {/if}

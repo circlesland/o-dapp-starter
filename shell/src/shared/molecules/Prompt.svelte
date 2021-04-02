@@ -10,7 +10,9 @@
     fieldName: string,
     data: {[x:string]:any},
     params: {[x:string]:any},
-    process: Process
+    process: Process,
+    canGoBack: boolean,
+    canSkip: boolean
   }|null;
 
   $:{
@@ -21,7 +23,9 @@
         process: process,
         fieldName: prompt.fieldName,
         data: prompt.data,
-        params: prompt.params
+        params: prompt.params,
+        canGoBack: prompt.navigation.canGoBack,
+        canSkip: prompt.navigation.canSkip
       }
     } else {
       componentContext = null;

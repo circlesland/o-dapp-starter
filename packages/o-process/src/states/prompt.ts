@@ -12,7 +12,7 @@ const {assign} = actions;
  *
  * @param spec
  */
-export function editDataField<TContext extends ProcessContext<any>, TEvent extends PlatformEvent>(spec: {
+export function prompt<TContext extends ProcessContext<any>, TEvent extends PlatformEvent>(spec: {
   fieldName: string,
   component: any,
   navigation?: {
@@ -32,12 +32,16 @@ export function editDataField<TContext extends ProcessContext<any>, TEvent exten
     states: {
       show: {
         entry: [
+          () => console.log(`show: ${spec.fieldName}`),
           show({
             fieldName: spec.fieldName,
             component: spec.component,
-            params: spec.params
-          }),
-          () => console.log(`${spec.fieldName} process - show`)
+            params: spec.params,
+            navigation: {
+              canGoBack: spec.navigation?.canGoBack,
+              canSkip: spec.navigation?.canSkip
+            }
+          })
         ],
         on: {
           "process.back": 'back',
@@ -46,7 +50,7 @@ export function editDataField<TContext extends ProcessContext<any>, TEvent exten
         }
       },
       back: {
-        entry: () => console.log(`${spec.fieldName} process - back`),
+        entry: () => console.log(`back: ${spec.fieldName}`),
         always: [{
           cond: (context:TContext, event:TEvent) => {
             return spec.navigation?.previous && (!spec.navigation?.canGoBack || spec.navigation.canGoBack(context, event))
@@ -57,7 +61,7 @@ export function editDataField<TContext extends ProcessContext<any>, TEvent exten
         }]
       },
       skip: {
-        entry: () => console.log(`${spec.fieldName} process - skip`),
+        entry: () => console.log(`skip: ${spec.fieldName}`),
         always: [{
           cond: (context:TContext, event:TEvent) => {
             return spec.navigation?.canSkip !== undefined && spec.navigation.canSkip(context, event)
@@ -69,6 +73,7 @@ export function editDataField<TContext extends ProcessContext<any>, TEvent exten
       },
       submit: {
         entry: [
+          () => console.log(`submit: ${spec.fieldName}`),
           assign((context:TContext, event:Continue) => {
             // TODO: Try to use a nicer equivalence check for change tracking and setting the dirty flag
             // TODO: How to handle validation?
@@ -81,8 +86,7 @@ export function editDataField<TContext extends ProcessContext<any>, TEvent exten
               context.dirtyFlags[spec.fieldName] = true;
             }
             return context;
-          }),
-          () => console.log(`${spec.fieldName} process - submit`),
+          })
         ],
         always: [{
           target: spec.navigation?.next ?? "show"
@@ -90,8 +94,6 @@ export function editDataField<TContext extends ProcessContext<any>, TEvent exten
       }
     }
   };
-
-  //console.log(`Created config for field ${spec.fieldName}:`, editDataFieldConfig);
 
   return editDataFieldConfig;
 }

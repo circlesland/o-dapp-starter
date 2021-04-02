@@ -5,7 +5,7 @@ import {IProcessContext} from "../interfaces/processContext";
 /**
  * A generic error state that escalates the error.
  */
-export function errorState<TContext extends IProcessContext, TEvent extends AnyEventObject>(stateName:string) : {
+export function fatalError<TContext extends IProcessContext, TEvent extends AnyEventObject>(stateName:string) : {
     [x:string]: {
         id:string,
         type:"final" | "atomic" | "compound" | "parallel" | "history",
