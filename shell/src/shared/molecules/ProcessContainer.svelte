@@ -97,9 +97,6 @@
         } else if (event.type === "process.prompt") {
           console.log("ProcessContainer received 'process.prompt' event: ", next);
           prompt = <PromptEvent>event;
-          if (!prompt.fieldName) {
-            console.log("fieldname not set in:", JSON.parse(JSON.stringify(prompt)))
-          }
         }
       });
 

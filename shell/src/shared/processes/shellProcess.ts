@@ -30,7 +30,7 @@ const processDefinition = () => {
         }
       },
       run: {
-        entry: (context) => console.log(`shellProcess: run - Name: ${context.childProcessDefinition.name}`),
+        entry: (context) => console.log(`shellProcess: run ${context.childProcessDefinition.name}`),
         invoke: {
           id: childProcessId,
           src: context => {
@@ -69,7 +69,7 @@ const processDefinition = () => {
           // TODO: fix any cast
           ...<any>ipcSinker(childProcessId),
           "process.ipc.bubble": {
-            cond: (context, event:Bubble) => event.trace[event.trace.length - 1] !== "childProcess",
+            cond: (context, event:Bubble) => event.trace[event.trace.length - 1] !== childProcessId,
             actions: [
               send((context, event) => {
                 const bubble = <Bubble>event;
@@ -78,7 +78,7 @@ const processDefinition = () => {
                   levels: bubble.levels + 1,
                   tag: bubble.tag,
                   wrappedEvent: bubble.wrappedEvent,
-                  trace: bubble.trace.concat(["childProcess"])
+                  trace: bubble.trace.concat([childProcessId])
                 };
               }),
               (context, event) => console.log("shellProcess: piping out a received bubbling event:", event)

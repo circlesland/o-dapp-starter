@@ -12,12 +12,11 @@ import {Process} from "@o-platform/o-process/dist/interfaces/process";
 import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
 import {Sinker} from "@o-platform/o-process/dist/events/sinker";
 import {ApiConnection} from "./shared/apiConnection";
-import {getProcessContext} from "./shell";
 
 import LoadingIndicator from "./shared/atoms/LoadingIndicator.svelte";
 import Success from "./shared/atoms/Success.svelte";
 import Error from "./shared/atoms/Error.svelte";
-import Shell from "src/Shell.svelte";
+import App from "src/App.svelte";
 
 dayjs.extend(relativeTime)
 
@@ -25,6 +24,12 @@ declare global {
   interface Window {
     o: IShell
   }
+}
+
+export async function getProcessContext(): Promise<ProcessContext<any>> {
+  return <ProcessContext<any>>{
+    data: {}
+  };
 }
 
 const shell: IShell = {
@@ -133,6 +138,6 @@ console.log("Starting ..", {
   userAgent: navigator.userAgent
 })
 
-export default new Shell({
+export default new App({
   target: document.body,
 });

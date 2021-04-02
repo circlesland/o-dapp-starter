@@ -7,7 +7,7 @@ import {DappManifest} from "@o-platform/o-interfaces/dist/dappManifest";
 
 const index : PageManifest = {
   isDefault: true,
-  routeParts: ["index"],
+  routeParts: [""],
   component: Home,
   available: [
     (detail) => {
@@ -21,7 +21,7 @@ const index : PageManifest = {
 // Same as 'index' but accepts a ':code' parameter that will be passed to 'Home'
 const exchangeCode : PageManifest = {
   isDefault: false,
-  routeParts: ["index", ":code"],
+  routeParts: ["login", ":code"],
   component: Home,
   available: [
     (detail) => {
@@ -43,7 +43,7 @@ export const auth : DappManifest<DappState> = {
   isHidden: false,
   icon: faPeopleArrows,
   title: "Circles authentication",
-  routeParts: ["auth"],
+  routeParts: [],
   tag: Promise.resolve("alpha"),
   isEnabled: true,
   initialize: async (stack, runtimeDapp) => {
