@@ -7,13 +7,12 @@ import {EventBroker} from "@o-platform/o-utils/dist/eventBroker";
 import {Generate} from "@o-platform/o-utils/dist/generate";
 
 import LoadingIndicator from 'src/shared/atoms/LoadingIndicator.svelte'
-import ErrorIndicator from 'src/shared/atoms/ErrorIndicator.svelte'
 import NotFound from 'src/shared/pages/NotFound.svelte'
 import wrap from "svelte-spa-router/wrap";
 
 import {auth} from "./dapps/o-auth.manifest";
 
-const errorIndicator = ErrorIndicator;
+const errorIndicator = Error;
 
 export const dapps: DappManifest<any>[] = [
   auth

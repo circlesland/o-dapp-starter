@@ -7,10 +7,13 @@
 
   $: {
     console.error(`An error occurred during the execution of a workflow:`, data);
-    if (data)
+    if (data && data.error)
     {
       console.error(data.error);
       error = data.error;
+    } else {
+      console.error(window.o.lastError);
+      error = window.o.lastError;
     }
   }
 </script>
