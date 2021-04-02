@@ -19,7 +19,6 @@
       class="input input-lg input-bordered"
       bind:value={context.data[context.fieldName]}
     />
-    {console.log("context", context)}
   </div>
 {:else}
   - not available -
