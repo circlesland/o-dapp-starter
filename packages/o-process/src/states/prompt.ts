@@ -1,9 +1,9 @@
-import {actions} from "xstate";
-import {ProcessContext} from "../interfaces/processContext";
-import {show} from "../actions/show";
-import {Continue} from "../events/continue";
-import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
-const {assign} = actions;
+import { actions } from "xstate";
+import { ProcessContext } from "../interfaces/processContext";
+import { show } from "../actions/show";
+import { Continue } from "../events/continue";
+import { PlatformEvent } from "@o-platform/o-events/dist/platformEvent";
+const { assign } = actions;
 
 /**
  * Displays the specified editor to the user.
@@ -12,23 +12,31 @@ const {assign} = actions;
  *
  * @param spec
  */
-export function prompt<TContext extends ProcessContext<any>, TEvent extends PlatformEvent>(spec: {
-  fieldName: string,
-  component: any,
+export function prompt<
+  TContext extends ProcessContext<any>,
+  TEvent extends PlatformEvent
+>(spec: {
+  fieldName: string;
+  component: any;
   navigation?: {
     // If you want to allow the user to go one step back then specify here where he came from
-    previous?: string,
-    canGoBack?: (context:ProcessContext<any>, event:{type:string, [x:string]:any}) => boolean,
-    next: string,
-    canSkip?: (context:ProcessContext<any>, event:{type:string, [x:string]:any}) => boolean,
-  },
-  params: {
-    label: string
-  }
+    previous?: string;
+    canGoBack?: (
+      context: ProcessContext<any>,
+      event: { type: string; [x: string]: any }
+    ) => boolean;
+    next: string;
+    canSkip?: (
+      context: ProcessContext<any>,
+      event: { type: string; [x: string]: any }
+    ) => boolean;
+  };
+  params: { [x: string]: any };
 }) {
-  const editDataFieldConfig:any = { // TODO: Fix need for 'any'
+  const editDataFieldConfig: any = {
+    // TODO: Fix need for 'any'
     id: spec.fieldName,
-    initial: 'show',
+    initial: "show",
     states: {
       show: {
         entry: [
@@ -39,60 +47,79 @@ export function prompt<TContext extends ProcessContext<any>, TEvent extends Plat
             params: spec.params,
             navigation: {
               canGoBack: spec.navigation?.canGoBack,
-              canSkip: spec.navigation?.canSkip
-            }
-          })
+              canSkip: spec.navigation?.canSkip,
+            },
+          }),
         ],
         on: {
-          "process.back": 'back',
-          "process.continue": 'submit',
-          "process.skip": 'skip'
-        }
+          "process.back": "back",
+          "process.continue": "submit",
+          "process.skip": "skip",
+        },
       },
       back: {
         entry: () => console.log(`back: ${spec.fieldName}`),
-        always: [{
-          cond: (context:TContext, event:TEvent) => {
-            return spec.navigation?.previous && (!spec.navigation?.canGoBack || spec.navigation.canGoBack(context, event))
+        always: [
+          {
+            cond: (context: TContext, event: TEvent) => {
+              return (
+                spec.navigation?.previous &&
+                (!spec.navigation?.canGoBack ||
+                  spec.navigation.canGoBack(context, event))
+              );
+            },
+            target: spec.navigation?.previous ?? "show",
           },
-          target: spec.navigation?.previous ?? "show"
-        }, {
-          target: "show"
-        }]
+          {
+            target: "show",
+          },
+        ],
       },
       skip: {
         entry: () => console.log(`skip: ${spec.fieldName}`),
-        always: [{
-          cond: (context:TContext, event:TEvent) => {
-            return spec.navigation?.canSkip !== undefined && spec.navigation.canSkip(context, event)
+        always: [
+          {
+            cond: (context: TContext, event: TEvent) => {
+              return (
+                spec.navigation?.canSkip !== undefined &&
+                spec.navigation.canSkip(context, event)
+              );
+            },
+            target: spec.navigation?.next ?? "show",
           },
-          target: spec.navigation?.next ?? "show"
-        }, {
-          target: "show"
-        }]
+          {
+            target: "show",
+          },
+        ],
       },
       submit: {
         entry: [
           () => console.log(`submit: ${spec.fieldName}`),
-          assign((context:TContext, event:Continue) => {
+          assign((context: TContext, event: Continue) => {
             // TODO: Try to use a nicer equivalence check for change tracking and setting the dirty flag
             // TODO: How to handle validation?
             const data = event.data;
             if (!data) {
-              throw new Error(`Couldn't read the 'data' property of the received Continue event: ${JSON.stringify(event)}`);
+              throw new Error(
+                `Couldn't read the 'data' property of the received Continue event: ${JSON.stringify(
+                  event
+                )}`
+              );
             }
             if (context.data[spec.fieldName] !== data[spec.fieldName]) {
               context.data[spec.fieldName] = data[spec.fieldName];
               context.dirtyFlags[spec.fieldName] = true;
             }
             return context;
-          })
+          }),
         ],
-        always: [{
-          target: spec.navigation?.next ?? "show"
-        }]
-      }
-    }
+        always: [
+          {
+            target: spec.navigation?.next ?? "show",
+          },
+        ],
+      },
+    },
   };
 
   return editDataFieldConfig;

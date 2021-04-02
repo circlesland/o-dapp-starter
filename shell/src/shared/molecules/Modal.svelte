@@ -15,6 +15,30 @@
   const handleEsc = (e) => e.key === "Escape" && handleClose();
 </script>
 
+{#if isOpen}
+  <aside
+    on:keydown={handleEsc}
+    aria-labelledby="modal-heading"
+    aria-modal="true"
+    tabIndex={-1}
+    {role}
+    in:fade
+    out:fade
+    on:click|self={handleClose}
+    class="z-40 overlay "
+  >
+    <div class="w-full bg-white rounded-t-xl md:rounded-xl">
+      <div class="p-4 space-y-2 md:p-8">
+        <div class="flex h-screen ">
+          <div class="m-auto md:w-3/6 w-full">
+            <slot />
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+{/if}
+
 <style>
   * {
     box-sizing: border-box;
@@ -33,22 +57,3 @@
     overflow-y: hidden;
   }
 </style>
-
-{#if isOpen}
-  <aside
-    on:keydown={handleEsc}
-    aria-labelledby="modal-heading"
-    aria-modal="true"
-    tabIndex={-1}
-    {role}
-    in:fade
-    out:fade
-    on:click|self={handleClose}
-    class="z-40 overlay ">
-    <div class="w-full max-w-3xl bg-white rounded-t-xl md:rounded-xl">
-      <div class="p-4 space-y-2 md:p-8">
-        <slot />
-      </div>
-    </div>
-  </aside>
-{/if}
