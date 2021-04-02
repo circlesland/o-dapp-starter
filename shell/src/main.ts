@@ -17,6 +17,7 @@ import LoadingIndicator from "./shared/atoms/LoadingIndicator.svelte";
 import Success from "./shared/atoms/Success.svelte";
 import Error from "./shared/atoms/Error.svelte";
 import App from "src/App.svelte";
+import {AnyEventObject} from "xstate";
 
 dayjs.extend(relativeTime)
 
@@ -45,8 +46,10 @@ const shell: IShell = {
             : await getProcessContext()
         });
 
-      const processEvents = new Subject<ProcessEvent>();
+      const outEvents = new Subject<ProcessEvent>();
       const inEvents = new Subject<ProcessEvent>();
+
+      let lastInEvent:AnyEventObject;
 
       service.onTransition((state1, event) => {
         if (event.type == 'error.platform' || event.type == "xstate.error") {
@@ -57,7 +60,12 @@ const shell: IShell = {
         }
 
         //console.log(`window.o.stateMachines: forwarding event to the processEvents stream of process '${definition.name}':`, event);
-        processEvents.next(<any>{
+        if (event == lastInEvent) {
+          // TODO: Hack: Skip this event - it's 'reflected'
+          lastInEvent = null;
+          return;
+        }
+        outEvents.next(<any>{
           stopped: false,
           currentState: state1,
           previousState: state1.history,
@@ -66,7 +74,7 @@ const shell: IShell = {
       });
 
       service.onStop(() => {
-        processEvents.next({
+        outEvents.next({
           stopped: true
         });
         this._current = null;
@@ -85,11 +93,14 @@ const shell: IShell = {
                 Type 'import("/home/daniel/src/o-dapp-starter/node_modules/rxjs/internal/Subscriber").Subscriber<any>' is not assignable to type 'import("/home/daniel/src/o-dapp-starter/shell/node_modules/rxjs/internal/Subscriber").Subscriber<any>'.
                   Property 'isStopped' is protected but type 'Subscriber<T>' is not a class derived from 'Subscriber<T>'.
          */
-        events: <any>processEvents,
+        events: <any>outEvents,
         inEvents: <any>inEvents,
         lastReceivedBubble: null,
         sendEvent: (event: any) => {
-          inEvents.next(event);
+          lastInEvent = event;
+          inEvents.next(<any>{
+            event: event
+          });
           send(event);
         },
         sendAnswer(answer: PlatformEvent) {

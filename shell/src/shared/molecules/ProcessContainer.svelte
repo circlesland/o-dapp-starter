@@ -69,7 +69,7 @@
 
   function subscribeToProcess() {
     ensureProcess((process) => {
-      inEventSubscription = process.events.subscribe((next) => {
+      inEventSubscription = process.inEvents.subscribe((next) => {
         if (!next.event)
           return;
 
@@ -92,17 +92,21 @@
         if (!next.event)
           return;
 
-        console.log("ProcessContainer: In/Out <- from Process: ", next.event);
-
         // Unpack bubbled events if necessary
         let event: PlatformEvent;
         if (next.event?.type === "process.ipc.bubble") {
           //console.log("ProcessContainer received Bubble: ", next);
-          lastBubble = <Bubble>next.event;
-          event = lastBubble.wrappedEvent;
+          const bubble = <Bubble>next.event;
+          if (!bubble.end) {
+            return;
+          }
+          lastBubble = bubble;
+          event = bubble.wrappedEvent;
         } else {
           event = next.event;
         }
+
+        console.log("ProcessContainer: In/Out <- from Process: ", next.event);
 
         // If the event is an error event, then set the error property else clear it
         if (event.type === "xstate.error") {
