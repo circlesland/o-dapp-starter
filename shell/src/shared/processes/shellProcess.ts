@@ -3,9 +3,8 @@ import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
 import {ProcessContext} from "@o-platform/o-process/dist/interfaces/processContext";
 import {createMachine, actions} from "xstate";
 import {Bubble} from "@o-platform/o-process/dist/events/bubble";
-import {ipcSinker} from "@o-platform/o-process/dist/patterns/ipcSinker";
 import {show} from "@o-platform/o-process/dist/actions/show";
-import {ipcBubble} from "@o-platform/o-process/dist/patterns/ipcBubble";
+import {ipcSinker} from "@o-platform/o-process/dist/triggers/ipcSinker";
 const {send} = actions;
 
 export class ShellProcessContext extends ProcessContext<any> {

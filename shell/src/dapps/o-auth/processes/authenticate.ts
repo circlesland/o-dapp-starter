@@ -1,8 +1,8 @@
 import {ProcessDefinition} from "@o-platform/o-process/dist/interfaces/processManifest";
 import {ProcessContext} from "@o-platform/o-process/dist/interfaces/processContext";
 import TextEditor from "@o-platform/o-editors/src/TextEditor.svelte";
-import {editDataField} from "@o-platform/o-process/dist/stateConfigurations/editDataField";
-import {errorState} from "@o-platform/o-process/dist/stateConfigurations/errorState";
+import {prompt} from "@o-platform/o-process/dist/states/prompt";
+import {fatalError} from "@o-platform/o-process/dist/states/fatalError";
 import {createMachine} from "xstate";
 import gql from 'graphql-tag';
 
@@ -33,7 +33,7 @@ const processDefinition = (processId:string) => createMachine<AuthenticateContex
   states: {
     // Include a default 'error' state that propagates the error by re-throwing it in an action.
     // TODO: Check if this works as intended
-    ...errorState<AuthenticateContext, any>("error"),
+    ...fatalError<AuthenticateContext, any>("error"),
 
     // If a 'code' was supplied, we skip right to the 'exchangeCodeForToken' step,
     // else we ask the user for the e-mail address and send a challenge.
@@ -46,7 +46,7 @@ const processDefinition = (processId:string) => createMachine<AuthenticateContex
       }]
     },
     // Ask the user for the e-mail address
-    loginEmail: editDataField<AuthenticateContext, any>({
+    loginEmail: prompt<AuthenticateContext, any>({
       fieldName: "loginEmail",
       component: TextEditor,
       params: {
@@ -86,7 +86,7 @@ const processDefinition = (processId:string) => createMachine<AuthenticateContex
       }
     },
     // Wait for the user to enter the code he received in the login-email
-    code: editDataField<AuthenticateContext, any>({
+    code: prompt<AuthenticateContext, any>({
       fieldName: "code",
       component: TextEditor,
       params: {
