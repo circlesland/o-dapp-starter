@@ -31,6 +31,8 @@ const processDefinition = (processId:string) => createMachine<AuthenticateContex
   id: `${processId}:authenticate`,
   initial: "findEntryPoint",
   states: {
+    // Include a default 'error' state that propagates the error by re-throwing it in an action.
+    // TODO: Check if this works as intended
     ...errorState<AuthenticateContext, any>("error"),
 
     // If a 'code' was supplied, we skip right to the 'exchangeCodeForToken' step,

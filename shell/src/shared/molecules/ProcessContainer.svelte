@@ -15,34 +15,41 @@
   import {Bubble} from "@o-platform/o-process/dist/events/bubble";
   import {Sinker} from "@o-platform/o-process/dist/events/sinker";
   import Error from "../atoms/Error.svelte";
+  import LoadingIndicator from "../atoms/LoadingIndicator.svelte";
 
   /**
    * A channel to an already running process.
    */
   export let process: Process;
 
-  let subscription: Subscription;
+  let inEventSubscription: Subscription;
+  let outEventSubscription: Subscription;
   let canSkip = false;
   let canGoBack = false;
   let prompt: PromptEvent;
   let error: Error;
 
+  // Every incoming prompt sets this flag to 'true'
+  let waitForNextOutgoingEvent: boolean;
+  // When 'waitForNextOutgoingEvent' == true and any event is sent to the process then 'waiting' will be set to 'true'
+  let waiting: boolean;
+
   const dispatch = createEventDispatcher();
 
   $: {
-    if (subscription) {
-      console.log("unsubscribe()");
-      subscription.unsubscribe();
-      subscription = null;
+    if (outEventSubscription) {
+      //console.log("unsubscribe()");
+      outEventSubscription.unsubscribe();
+      outEventSubscription = null;
+    }
+    if (inEventSubscription) {
+      inEventSubscription.unsubscribe();
+      inEventSubscription = null;
     }
     if (process) {
-      console.log("subscribeToProcess()");
       subscribeToProcess();
-      console.log("subscription:", subscription);
-      console.log("sending a Continue event to the process to kick it off.")
-      process.sendEvent(new Continue());
     } else {
-      console.log("clear");
+      //console.log("clear");
       canSkip = false;
       prompt = null;
     }
@@ -61,9 +68,21 @@
   }
 
   function subscribeToProcess() {
-
     ensureProcess((process) => {
-      subscription = process.events.subscribe((next) => {
+      inEventSubscription = process.events.subscribe((next) => {
+        if (!next.event)
+          return;
+
+        console.log("ProcessContainer: In/Out -> to Process: ", next.event);
+
+        if (waitForNextOutgoingEvent
+          && (next.event.type === "process.ipc.sinker")) {
+          waitForNextOutgoingEvent = false;
+          waiting = true;
+        }
+      });
+
+      outEventSubscription = process.events.subscribe((next) => {
         if (next.stopped) {
           prompt = null;
           process = null;
@@ -73,30 +92,42 @@
         if (!next.event)
           return;
 
-        console.log("ProcessContainer received: ", next.event);
+        console.log("ProcessContainer: In/Out <- from Process: ", next.event);
 
+        // Unpack bubbled events if necessary
         let event: PlatformEvent;
         if (next.event?.type === "process.ipc.bubble") {
-          console.log("ProcessContainer received Bubble: ", next);
+          //console.log("ProcessContainer received Bubble: ", next);
           lastBubble = <Bubble>next.event;
           event = lastBubble.wrappedEvent;
         } else {
           event = next.event;
         }
 
+        // If the event is an error event, then set the error property else clear it
         if (event.type === "xstate.error") {
-          // TODO: Show an error message
           error = (<any>event).data;
+          waiting = false;
         } else {
           error = null;
         }
+
+        // publish shell events if requested by the process
         if (event.type === "process.shellEvent") {
-          console.log("ProcessContainer received 'process.shellEvent' event: ", next);
-          console.log("publishing shell event:", event);
+          //console.log("ProcessContainer received 'process.shellEvent' event: ", next);
+          //console.log("publishing shell event:", event);
           window.o.publishEvent((<ShellEvent>event).payload);
-        } else if (event.type === "process.prompt") {
+        }
+
+        // display the requested component for the process
+        // and switch the view to 'waiting' after an event
+        // was sent from the prompt to the process.
+        // The loading spinner will be disabled with the next arriving 'prompt'.
+        if (event.type === "process.prompt") {
           console.log("ProcessContainer received 'process.prompt' event: ", next);
           prompt = <PromptEvent>event;
+          waiting = false;
+          waitForNextOutgoingEvent = true;
         }
       });
 
@@ -134,15 +165,18 @@
   };
 </script>
 
-{#if process && prompt && !error}
-  <div class="w-full">
-    <Prompt process={process} prompt={prompt} bubble={lastBubble} />
-  </div>
+{#if waiting}
+  <LoadingIndicator></LoadingIndicator>
 {:else if error}
   <Error data={{error}} />
+{:else if process && prompt}
+  <div className="w-full">
+    <Prompt process={process} prompt={prompt} bubble={lastBubble}/>
+  </div>
 {:else}
   Undefined state
 {/if}
+
 <footer class="flex justify-between px-4 pt-4 text-gray-400 bg-white ">
   <button on:click={cancelPressed}>
     <NavItem mapping={cancel} />

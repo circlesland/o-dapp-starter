@@ -16,7 +16,7 @@
   $:{
     // Whenever the prompt changes ('prompt' is set from outside by it's parent ProcessContainer molecule):
     if (prompt) {
-      console.log("Prompt.svelte got a 'prompt':", prompt);
+      //console.log("Prompt.svelte got a 'prompt':", prompt);
       componentContext = {
         process: process,
         fieldName: prompt.fieldName,

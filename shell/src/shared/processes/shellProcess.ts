@@ -30,7 +30,7 @@ const processDefinition = () => {
         }
       },
       run: {
-        entry: (context) => console.log(`shellProcess: run ${context.childProcessDefinition.name}`),
+        // entry: (context) => console.log(`shellProcess: run ${context.childProcessDefinition.name}`),
         invoke: {
           id: childProcessId,
           src: context => {
@@ -81,14 +81,14 @@ const processDefinition = () => {
                   trace: bubble.trace.concat([childProcessId])
                 };
               }),
-              (context, event) => console.log("shellProcess: piping out a received bubbling event:", event)
+              //(context, event) => console.log("shellProcess: piping out a received bubbling event:", event)
             ]
           }
         }
       },
       showError: {
         entry: [
-          (context, event) => console.log("ShellProcess encountered an error:", event),
+          //(context, event) => console.log("ShellProcess encountered an error:", event),
           <any>show({ // TODO: fix <any> cast
             component: Error,
             params: {}

@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import {IShell} from "./shared/interfaces/shell";
+import {IShell} from "./shell";
 import {shellEvents} from "./shared/shellEvents";
 import {ProcessDefinition} from "@o-platform/o-process/dist/interfaces/processManifest";
 import {ProcessContext} from "@o-platform/o-process/dist/interfaces/processContext";
@@ -46,6 +46,7 @@ const shell: IShell = {
         });
 
       const processEvents = new Subject<ProcessEvent>();
+      const inEvents = new Subject<ProcessEvent>();
 
       service.onTransition((state1, event) => {
         if (event.type == 'error.platform' || event.type == "xstate.error") {
@@ -55,7 +56,7 @@ const shell: IShell = {
           process.lastReceivedBubble = <Bubble>event;
         }
 
-        console.log(`window.o.stateMachines: forwarding event to the processEvents stream of process '${definition.name}':`, event);
+        //console.log(`window.o.stateMachines: forwarding event to the processEvents stream of process '${definition.name}':`, event);
         processEvents.next(<any>{
           stopped: false,
           currentState: state1,
@@ -85,8 +86,12 @@ const shell: IShell = {
                   Property 'isStopped' is protected but type 'Subscriber<T>' is not a class derived from 'Subscriber<T>'.
          */
         events: <any>processEvents,
+        inEvents: <any>inEvents,
         lastReceivedBubble: null,
-        sendEvent: (event: any) => send(event),
+        sendEvent: (event: any) => {
+          inEvents.next(event);
+          send(event);
+        },
         sendAnswer(answer: PlatformEvent) {
           if (!this.lastReceivedBubble || this.lastReceivedBubble.noReply) {
             throw new window.Error("Cannot answer because no Bubble event was received before or the event hat the 'noReply' property set.")
@@ -128,7 +133,6 @@ const shell: IShell = {
 async function connectToApi() {
   const apiConnection = new ApiConnection("http://localhost:1234/");
   shell.graphQLClient = await apiConnection.client.subscribeToResult();
-  console.log("GraphQL client ready:", shell.graphQLClient);
 }
 connectToApi();
 

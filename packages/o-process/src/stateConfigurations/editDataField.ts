@@ -91,7 +91,7 @@ export function editDataField<TContext extends ProcessContext<any>, TEvent exten
     }
   };
 
-  console.log(`Created config for field ${spec.fieldName}:`, editDataFieldConfig);
+  //console.log(`Created config for field ${spec.fieldName}:`, editDataFieldConfig);
 
   return editDataFieldConfig;
 }
