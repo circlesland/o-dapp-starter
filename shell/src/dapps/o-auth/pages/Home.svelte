@@ -44,7 +44,12 @@
 <div class="grid grid-cols-1 p-2">
   <div class="flex h-screen ">
     <div class="m-auto grid">
-      <div class="card shadow bg-white">
+      <img
+        class="inline m-auto w-12 h-12 -mb-6 z-30"
+        src="/images/common/circles.png"
+        alt="circles.land"
+      />
+      <div class="card shadow bg-white z-0">
         <div class="card-body">
           {#if !params || !params.code}
             <h1 class="mb-4 justify-self-left">Hi!</h1>
