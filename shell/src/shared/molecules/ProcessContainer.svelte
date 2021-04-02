@@ -4,7 +4,7 @@
     faTimes,
   } from "@fortawesome/free-solid-svg-icons";
   import Prompt from "./Prompt.svelte";
-  import { createEventDispatcher } from "svelte";
+  import {createEventDispatcher} from "svelte";
   import {Process} from "@o-platform/o-process/dist/interfaces/process";
   import {ShellEvent} from "@o-platform/o-process/dist/events/shellEvent";
   import {Cancel} from "@o-platform/o-process/dist/events/cancel";
@@ -14,6 +14,7 @@
   import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
   import {Bubble} from "@o-platform/o-process/dist/events/bubble";
   import {Sinker} from "@o-platform/o-process/dist/events/sinker";
+  import Error from "../atoms/Error.svelte";
 
   /**
    * A channel to an already running process.
@@ -24,6 +25,7 @@
   let canSkip = false;
   let canGoBack = false;
   let prompt: PromptEvent;
+  let error: Error;
 
   const dispatch = createEventDispatcher();
 
@@ -46,7 +48,7 @@
     }
   }
 
-  let lastBubble:Bubble;
+  let lastBubble: Bubble;
 
   function ensureProcess(action: (p: Process) => void) {
     if (!process) {
@@ -60,10 +62,8 @@
 
   function subscribeToProcess() {
 
-    ensureProcess((process) =>
-    {
-      subscription = process.events.subscribe((next) =>
-      {
+    ensureProcess((process) => {
+      subscription = process.events.subscribe((next) => {
         if (next.stopped) {
           prompt = null;
           process = null;
@@ -75,7 +75,7 @@
 
         console.log("ProcessContainer received: ", next.event);
 
-        let event:PlatformEvent;
+        let event: PlatformEvent;
         if (next.event?.type === "process.ipc.bubble") {
           console.log("ProcessContainer received Bubble: ", next);
           lastBubble = <Bubble>next.event;
@@ -83,14 +83,18 @@
         } else {
           event = next.event;
         }
-        if (event.type === "process.shellEvent")
-        {
+
+        if (event.type === "xstate.error") {
+          // TODO: Show an error message
+          error = (<any>event).data;
+        } else {
+          error = null;
+        }
+        if (event.type === "process.shellEvent") {
           console.log("ProcessContainer received 'process.shellEvent' event: ", next);
           console.log("publishing shell event:", event);
           window.o.publishEvent((<ShellEvent>event).payload);
-        }
-        else if (event.type === "process.prompt")
-        {
+        } else if (event.type === "process.prompt") {
           console.log("ProcessContainer received 'process.prompt' event: ", next);
           prompt = <PromptEvent>event;
           if (!prompt.fieldName) {
@@ -133,10 +137,14 @@
   };
 </script>
 
-{#if process && prompt}
+{#if process && prompt && !error}
   <div class="w-full">
     <Prompt process={process} prompt={prompt} bubble={lastBubble} />
   </div>
+{:else if error}
+  <Error data={{error}} />
+{:else}
+  Undefined state
 {/if}
 <footer class="flex justify-between px-4 pt-4 text-gray-400 bg-white ">
   <button on:click={cancelPressed}>

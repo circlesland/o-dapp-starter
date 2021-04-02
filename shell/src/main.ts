@@ -43,7 +43,7 @@ const shell: IShell = {
       const processEvents = new Subject<ProcessEvent>();
 
       service.onTransition((state1, event) => {
-        if (event.type == 'error.platform') {
+        if (event.type == 'error.platform' || event.type == "xstate.error") {
           console.error(`An error occurred during the execution of process '${definition.name}'::`, event);
         }
         if (event.type == "process.ipc.bubble") {

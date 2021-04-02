@@ -16,9 +16,12 @@ export class ShellProcessContext extends ProcessContext<any> {
 /**
  * Wraps a process and provides shell services to it.
  */
-const processDefinition = (progressView: any, successView: any, errorView: any) => {
+const processDefinition = () => {
+  const processId = `shellProcess:${Date.now()}`;
+  const childProcessId = `${processId}:child`
+
   return createMachine<ShellProcessContext, PlatformEvent>({
-    id: "shellProcess",
+    id: processId,
     initial: "idle",
     states: {
       idle: {
@@ -29,9 +32,10 @@ const processDefinition = (progressView: any, successView: any, errorView: any) 
       run: {
         entry: (context) => console.log(`shellProcess: run - Name: ${context.childProcessDefinition.name}`),
         invoke: {
-          id: "childProcess",
+          id: childProcessId,
           src: context => {
-            const sm = context.childProcessDefinition.stateMachine(progressView, successView, errorView);
+            const sm = context.childProcessDefinition.stateMachine(childProcessId);
+            console.log(`invoking child process: ${sm.id}`)
             return <any>sm; // TODO: Fix 'any'
           },
           data: (context) => {
@@ -52,7 +56,7 @@ const processDefinition = (progressView: any, successView: any, errorView: any) 
           }]
         },
 
-        on: <any>{ // TODO: Fix the type error that stems from the ipcSinker
+        on: {
           //
           // Global event handlers
           //
@@ -61,7 +65,9 @@ const processDefinition = (progressView: any, successView: any, errorView: any) 
           //
           // IPC events
           //
-          ...ipcSinker("childProcess"),
+          // When in 'run' state, forward all sinking events to the child process
+          // TODO: fix any cast
+          ...<any>ipcSinker(childProcessId),
           "process.ipc.bubble": {
             cond: (context, event:Bubble) => event.trace[event.trace.length - 1] !== "childProcess",
             actions: [

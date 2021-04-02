@@ -27,11 +27,11 @@ const strings = {
   labelVerificationCode: "Enter your authentication code below or click the link in the e-mail to sign-in"
 }
 
-const processDefinition = (processId?:string) => createMachine<AuthenticateContext, any>({
-  id: processId ?? "authenticate",
+const processDefinition = (processId:string) => createMachine<AuthenticateContext, any>({
+  id: `${processId}:authenticate`,
   initial: "findEntryPoint",
   states: {
-    ...errorState<AuthenticateContext, any>(),
+    ...errorState<AuthenticateContext, any>("error"),
 
     // If a 'code' was supplied, we skip right to the 'exchangeCodeForToken' step,
     // else we ask the user for the e-mail address and send a challenge.
@@ -140,6 +140,6 @@ const processDefinition = (processId?:string) => createMachine<AuthenticateConte
 // Here it simply returns all the data that was collected in the process (AuthenticateContextData)
 // if no error occurs in the promise.
 export const authenticate: ProcessDefinition<void, AuthenticateContextData> = {
-  name: "upsertProfile",
+  name: "authenticate",
   stateMachine: <any>processDefinition
 };

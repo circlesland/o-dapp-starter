@@ -5,18 +5,28 @@ const {escalate} = actions;
 /**
  * A generic error state that escalates the error.
  */
-export function errorState<TContext extends IProcessContext, TEvent extends AnyEventObject>() : {
-error: {
-    id:string,
-    type:"final" | "atomic" | "compound" | "parallel" | "history",
-    entry:any
-}
-} {
-    return {
-        error: {
-            id: "error",
-            type: 'final',
-            entry: escalate((context:TContext, event: TEvent) =>  new Error(`Original error: ${JSON.stringify(event)}`))
-        }
+export function errorState<TContext extends IProcessContext, TEvent extends AnyEventObject>(stateName:string) : {
+    [x:string]: {
+        id:string,
+        type:"final" | "atomic" | "compound" | "parallel" | "history",
+        entry:any
     }
+} {
+    const states: {
+        [x:string]:{
+            id:string,
+            type:"final" | "atomic" | "compound" | "parallel" | "history",
+            entry:any
+        }
+    } = {};
+    states[stateName] ={
+        id: stateName,
+        type: 'final',
+        //entry: escalate((context:TContext, event: TEvent) =>new Error(`Original error: ${JSON.stringify(event)}`))
+
+        entry: (context:any, event:any) => {
+            throw new Error(`Original error: ${JSON.stringify(event)}`)
+        }
+    };
+    return states;
 }
