@@ -24,6 +24,23 @@
   - not available -
 {/if}
 
+<div class="bordered mt-4">
+  <div class="form-control">
+    <label class="cursor-pointer label">
+      <span class="label-text"
+        >I have read and agree to the Terms of Service. <a
+          href="#"
+          target="_blank"
+          class="underline">Cricles Land Terms</a
+        ></span
+      >
+      <div>
+        <input type="checkbox" class="checkbox checkbox" />
+        <span class="checkbox-mark" />
+      </div>
+    </label>
+  </div>
+</div>
 <div
   class="flex mt-4 space-x-0 md:space-x-4 space-y-4 md:space-y-0 flex-col md:flex-row"
 >
@@ -99,6 +116,7 @@
   </div>
   <!-- {/if} -->
 </div>
+
 <div>
   <small>
     Current context.data: <br />

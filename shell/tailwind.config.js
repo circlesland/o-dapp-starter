@@ -22,16 +22,6 @@ module.exports = {
         sans: ["Graphik", "sans-serif"],
         serif: ["Merriweather", "serif"],
       },
-      typography: {
-        DEFAULT: {
-          css: {
-            color: "#333",
-            strong: {
-              fontWeight: "800",
-            },
-          },
-        },
-      },
     },
   },
   variants: {

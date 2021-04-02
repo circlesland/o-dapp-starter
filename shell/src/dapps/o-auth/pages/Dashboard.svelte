@@ -9,9 +9,6 @@
   import LoadingIndicator from "../../../shared/atoms/LoadingIndicator.svelte";
   import Success from "../../../shared/atoms/Success.svelte";
 
-  let devHome = true;
-  let devDash = false;
-
   export let params: {
     code: string;
   };
