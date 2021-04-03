@@ -14,9 +14,11 @@
   import {RunProcess} from "@o-platform/o-process/dist/events/runProcess";
   import {NavigateTo} from "@o-platform/o-events/dist/shell/navigateTo";
   import {ProgressSignal} from "@o-platform/o-events/dist/signals/progressSignal";
+  import {ProcessStarted} from "@o-platform/o-process/dist/events/processStarted";
+  import {current_component} from "svelte/internal";
 
   let isOpen:boolean = false;
-  let runningProcess: Process;
+  let modalProcess: Process;
 
   let progressIndicator: {
     message: string;
@@ -31,11 +33,22 @@
       isOpen = true;
     }
     if (event.type == "shell.runProcess") {
-      runningProcess = await window.o.stateMachines.run(
-        (<RunProcess<any>>event).definition,
-        (<RunProcess<any>>event).contextModifier
+      const runProcessEvent = <RunProcess<any>>event;
+      const runningProcess = await window.o.stateMachines.run(
+        runProcessEvent.definition,
+        runProcessEvent.contextModifier
       );
-      isOpen = true;
+
+      if (runProcessEvent.isModal) {
+        // If the process should be started modal, let App.svelte's ProcessContainer handle it.
+        modalProcess = runningProcess;
+        isOpen = true;
+      } else {
+        // If not, send an event with the process id.
+        const startedEvent = new ProcessStarted(runningProcess.id);
+        startedEvent.responseToId = runProcessEvent.id;
+        window.o.publishEvent(startedEvent);
+      }
     }
     if (event.type === "shell.begin") {
     }
@@ -72,12 +85,12 @@
   on:routeLoading={routeLoading} />
 <Modal bind:isOpen on:closeRequest={modalWantsToClose}>
   <div class="font-primary">
-    {#if runningProcess}
+    {#if modalProcess}
       <ProcessContainer
-        process={runningProcess}
+        process={modalProcess}
         on:stopped={() => {
           isOpen = false;
-          runningProcess = null;
+          modalProcess = null;
         }} />
     {:else}
       No process

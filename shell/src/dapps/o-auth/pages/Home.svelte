@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { authenticate } from "../processes/authenticate";
-  import { RunProcess } from "@o-platform/o-process/dist/events/runProcess";
+  import {authenticate} from "../processes/authenticate";
+  import {RunProcess} from "@o-platform/o-process/dist/events/runProcess";
   import {
     shellProcess,
     ShellProcessContext,
@@ -8,9 +8,15 @@
   import Error from "../../../shared/atoms/Error.svelte";
   import LoadingIndicator from "../../../shared/atoms/LoadingIndicator.svelte";
   import Success from "../../../shared/atoms/Success.svelte";
+  import ProcessContainer from "../../../shared/molecules/ProcessContainer.svelte";
+  import {Process} from "@o-platform/o-process/dist/interfaces/process";
+  import {Subscription} from "rxjs";
+  import {Generate} from "@o-platform/o-utils/dist/generate";
+  import {ProcessStarted} from "@o-platform/o-process/dist/events/processStarted";
 
   let devHome = true;
   let devDash = false;
+  let runningProcess: Process;
 
   export let params: {
     code: string;
@@ -23,24 +29,43 @@
   }
 
   function authenticateWithCircles(appId: string, code?: string) {
-    window.o.publishEvent(
-      new RunProcess<ShellProcessContext>(shellProcess, async (ctx) => {
-        ctx.childProcessDefinition = authenticate;
-        ctx.childContext = {
-          data: {
-            appId: appId,
-            code: code,
-          },
-          dirtyFlags: {},
-          environment: {
-            errorView: Error,
-            progressView: LoadingIndicator,
-            successView: Success,
-          },
-        };
-        return ctx;
-      })
-    );
+    // TODO: Refactor to request/response pattern with timeout
+    let answerSubscription: Subscription;
+    let requestId: string;
+
+    const requestEvent = new RunProcess<ShellProcessContext>(
+      shellProcess,
+      false,
+      async (ctx) => {
+      ctx.childProcessDefinition = authenticate;
+      ctx.childContext = {
+        data: {
+          appId: appId,
+          code: code,
+        },
+        dirtyFlags: {},
+        environment: {
+          errorView: Error,
+          progressView: LoadingIndicator,
+          successView: Success,
+        },
+      };
+      return ctx;
+    });
+
+    requestEvent.id = Generate.randomHexString(8);
+
+    answerSubscription = window.o.events.subscribe(event => {
+      console.log("Home.svelte: received event: ", event);
+      if (event.responseToId == requestEvent.id && event.type == "shell.processStarted") {
+        const processStarted = <ProcessStarted>event;
+        answerSubscription.unsubscribe();
+        runningProcess = window.o.stateMachines.findById(processStarted.processId);
+        console.log("Home.svelte: displaying process:", runningProcess)
+      }
+    });
+
+    window.o.publishEvent(requestEvent);
   }
 </script>
 
@@ -72,4 +97,15 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="font-primary">
+  {#if runningProcess}
+    <ProcessContainer
+      process={runningProcess}
+      on:stopped={() => {
+          isOpen = false;
+          runningProcess = null;
+        }} />
+  {/if}
 </div>

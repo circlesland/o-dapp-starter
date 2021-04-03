@@ -11,6 +11,7 @@ export type PlatformEventTypes =
     | "shell.gotProfile"
     | "shell.showNotification"
     | "shell.closeModal"
+    | "shell.processStarted"
     | "process.ready"
     | "process.nop"
     | "process.back"

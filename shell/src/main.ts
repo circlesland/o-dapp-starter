@@ -18,6 +18,7 @@ import Success from "./shared/atoms/Success.svelte";
 import Error from "./shared/atoms/Error.svelte";
 import App from "src/App.svelte";
 import {AnyEventObject} from "xstate";
+import {Generate} from "@o-platform/o-utils/dist/generate";
 
 dayjs.extend(relativeTime)
 
@@ -33,10 +34,19 @@ export async function getProcessContext(): Promise<ProcessContext<any>> {
   };
 }
 
+const runningProcesses : {
+  [id:string]:Process
+} = {
+}
+
 const shell: IShell = {
   stateMachines: {
+    findById(processId:string) {
+      return runningProcesses[processId];
+    },
     async run<TContext>(definition: ProcessDefinition<any, any>, contextModifier?: (processContext: ProcessContext<any>) => Promise<TContext>) {
-      console.log("Starting process:", definition);
+      const processId = Generate.randomHexString(8);
+      console.log(`Starting process (id: ${processId}) with definition:`, definition);
 
       const {service, state, send} = useMachine(
         (<any>definition).stateMachine(LoadingIndicator, Success, Error),
@@ -77,11 +87,12 @@ const shell: IShell = {
         outEvents.next({
           stopped: true
         });
-        this._current = null;
+
+        delete runningProcesses[processId];
       });
 
       const process: Process = {
-        id: 0,
+        id: processId,
         /*
         TODO: Cast to <any> because of:
         ERROR in /home/daniel/src/o-dapp-starter/shell/src/main.ts
@@ -117,6 +128,9 @@ const shell: IShell = {
       };
 
       service.start();
+
+      runningProcesses[processId] = process;
+
       return process;
     }
   },

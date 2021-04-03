@@ -13,6 +13,7 @@ export interface IShell {
   events?: Subject<PlatformEvent>,
   publishEvent?: (event: PlatformEvent) => void,
   stateMachines: {
+    findById(processId:string): Process;
     run<TContext>(definition: ProcessDefinition<any,any>, contextModifier?: (processContext: ProcessContext<any>) => Promise<TContext>) : Promise<Process>
   }
 }

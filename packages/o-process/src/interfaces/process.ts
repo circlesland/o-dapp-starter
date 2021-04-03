@@ -15,7 +15,7 @@ export interface Process {
   /**
    * A unique process id.
    */
-  id: number;
+  id: string;
   /**
    * The process' out-stream.
    */
