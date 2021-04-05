@@ -12,12 +12,14 @@ import wrap from "svelte-spa-router/wrap";
 
 import {auth} from "./dapps/o-auth.manifest";
 import {passport} from "./dapps/o-passport.manifest";
+import {identity} from "./dapps/o-identity.manifest";
 
 const errorIndicator = Error;
 
 export const dapps: DappManifest<any>[] = [
   auth,
-  passport
+  passport,
+  identity
 ];
 
 export const loadedDapps: RuntimeDapp<any>[] = [];
