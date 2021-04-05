@@ -73,32 +73,4 @@
 
 <div class="grid grid-cols-1 p-2">
   <h1>PASSPORT</h1>
-  <!--
-  <div class="flex h-screen ">
-    <div class="m-auto grid">
-      <img
-        class="inline m-auto w-12 h-12 -mb-6 z-30"
-        src="/images/common/circles.png"
-        alt="circles.land"
-      />
-      <div class="card shadow bg-white z-0">
-        <div class="card-body">
-          {#if !params || !params.jwt}
-            <h1 class="mb-4 justify-self-left">Hi!</h1>
-            <div class="mb-4">Click the Button below to login with Circles</div>
-            <button
-              class="btn btn-outline"
-              on:click={() => connectOrCreateKey("circles.land")}>
-              Create Passport
-            </button>
-          {:else}
-            <p>
-              Please wait ..<br />
-              We're creating your passport.
-            </p>
-          {/if}
-        </div>
-      </div>
-    </div>
-  </div>-->
 </div>

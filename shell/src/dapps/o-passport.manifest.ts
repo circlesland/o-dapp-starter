@@ -2,13 +2,55 @@ import {
   faPeopleArrows,
 } from "@fortawesome/free-solid-svg-icons";
 import Home from "./o-passport/pages/Home.svelte";
+import Account from "./o-passport/pages/Account.svelte";
+import Keys from "./o-passport/pages/Keys.svelte";
+import Settings from "./o-passport/pages/Settings.svelte";
 import {PageManifest} from "@o-platform/o-interfaces/dist/pageManifest";
 import {DappManifest} from "@o-platform/o-interfaces/dist/dappManifest";
 
 const index : PageManifest = {
   isDefault: true,
-  routeParts: [""],
+  routeParts: ["profile"],
   component: Home,
+  available: [
+    (detail) => {
+      // Can navigate to?
+      // Sure!
+      return true;
+    }
+  ]
+};
+
+const account : PageManifest = {
+  isDefault: false,
+  routeParts: ["account"],
+  component: Account,
+  available: [
+    (detail) => {
+      // Can navigate to?
+      // Sure!
+      return true;
+    }
+  ]
+};
+
+const keys : PageManifest = {
+  isDefault: false,
+  routeParts: ["keys"],
+  component: Keys,
+  available: [
+    (detail) => {
+      // Can navigate to?
+      // Sure!
+      return true;
+    }
+  ]
+};
+
+const settings : PageManifest = {
+  isDefault: false,
+  routeParts: ["settings"],
+  component: Settings,
   available: [
     (detail) => {
       // Can navigate to?
@@ -52,5 +94,5 @@ export const passport : DappManifest<DappState> = {
       cancelDependencyLoading: false
     };
   },
-  pages: [index, exchangeToken]
+  pages: [index, account, keys, settings, exchangeToken]
 };
