@@ -95,7 +95,7 @@ const processDefinition = (processId: string) =>
         navigation: {
           next: "#checkSeedPhrase",
           previous: "#findEntryPoint",
-          canGoBack: userIsRegistered
+          canGoBack: () => true
         },
       }),
       checkSeedPhrase: {
@@ -128,7 +128,8 @@ const processDefinition = (processId: string) =>
           label: strings.labelExportSeedphrase,
         },
         navigation: {
-          next: "#success",
+          previous: "#findEntryPoint",
+          next: "#storeSeedPhrase",
         },
       }),
       storeSeedPhrase: {
