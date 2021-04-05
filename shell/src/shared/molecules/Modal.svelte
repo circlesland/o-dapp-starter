@@ -25,12 +25,14 @@
     in:fade
     out:fade
     on:click|self={handleClose}
-    class="z-40 overlay "
+    class="z-40 overlay"
   >
-    <div class="w-2/3 mb-16 bg-white rounded-t-xl md:rounded-xl">
+    <div
+      class="w-full mb-20 bg-white md:w-2/3 xl:w-1/2 rounded-t-xl md:rounded-xl"
+    >
       <div class="p-4 space-y-2 md:p-8">
-        <div class="flex h-screen ">
-          <div class="m-auto md:w-3/6 w-full">
+        <div class="flex">
+          <div class="w-full m-auto">
             <slot />
           </div>
         </div>

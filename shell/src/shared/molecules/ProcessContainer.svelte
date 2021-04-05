@@ -1,18 +1,16 @@
 <script lang="ts">
   import NavItem from "../atoms/NavItem.svelte";
-  import {
-    faTimes,
-  } from "@fortawesome/free-solid-svg-icons";
+  import { faTimes } from "@fortawesome/free-solid-svg-icons";
   import Prompt from "./Prompt.svelte";
-  import {createEventDispatcher} from "svelte";
-  import {Process} from "@o-platform/o-process/dist/interfaces/process";
-  import {ShellEvent} from "@o-platform/o-process/dist/events/shellEvent";
-  import {Cancel} from "@o-platform/o-process/dist/events/cancel";
-  import {Prompt as PromptEvent} from "@o-platform/o-process/dist/events/prompt";
-  import {Subscription} from "rxjs";
-  import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
-  import {Bubble} from "@o-platform/o-process/dist/events/bubble";
-  import {Sinker} from "@o-platform/o-process/dist/events/sinker";
+  import { createEventDispatcher } from "svelte";
+  import { Process } from "@o-platform/o-process/dist/interfaces/process";
+  import { ShellEvent } from "@o-platform/o-process/dist/events/shellEvent";
+  import { Cancel } from "@o-platform/o-process/dist/events/cancel";
+  import { Prompt as PromptEvent } from "@o-platform/o-process/dist/events/prompt";
+  import { Subscription } from "rxjs";
+  import { PlatformEvent } from "@o-platform/o-events/dist/platformEvent";
+  import { Bubble } from "@o-platform/o-process/dist/events/bubble";
+  import { Sinker } from "@o-platform/o-process/dist/events/sinker";
   import Error from "../atoms/Error.svelte";
   import LoadingIndicator from "../atoms/LoadingIndicator.svelte";
 
@@ -67,13 +65,14 @@
   function subscribeToProcess() {
     ensureProcess((process) => {
       inEventSubscription = process.inEvents.subscribe((next) => {
-        if (!next.event)
-          return;
+        if (!next.event) return;
 
         console.log("ProcessContainer: In/Out -> to Process: ", next.event);
 
-        if (waitForNextOutgoingEvent
-          && (next.event.type === "process.ipc.sinker")) {
+        if (
+          waitForNextOutgoingEvent &&
+          next.event.type === "process.ipc.sinker"
+        ) {
           waitForNextOutgoingEvent = false;
           waiting = true;
         }
@@ -86,8 +85,7 @@
           dispatch("stopped");
         }
 
-        if (!next.event)
-          return;
+        if (!next.event) return;
 
         // Unpack bubbled events if necessary
         let event: PlatformEvent;
@@ -122,7 +120,10 @@
         // was sent from the prompt to the process.
         // The loading spinner will be disabled with the next arriving 'prompt'.
         if (event.type === "process.prompt") {
-          console.log("ProcessContainer received 'process.prompt' event: ", next);
+          console.log(
+            "ProcessContainer received 'process.prompt' event: ",
+            next
+          );
           prompt = <PromptEvent>event;
           waiting = false;
           waitForNextOutgoingEvent = true;
@@ -138,15 +139,17 @@
   function sinkEvent(event) {
     if (!lastBubble) {
       // TODO: This is error prone without event-ids
-      throw new Error("Can only sink events in response to a previously bubbled event.");
+      throw new Error(
+        "Can only sink events in response to a previously bubbled event."
+      );
     }
     ensureProcess((p) => {
       p.sendEvent(<Sinker>{
         type: "process.ipc.sinker",
         levels: lastBubble.levels,
         backTrace: lastBubble.trace,
-        wrappedEvent: event
-      })
+        wrappedEvent: event,
+      });
     });
   }
 
@@ -166,15 +169,9 @@
 {#if waiting}
   <LoadingIndicator />
 {:else if error}
-  <Error data={{error}} />
+  <Error data={{ error }} />
 {:else if process && prompt}
-  <Prompt process={process} prompt={prompt} bubble={lastBubble}/>
+  <Prompt {process} {prompt} bubble={lastBubble} />
 {:else}
   Undefined state
 {/if}
-
-<footer class="flex justify-between px-4 pt-4 text-gray-400 bg-white ">
-  <button on:click={cancelPressed}>
-    <NavItem mapping={cancel} />
-  </button>
-</footer>

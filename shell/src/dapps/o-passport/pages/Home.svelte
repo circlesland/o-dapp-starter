@@ -1,6 +1,6 @@
 <script lang="ts">
-  import {createOrRestoreKey} from "../processes/createOrRestoreKey";
-  import {RunProcess} from "@o-platform/o-process/dist/events/runProcess";
+  import { createOrRestoreKey } from "../processes/createOrRestoreKey";
+  import { RunProcess } from "@o-platform/o-process/dist/events/runProcess";
   import {
     shellProcess,
     ShellProcessContext,
@@ -71,6 +71,6 @@
   }
 </script>
 
-<div class="grid grid-cols-1 p-2">
-  <h1>PASSPORT</h1>
+<div class="w-full mx-auto mb-20 md:w-2/3 xl:w-1/2 rounded-t-xl md:rounded-xl">
+  <div class="p-4 mt-4 bg-white">Profile Component</div>
 </div>

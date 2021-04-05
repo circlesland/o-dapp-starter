@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {EditorContext} from "./editorContext";
+  import { EditorContext } from "./editorContext";
   import ProcessNavigation from "./ProcessNavigation.svelte";
 
   export let context: EditorContext;
@@ -22,32 +22,31 @@
   - not available -
 {/if}
 
-<div class="bordered mt-4">
+<div class="mt-4 bordered">
   <div class="form-control">
     <label class="cursor-pointer label">
       <span class="label-text"
-        >I have read and agree to the Terms of Service. <a
+        >I have read and agree to the <a
           href="#"
           target="_blank"
-          class="underline">Cricles Land Terms</a
-        ></span
+          class="underline">Terms of Service</a
+        >.</span
       >
       <div>
-        <input type="checkbox" class="checkbox checkbox" />
+        <input type="checkbox" class="checkbox" />
         <span class="checkbox-mark" />
       </div>
     </label>
   </div>
 </div>
 
-
-<div>
+<!-- <div>
   <small>
     Current context.data: <br />
     <pre>
     {JSON.stringify(context.data, undefined, 2)}
     </pre>
   </small>
-</div>
+</div> -->
 
 <ProcessNavigation {context} />
