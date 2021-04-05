@@ -16,6 +16,7 @@
         ctx.childProcessDefinition = upsertIdentity;
         ctx.childContext = {
           data: {
+            loginEmail: "TODO"
           },
           dirtyFlags: {},
           environment: {
@@ -29,6 +30,9 @@
 
     requestEvent.id = Generate.randomHexString(8);
     window.o.publishEvent(requestEvent);
+  }
+
+  function hasIdentity() {
   }
 </script>
 <br/>

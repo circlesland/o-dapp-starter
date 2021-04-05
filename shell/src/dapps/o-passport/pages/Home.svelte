@@ -8,12 +8,6 @@
   import Error from "../../../shared/atoms/Error.svelte";
   import LoadingIndicator from "../../../shared/atoms/LoadingIndicator.svelte";
   import Success from "../../../shared/atoms/Success.svelte";
-  import ProcessContainer from "../../../shared/molecules/ProcessContainer.svelte";
-  import {Process} from "@o-platform/o-process/dist/interfaces/process";
-
-  let devHome = true;
-  let devDash = false;
-  let runningProcess: Process;
 
   export let params: {
     jwt: string;
@@ -81,15 +75,4 @@
       </div>
     </div>
   </div>-->
-</div>
-
-<div class="font-primary">
-  {#if runningProcess}
-    <ProcessContainer
-      process={runningProcess}
-      on:stopped={() => {
-          isOpen = false;
-          runningProcess = null;
-        }} />
-  {/if}
 </div>

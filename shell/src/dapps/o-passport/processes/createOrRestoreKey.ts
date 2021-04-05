@@ -144,7 +144,7 @@ const processDefinition = (processId: string) =>
         entry: (context, event) => {
           console.log("Create or restore key - success")
           window.o.publishEvent(new CloseModal());
-          window.location = <any>"http://localhost:5000/#/passport";
+          window.location = <any>"http://localhost:5000/#/identity";
         },
       },
     },
