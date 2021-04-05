@@ -80,8 +80,7 @@
                 />
             </svg>
             Cancel
-        </button
-        >
+        </button>
     </div>
     {#if context.canSkip}
         <div class="flex-1">

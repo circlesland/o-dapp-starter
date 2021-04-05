@@ -11,11 +11,13 @@ import NotFound from 'src/shared/pages/NotFound.svelte'
 import wrap from "svelte-spa-router/wrap";
 
 import {auth} from "./dapps/o-auth.manifest";
+import {passport} from "./dapps/o-passport.manifest";
 
 const errorIndicator = Error;
 
 export const dapps: DappManifest<any>[] = [
-  auth
+  auth,
+  passport
 ];
 
 export const loadedDapps: RuntimeDapp<any>[] = [];
