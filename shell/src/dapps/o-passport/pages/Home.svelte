@@ -19,6 +19,11 @@
     if (params && params.jwt) {
       // TODO: Verify the token and extract the e-mail address
       connectOrCreateKey(params.jwt);
+      params.jwt = null;
+    } else {
+      if (!localStorage.getItem("circles.session")) {
+        createOrUpdateIdentity();
+      }
     }
   }
 

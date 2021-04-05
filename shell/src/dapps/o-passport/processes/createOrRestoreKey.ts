@@ -142,7 +142,6 @@ const processDefinition = (processId: string) =>
       },
       success: {
         id: "success",
-        type: "final",
         entry: (context, event) => {
           console.log("Create or restore key - success")
           window.o.publishEvent(new CloseModal());
