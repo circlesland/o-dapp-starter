@@ -39,7 +39,7 @@
         runProcessEvent.contextModifier
       );
 
-      if (runProcessEvent.isModal) {
+      if (runProcessEvent.inWindow) {
         // If the process should be started modal, let App.svelte's ProcessContainer handle it.
         modalProcess = runningProcess;
         isOpen = true;

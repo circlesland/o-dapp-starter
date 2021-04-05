@@ -41,6 +41,7 @@ const processDefinition = (processId: string) =>
       // If a 'code' was supplied, we skip right to the 'exchangeCodeForToken' step,
       // else we ask the user for the e-mail address and send a challenge.
       findEntryPoint: {
+        id: "findEntryPoint",
         always: [
           {
             cond: (context) => typeof context.data.code === "string",
@@ -61,6 +62,9 @@ const processDefinition = (processId: string) =>
         },
         navigation: {
           next: "#requestAuthCode",
+          previous: "#findEntryPoint",
+          canGoBack: () => true,
+          canSkip: () => true
         },
       }),
       // Request an auth code to the given e-mail address

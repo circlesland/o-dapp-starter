@@ -35,7 +35,7 @@
 
     const requestEvent = new RunProcess<ShellProcessContext>(
       shellProcess,
-      false,
+      true,
       async (ctx) => {
       ctx.childProcessDefinition = authenticate;
       ctx.childContext = {
