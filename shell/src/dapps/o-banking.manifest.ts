@@ -1,7 +1,7 @@
 import {
   faPeopleArrows,
 } from "@fortawesome/free-solid-svg-icons";
-import Home from "./o-identity/pages/Home.svelte";
+import Home from "./o-banking/pages/Home.svelte";
 import {PageManifest} from "@o-platform/o-interfaces/dist/pageManifest";
 import {DappManifest} from "@o-platform/o-interfaces/dist/dappManifest";
 
@@ -23,14 +23,14 @@ export interface DappState {
   // put state here
 }
 
-export const identity : DappManifest<DappState> = {
-  dappId: "identity:1",
+export const banking : DappManifest<DappState> = {
+  dappId: "banking:1",
   isSingleton: true,
   dependencies: [],
   isHidden: false,
   icon: faPeopleArrows,
-  title: "Circles authentication",
-  routeParts: ["identity"],
+  title: "Circles banking",
+  routeParts: ["banking"],
   tag: Promise.resolve("alpha"),
   isEnabled: true,
   initialize: async (stack, runtimeDapp) => {

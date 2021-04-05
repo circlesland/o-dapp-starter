@@ -8,6 +8,8 @@
   import Error from "../../../shared/atoms/Error.svelte";
   import LoadingIndicator from "../../../shared/atoms/LoadingIndicator.svelte";
   import Success from "../../../shared/atoms/Success.svelte";
+  import {upsertIdentity} from "../processes/upsertIdentity";
+  import {Generate} from "@o-platform/o-utils/dist/generate";
 
   export let params: {
     jwt: string;
@@ -41,6 +43,30 @@
       return ctx;
     });
 
+    window.o.publishEvent(requestEvent);
+  }
+
+  function createOrUpdateIdentity() {
+    const requestEvent = new RunProcess<ShellProcessContext>(
+      shellProcess,
+      true,
+      async (ctx) => {
+        ctx.childProcessDefinition = upsertIdentity;
+        ctx.childContext = {
+          data: {
+            loginEmail: "TODO"
+          },
+          dirtyFlags: {},
+          environment: {
+            errorView: Error,
+            progressView: LoadingIndicator,
+            successView: Success,
+          },
+        };
+        return ctx;
+      });
+
+    requestEvent.id = Generate.randomHexString(8);
     window.o.publishEvent(requestEvent);
   }
 </script>
