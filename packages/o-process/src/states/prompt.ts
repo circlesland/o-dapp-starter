@@ -18,6 +18,7 @@ export function prompt<
 >(spec: {
   fieldName: string;
   component: any;
+  id?: string;
   navigation?: {
     // If you want to allow the user to go one step back then specify here where he came from
     previous?: string;
@@ -35,12 +36,12 @@ export function prompt<
 }) {
   const editDataFieldConfig: any = {
     // TODO: Fix need for 'any'
-    id: spec.fieldName,
+    id: spec.id ?? spec.fieldName,
     initial: "show",
     states: {
       show: {
         entry: [
-          () => console.log(`show: ${spec.fieldName}`),
+          () => console.log(`show: ${spec.id} ${spec.fieldName}`),
           show({
             fieldName: spec.fieldName,
             component: spec.component,
@@ -115,6 +116,7 @@ export function prompt<
         ],
         always: [
           {
+            actions: (context) => console.log(`submit.target: ${spec.fieldName} -> ${spec.navigation?.next ?? "show"}`),
             target: spec.navigation?.next ?? "show",
           },
         ],
