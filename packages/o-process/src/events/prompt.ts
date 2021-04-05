@@ -25,9 +25,11 @@ export class Prompt implements PlatformEvent {
 
   navigation: {
     canSkip: boolean,
-    canGoBack: boolean
+    canGoBack: boolean,
+    canSubmit: boolean
   } = {
     canSkip: false,
-    canGoBack: false
+    canGoBack: false,
+    canSubmit: true
   };
 }

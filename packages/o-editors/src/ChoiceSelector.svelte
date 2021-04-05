@@ -1,5 +1,4 @@
 <script lang="ts">
-  import ProcessNavigation from "./ProcessNavigation.svelte";
   import {ChoiceSelectorContext} from "./choiceSelectorContext";
   import {Continue} from "@o-platform/o-process/dist/events/continue";
 
@@ -14,16 +13,19 @@
   }
 </script>
 
+<p>
+  Hello Worlds: {context.params.label}
+</p>
 {#each context.params.choices as choice}
   <button
           on:click={() => sendAnswer(choice)}
-          className="btn btn-outline btn-secondary btn-block"
+          class="btn btn-outline btn-secondary btn-block"
   >
     <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            className="inline-block w-6 h-6 ml-2 stroke-current"
+            class="inline-block w-6 h-6 ml-2 stroke-current"
     >
       <path
               stroke-linecap="round"
@@ -35,5 +37,3 @@
     {choice.label}
   </button>
 {/each}
-
-<ProcessNavigation {context} />

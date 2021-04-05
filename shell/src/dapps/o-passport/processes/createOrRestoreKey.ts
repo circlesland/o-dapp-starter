@@ -6,7 +6,7 @@ import { createMachine } from "xstate";
 import {userIsRegistered} from "./conditions/userIsRegistered";
 import TextEditor from "@o-platform/o-editors/src/TextEditor.svelte";
 import TextViewer from "@o-platform/o-editors/src/TextViewer.svelte";
-import ChoiceSelector from "@o-platform/o-editors/src/ChoiceSelector.svelte";
+import ChoiceSelector from "../../../../../packages/o-editors/src/ChoiceSelector.svelte";
 import {CloseModal} from "@o-platform/o-events/dist/shell/closeModal";
 
 export type CreateOrRestoreKeyContextData = {
@@ -56,6 +56,7 @@ const processDefinition = (processId: string) =>
         fieldName: "connectOrCreate",
         component: ChoiceSelector,
         params: {
+          label: "Servus!",
           choices:[{
             key: "connect",
             label: strings.choiceConnect
@@ -144,7 +145,7 @@ const processDefinition = (processId: string) =>
         entry: (context, event) => {
           console.log("Create or restore key - success")
           window.o.publishEvent(new CloseModal());
-          window.location = <any>"http://localhost:5000/#/identity";
+          window.location = <any>"http://localhost:5000/#/passport/profile";
         },
       },
     },

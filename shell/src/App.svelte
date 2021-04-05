@@ -15,7 +15,6 @@
   import { NavigateTo } from "@o-platform/o-events/dist/shell/navigateTo";
   import { ProgressSignal } from "@o-platform/o-events/dist/signals/progressSignal";
   import { ProcessStarted } from "@o-platform/o-process/dist/events/processStarted";
-  import { current_component } from "svelte/internal";
   import {
     shellProcess,
     ShellProcessContext,
@@ -26,9 +25,14 @@
   import Success from "./shared/atoms/Success.svelte";
   import { Generate } from "@o-platform/o-utils/dist/generate";
   import { Subscription } from "rxjs";
+  import {Prompt} from "@o-platform/o-process/dist/events/prompt";
+  import {Back} from "@o-platform/o-process/dist/events/back";
+  import {Skip} from "@o-platform/o-process/dist/events/skip";
+  import {ProcessEvent} from "@o-platform/o-process/dist/interfaces/processEvent";
 
   let isOpen: boolean = false;
   let modalProcess: Process;
+  let modalProcessEventSubscription:Subscription;
 
   let progressIndicator: {
     message: string;
@@ -53,6 +57,14 @@
         // If the process should be started modal, let App.svelte's ProcessContainer handle it.
         modalProcess = runningProcess;
         isOpen = true;
+        modalProcessEventSubscription = modalProcess.events.subscribe((processEvent:ProcessEvent) => {
+          if(processEvent.event.type == "process.ipc.bubble"
+            && (<any>processEvent.event).wrappedEvent.type == "process.prompt")
+          {
+            console.log("lastPrompt:", (<any>processEvent.event).wrappedEvent);
+            lastPrompt = <Prompt>(<any>processEvent.event).wrappedEvent;
+          }
+        });
       } else {
         // If not, send an event with the process id.
         const startedEvent = new ProcessStarted(runningProcess.id);
@@ -84,6 +96,8 @@
   function conditionsFailed(event) {
     // TODO: Cannot currently remember what this callback does. Lookup documentation.
   }
+
+  let lastPrompt: Prompt|undefined = undefined;
 
   function routeLoading() {
     // Pretty self explanatory. For more lookup the svelte-spa-router docs,
@@ -129,28 +143,26 @@
       on:routeLoading={routeLoading}
     />
 
-    {#if !localStorage.getItem("circles.key")}
-      <div
-        style="position:absolute; bottom:0; left:50%; margin-left:-125px; width:250px; z-index:9999999;"
-        on:click={() => authenticateWithCircles("circles.land")}
-      >
-        <button class="mb-4 bg-white btn btn-outline">
-          <img
-            width="15px"
-            class="mr-3"
-            src="/images/common/circles.png"
-            alt="circles.land"
-          /> login with circles</button
-        >
-      </div>
-    {:else}
-      <div
-        style="position:absolute; bottom:0; left:50%; margin-left:-125px; width:250px; z-index:9999999;"
-      >
-        <button class="bg-white btn btn-outline">back</button>
+    <div
+      style="position:absolute; bottom:0; left:50%; margin-left:-125px; width:250px; z-index:9999999;"
+    >
+      {#if lastPrompt && lastPrompt.navigation.canGoBack}
+        <button class="bg-white btn btn-outline"
+                on:click={() => modalProcess.sendAnswer(new Back())}>back</button>
+      {/if}
+      {#if !localStorage.getItem("circles.key")}
+      <button class="mb-4 bg-white btn btn-outline"
+              on:click={() => authenticateWithCircles("circles.land")}>
+        <img
+          width="15px"
+          class="mr-3"
+          src="/images/common/circles.png"
+          alt="circles.land"
+        /> login with circles</button>
+      {:else}
         <button
-          class="bottom-0 p-3 bg-white border border-black rounded-full"
-          on:click={() => authenticateWithCircles("circles.land")}
+          className="bottom-0 p-3 bg-white border border-black rounded-full"
+          on:click={() => isOpen = !isOpen}
         >
           <img
             width="40px"
@@ -158,9 +170,13 @@
             alt="circles.land"
           />
         </button>
-        <button class="bg-white btn btn-outline">skip</button>
-      </div>
-    {/if}
+      {/if}
+      {#if lastPrompt && lastPrompt.navigation.canSkip}
+        <button class="bg-white btn btn-outline"
+                on:click={() => modalProcess.sendAnswer(new Skip())}>skip</button>
+      {/if}
+    </div>
+
   </div>
 </div>
 
