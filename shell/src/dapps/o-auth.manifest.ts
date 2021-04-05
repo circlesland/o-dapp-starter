@@ -7,6 +7,7 @@ import {DappManifest} from "@o-platform/o-interfaces/dist/dappManifest";
 
 const index : PageManifest = {
   isDefault: true,
+  isSystem: true,
   routeParts: [""],
   component: Home,
   title: "Login with Circles",
@@ -22,6 +23,7 @@ const index : PageManifest = {
 // Same as 'index' but accepts a ':code' parameter that will be passed to 'Home'
 const exchangeCode : PageManifest = {
   isDefault: false,
+  isSystem: true,
   routeParts: ["login", ":code"],
   component: Home,
   title: "Login with Circles",
