@@ -69,8 +69,7 @@ const processDefinition = (processId: string) =>
         },
       },
       success: {
-        id: "success",
-        type: "final"
+        id: "success"
       },
     },
   });

@@ -42,6 +42,7 @@
   window.o.events.subscribe(async (event: PlatformEvent) => {
     if (event.type === "shell.closeModal") {
       isOpen = false;
+      lastPrompt = null;
     }
     if (event.type === "shell.openModal") {
       isOpen = true;
@@ -106,6 +107,7 @@
   function authenticateWithCircles(appId: string, code?: string) {
     if (isOpen) {
       isOpen = false;
+      lastPrompt = null;
       return;
     }
 
@@ -162,7 +164,12 @@
       {:else}
         <button
           className="bottom-0 p-3 bg-white border border-black rounded-full"
-          on:click={() => isOpen = !isOpen}
+          on:click={() => {
+            isOpen = !isOpen;
+            if (!isOpen){
+              lastPrompt = null;
+            }
+          }}
         >
           <img
             width="40px"
@@ -187,6 +194,7 @@
         process={modalProcess}
         on:stopped={() => {
           isOpen = false;
+          lastPrompt = null;
           modalProcess = null;
         }}
       />

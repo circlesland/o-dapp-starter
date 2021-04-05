@@ -81,8 +81,7 @@ createMachine<TransferCirclesContext, any>({
       },
     },
     success: {
-      id: "success",
-      type: "final"
+      id: "success"
     },
   },
 });

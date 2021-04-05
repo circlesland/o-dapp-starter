@@ -41,8 +41,7 @@ createMachine<GetUbiContext, any>({
       },
     },
     success: {
-      id: "success",
-      type: "final"
+      id: "success"
     },
   },
 });

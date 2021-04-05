@@ -41,8 +41,7 @@ createMachine<HubSignupContext, any>({
       },
     },
     success: {
-      id: "success",
-      type: "final"
+      id: "success"
     },
   },
 });

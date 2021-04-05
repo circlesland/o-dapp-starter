@@ -67,8 +67,7 @@ createMachine<TransferXdaiContext, any>({
       },
     },
     success: {
-      id: "success",
-      type: "final"
+      id: "success"
     },
   },
 });
