@@ -52,6 +52,8 @@
 </script>
 
 <div class="grid grid-cols-1 p-2">
+  <h1>PASSPORT</h1>
+  <!--
   <div class="flex h-screen ">
     <div class="m-auto grid">
       <img
@@ -78,7 +80,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>-->
 </div>
 
 <div class="font-primary">

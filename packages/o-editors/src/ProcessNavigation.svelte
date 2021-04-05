@@ -61,7 +61,7 @@
             >
         </div>
     {/if}
-    <div className="flex-1 ">
+    <!--<div className="flex-1 ">
         <button
                 on:click={() => context.process.sendAnswer(new Cancel())}
                 className="btn btn-outline btn-secondary btn-block"
@@ -81,7 +81,7 @@
             </svg>
             Cancel
         </button>
-    </div>
+    </div>-->
     {#if context.canSkip}
         <div class="flex-1">
             <button

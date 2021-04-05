@@ -29,10 +29,6 @@
   }
 
   function authenticateWithCircles(appId: string, code?: string) {
-    // TODO: Refactor to request/response pattern with timeout
-    let answerSubscription: Subscription;
-    let requestId: string;
-
     const requestEvent = new RunProcess<ShellProcessContext>(
       shellProcess,
       true,
@@ -54,17 +50,6 @@
     });
 
     requestEvent.id = Generate.randomHexString(8);
-
-    answerSubscription = window.o.events.subscribe(event => {
-      console.log("Home.svelte: received event: ", event);
-      if (event.responseToId == requestEvent.id && event.type == "shell.processStarted") {
-        const processStarted = <ProcessStarted>event;
-        answerSubscription.unsubscribe();
-        runningProcess = window.o.stateMachines.findById(processStarted.processId);
-        console.log("Home.svelte: displaying process:", runningProcess)
-      }
-    });
-
     window.o.publishEvent(requestEvent);
   }
 </script>
@@ -97,15 +82,4 @@
       </div>
     </div>
   </div>
-</div>
-
-<div class="font-primary">
-  {#if runningProcess}
-    <ProcessContainer
-      process={runningProcess}
-      on:stopped={() => {
-          isOpen = false;
-          runningProcess = null;
-        }} />
-  {/if}
 </div>
