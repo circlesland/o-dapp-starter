@@ -14,12 +14,13 @@
 </script>
 
 <p>
-  Hello Worlds: {context.params.label}
+  {context.params.label}
 </p>
+<div class="flex space-x-2 w-full">
 {#each context.params.choices as choice}
   <button
           on:click={() => sendAnswer(choice)}
-          class="btn btn-outline btn-secondary btn-block"
+          class="btn btn-outline"
   >
     <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -36,4 +37,4 @@
     </svg>
     {choice.label}
   </button>
-{/each}
+{/each}</div>

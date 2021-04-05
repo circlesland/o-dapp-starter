@@ -25,6 +25,7 @@ export type CreateOrRestoreKeyContext = ProcessContext<CreateOrRestoreKeyContext
  * In case you want to translate the flow later, it's nice to have the strings at one place.
  */
 const strings = {
+  choiceLabel: "Do you want to create a new private key or connect an existing circles seedphrase?",
   choiceConnect: "Connect existing circles safe",
   choiceCreate: "Create a new key",
   labelEditSeedphrase: "Please enter your seedphrase below:",
@@ -56,7 +57,7 @@ const processDefinition = (processId: string) =>
         fieldName: "connectOrCreate",
         component: ChoiceSelector,
         params: {
-          label: "Servus!",
+          label: strings.choiceLabel,
           choices:[{
             key: "connect",
             label: strings.choiceConnect

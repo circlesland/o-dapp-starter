@@ -4,6 +4,7 @@
   import "./shared/css/utilities.css";
 
   import routes from "./loader";
+  import {getLastLoadedDapp} from "./loader";
 
   import Router, { push } from "svelte-spa-router";
   import Modal from "./shared/molecules/Modal.svelte";
@@ -164,16 +165,25 @@
           class="mb-4 bg-white btn btn-outline"
           on:click={() => authenticateWithCircles("circles.land")}
         >
+          {#if !isOpen}
           <img
             width="15px"
             class="mr-3"
             src="/images/common/circles.png"
             alt="circles.land"
-          /> login with circles</button
-        >
+          /> login with circles
+          {:else}
+            <img
+              width="15px"
+              class="mr-3"
+              src="/images/common/circles.png"
+              alt="circles.land"
+            /> Close
+          {/if}
+        </button>
       {:else}
         <button
-          className="bottom-0 p-3 bg-white border border-black rounded-full"
+          class="bottom-0 p-3 bg-white border border-black rounded-full"
           on:click={() => {
             isOpen = !isOpen;
             if (!isOpen) {
@@ -210,7 +220,12 @@
         }}
       />
     {:else}
-      No process
+      <!-- No process -->
+        {#if getLastLoadedDapp()}
+          {#each getLastLoadedDapp().pages.filter(o => !o.isSystem) as page}
+            <a href="#/{getLastLoadedDapp().routeParts.join('/') + '/' + page.routeParts.join('/')}">{page.title}</a><br/>
+          {/each}
+        {/if}
     {/if}
   </div>
 </Modal>

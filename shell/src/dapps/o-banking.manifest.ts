@@ -9,6 +9,7 @@ const index : PageManifest = {
   isDefault: true,
   routeParts: [""],
   component: Home,
+  title: "Banking",
   available: [
     (detail) => {
       // Can navigate to?

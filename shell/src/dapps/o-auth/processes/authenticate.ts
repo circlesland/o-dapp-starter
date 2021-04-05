@@ -1,6 +1,7 @@
 import { ProcessDefinition } from "@o-platform/o-process/dist/interfaces/processManifest";
 import { ProcessContext } from "@o-platform/o-process/dist/interfaces/processContext";
 import TextEditor from "@o-platform/o-editors/src/TextEditor.svelte";
+import BooleanEditor from "@o-platform/o-editors/src/BooleanEditor.svelte";
 import { prompt } from "@o-platform/o-process/dist/states/prompt";
 import { fatalError } from "@o-platform/o-process/dist/states/fatalError";
 import { createMachine } from "xstate";
@@ -9,6 +10,7 @@ import gql from "graphql-tag";
 export type AuthenticateContextData = {
   appId?: string;
   loginEmail?: string;
+  acceptTos?:boolean;
   code?: string;
 };
 
@@ -52,7 +54,6 @@ const processDefinition = (processId: string) =>
           },
         ],
       },
-      // Ask the user for the e-mail address
       loginEmail: prompt<AuthenticateContext, any>({
         fieldName: "loginEmail",
         component: TextEditor,
@@ -61,10 +62,29 @@ const processDefinition = (processId: string) =>
           placeholder: strings.placeholder,
         },
         navigation: {
-          next: "#requestAuthCode",
-          previous: "#findEntryPoint",
-          canGoBack: () => true,
-          canSkip: () => true
+          next: "#checkAcceptTos"
+        },
+      }),
+      checkAcceptTos: {
+        id: "checkAcceptTos",
+        always: [{
+          cond: () => true,
+          target: "#acceptTos"
+        }, {
+          target: "#requestAuthCode"
+        }]
+      },
+      // Ask the user for the e-mail address
+      acceptTos: prompt<AuthenticateContext, any>({
+        fieldName: "acceptTos",
+        component: BooleanEditor,
+        params: {
+          label: "Do you accept our ",
+          link: "https://circles.name/tos",
+          linkLabel: "terms of service"
+        },
+        navigation: {
+          next: "#requestAuthCode"
         },
       }),
       // Request an auth code to the given e-mail address

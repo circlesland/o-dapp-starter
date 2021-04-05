@@ -1,4 +1,4 @@
-<div class="sk-chase">
+<div class="sk-chase my-12">
   <div class="sk-chase-dot" />
   <div class="sk-chase-dot" />
   <div class="sk-chase-dot" />

@@ -12,6 +12,7 @@ const index : PageManifest = {
   isDefault: true,
   routeParts: ["profile"],
   component: Home,
+  title: "Profile",
   available: [
     (detail) => {
       // Can navigate to?
@@ -25,6 +26,7 @@ const account : PageManifest = {
   isDefault: false,
   routeParts: ["account"],
   component: Account,
+  title: "Account",
   available: [
     (detail) => {
       // Can navigate to?
@@ -38,6 +40,7 @@ const keys : PageManifest = {
   isDefault: false,
   routeParts: ["keys"],
   component: Keys,
+  title: "Keys",
   available: [
     (detail) => {
       // Can navigate to?
@@ -51,6 +54,7 @@ const settings : PageManifest = {
   isDefault: false,
   routeParts: ["settings"],
   component: Settings,
+  title: "Settings",
   available: [
     (detail) => {
       // Can navigate to?
@@ -62,8 +66,10 @@ const settings : PageManifest = {
 
 const exchangeToken : PageManifest = {
   isDefault: true,
+  isSystem: true,
   routeParts: ["exchangeToken", ":jwt"],
   component: Home,
+  title: "Login",
   available: [
     (detail) => {
       // Can navigate to?

@@ -24,6 +24,11 @@ export const dapps: DappManifest<any>[] = [
 
 export const loadedDapps: RuntimeDapp<any>[] = [];
 
+export function getLastLoadedDapp() {
+  return lastLoadedDapp;
+}
+let lastLoadedDapp: RuntimeDapp<any>;
+
 export function constructAppUrl(dappManifest: DappManifest<any>): { appBaseUrl: string, appDefaultRoute: string } {
   const appBaseUrl = dappManifest.routeParts.reduce((p, c) => p + "/" + c, "");
   const appDefaultPage = dappManifest.pages.find(o => o.isDefault) ?? dappManifest.pages[0];
@@ -55,13 +60,21 @@ async function getDappEntryPoint(dappManifest:DappManifest<any>, pageManifest:Pa
           throw new Error("The auth '" + freshRuntimeDapp.runtimeDapp.dappId  + "' has no 'initialPage' attribute or its value is null.");
         }
 
+        //lastLoadedDapp = freshRuntimeDapp.runtimeDapp;
         return freshRuntimeDapp.initialPage.component;
       }
       else {
+        if (freshRuntimeDapp.runtimeDapp) {
+          console.log("lastLoadedDapp:", freshRuntimeDapp.runtimeDapp);
+          lastLoadedDapp = freshRuntimeDapp.runtimeDapp;
+        }
         loadedDapps.push(freshRuntimeDapp.runtimeDapp);
       }
     }
-
+    if (runtimeDapp) {
+      console.log("lastLoadedDapp:", runtimeDapp);
+      lastLoadedDapp = runtimeDapp;
+    }
     return pageManifest.component;
   }
   catch (e) {

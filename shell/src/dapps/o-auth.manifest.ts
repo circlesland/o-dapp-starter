@@ -9,6 +9,7 @@ const index : PageManifest = {
   isDefault: true,
   routeParts: [""],
   component: Home,
+  title: "Login with Circles",
   available: [
     (detail) => {
       // Can navigate to?
@@ -23,6 +24,7 @@ const exchangeCode : PageManifest = {
   isDefault: false,
   routeParts: ["login", ":code"],
   component: Home,
+  title: "Login with Circles",
   available: [
     (detail) => {
       // Can navigate to?
