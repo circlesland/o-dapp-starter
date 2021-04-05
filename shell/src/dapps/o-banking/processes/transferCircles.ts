@@ -5,6 +5,7 @@ import { createMachine } from "xstate";
 import {prompt} from "@o-platform/o-process/dist/states/prompt";
 import TextEditor from "../../../../../packages/o-editors/src/TextEditor.svelte";
 import {SetTrustContext} from "./setTrust";
+import {CloseModal} from "@o-platform/o-events/dist/shell/closeModal";
 
 export type TransferCirclesContextData = {
   safeAddress:string;
@@ -81,7 +82,11 @@ createMachine<TransferCirclesContext, any>({
       },
     },
     success: {
-      id: "success"
+      id: "success",
+      entry: (context, event) => {
+        console.log("transferCircles - success")
+        window.o.publishEvent(new CloseModal());
+      },
     },
   },
 });

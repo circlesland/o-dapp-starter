@@ -5,6 +5,7 @@ import { createMachine } from "xstate";
 import {prompt} from "@o-platform/o-process/dist/states/prompt";
 import TextEditor from "../../../../../packages/o-editors/src/TextEditor.svelte";
 import {AuthenticateContext} from "../../o-auth/processes/authenticate";
+import {CloseModal} from "@o-platform/o-events/dist/shell/closeModal";
 
 export type SetTrustContextData = {
   safeAddress:string;
@@ -69,7 +70,11 @@ const processDefinition = (processId: string) =>
         },
       },
       success: {
-        id: "success"
+        id: "success",
+        entry: (context, event) => {
+          console.log("setTrust - success")
+          window.o.publishEvent(new CloseModal());
+        },
       },
     },
   });

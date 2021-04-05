@@ -2,6 +2,7 @@ import { ProcessDefinition } from "@o-platform/o-process/dist/interfaces/process
 import { ProcessContext } from "@o-platform/o-process/dist/interfaces/processContext";
 import { fatalError } from "@o-platform/o-process/dist/states/fatalError";
 import { createMachine } from "xstate";
+import {CloseModal} from "@o-platform/o-events/dist/shell/closeModal";
 
 export type GetUbiContextData = {
   safeAddress:string;
@@ -41,7 +42,11 @@ createMachine<GetUbiContext, any>({
       },
     },
     success: {
-      id: "success"
+      id: "success",
+      entry: (context, event) => {
+        console.log("getUbi - success")
+        window.o.publishEvent(new CloseModal());
+      },
     },
   },
 });
