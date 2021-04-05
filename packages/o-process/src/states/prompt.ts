@@ -34,6 +34,10 @@ export function prompt<
   };
   params: { [x: string]: any };
 }) {
+  let canGoBack = (context:ProcessContext<any>, event:any) => !!spec.navigation?.previous;
+  if (canGoBack && spec.navigation?.canGoBack) {
+    canGoBack = spec.navigation.canGoBack
+  }
   const editDataFieldConfig: any = {
     // TODO: Fix need for 'any'
     id: spec.id ?? spec.fieldName,
@@ -47,7 +51,7 @@ export function prompt<
             component: spec.component,
             params: spec.params,
             navigation: {
-              canGoBack: spec.navigation?.canGoBack,
+              canGoBack: canGoBack,
               canSkip: spec.navigation?.canSkip,
             },
           }),
@@ -116,7 +120,6 @@ export function prompt<
         ],
         always: [
           {
-            actions: (context) => console.log(`submit.target: ${spec.fieldName} -> ${spec.navigation?.next ?? "show"}`),
             target: spec.navigation?.next ?? "show",
           },
         ],

@@ -11,9 +11,9 @@
   import ProcessContainer from "../../../shared/molecules/ProcessContainer.svelte";
   import { Process } from "@o-platform/o-process/dist/interfaces/process";
 
-  let devHome = true;
-  let devDash = false;
   let runningProcess: Process;
+  import { upsertIdentity } from "../processes/upsertIdentity";
+  import { Generate } from "@o-platform/o-utils/dist/generate";
 
   export let params: {
     jwt: string;
@@ -48,6 +48,31 @@
       }
     );
 
+    window.o.publishEvent(requestEvent);
+  }
+
+  function createOrUpdateIdentity() {
+    const requestEvent = new RunProcess<ShellProcessContext>(
+      shellProcess,
+      true,
+      async (ctx) => {
+        ctx.childProcessDefinition = upsertIdentity;
+        ctx.childContext = {
+          data: {
+            loginEmail: "TODO",
+          },
+          dirtyFlags: {},
+          environment: {
+            errorView: Error,
+            progressView: LoadingIndicator,
+            successView: Success,
+          },
+        };
+        return ctx;
+      }
+    );
+
+    requestEvent.id = Generate.randomHexString(8);
     window.o.publishEvent(requestEvent);
   }
 </script>

@@ -22,6 +22,9 @@ import {Generate} from "@o-platform/o-utils/dist/generate";
 
 dayjs.extend(relativeTime)
 
+// TODO: Use a service like 'https://github.com/ipfs/js-ipfs/blob/6870873f0696bb5d8d91fce4a4ef1f7420443993/packages/ipfs-message-port-server/src/server.js#L134'
+//       to share data between different app domains.
+
 declare global {
   interface Window {
     o: IShell
