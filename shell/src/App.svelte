@@ -29,7 +29,7 @@
   import { Prompt } from "@o-platform/o-process/dist/events/prompt";
   import { Back } from "@o-platform/o-process/dist/events/back";
   import { Skip } from "@o-platform/o-process/dist/events/skip";
-  import {Cancel} from "@o-platform/o-process/dist/events/cancel";
+  import { Cancel } from "@o-platform/o-process/dist/events/cancel";
   import { ProcessEvent } from "@o-platform/o-process/dist/interfaces/processEvent";
 
   let isOpen: boolean = false;
@@ -118,7 +118,7 @@
       isOpen = false;
       lastPrompt = null;
       if (modalProcess) {
-        modalProcess.sendEvent(new Cancel())
+        modalProcess.sendEvent(new Cancel());
       }
       return;
     }
@@ -129,7 +129,7 @@
       isOpen = false;
       lastPrompt = null;
       if (modalProcess) {
-        modalProcess.sendEvent(new Cancel())
+        modalProcess.sendEvent(new Cancel());
       }
       return;
     }
@@ -161,6 +161,22 @@
 </script>
 
 <div class="flex flex-col h-screen bg-gray-100">
+  <header class="w-full mx-auto md:w-2/3 xl:w-1/2 ">
+    <div
+      class="mb-2 rounded-b-lg shadow-lg navbar bg-neutral text-neutral-content"
+    >
+      <div class="flex-1 px-2 mx-2">
+        <span class="text-lg font-bold">Dapp Title / Page </span>
+      </div>
+      <div class="flex-none">
+        <div class="avatar">
+          <div class="w-10 h-10 m-1 rounded-lg">
+            <img src="https://i.pravatar.cc/500?img=32" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
   <main class="flex-1 overflow-y-auto">
     <div class="w-full mx-auto md:w-2/3 xl:w-1/2 ">
       <Router
@@ -202,7 +218,25 @@
         </button>
       {:else}
         {#if !modalProcess}
-          <button class="btn">user</button>
+          <button class="btn">
+            <div class="flex-none">
+              <button class="btn btn-square btn-ghost">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  class="inline-block w-6 h-6 stroke-current"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                  />
+                </svg>
+              </button>
+            </div></button
+          >
         {/if}
         <button
           class="p-2 bg-white border border-gray-700 rounded-lg "
@@ -211,7 +245,7 @@
             if (!isOpen) {
               lastPrompt = null;
               if (modalProcess) {
-                modalProcess.sendEvent(new Cancel())
+                modalProcess.sendEvent(new Cancel());
               }
             }
           }}
