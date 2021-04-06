@@ -111,6 +111,7 @@ const processDefinition = (processId: string) =>
       },
       success: {
         type: 'final',
+        id: "success",
         data: (context, event: PlatformEvent) => {
           return "yeah!";
         }

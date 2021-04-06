@@ -29,6 +29,7 @@
   import { Prompt } from "@o-platform/o-process/dist/events/prompt";
   import { Back } from "@o-platform/o-process/dist/events/back";
   import { Skip } from "@o-platform/o-process/dist/events/skip";
+  import {Cancel} from "@o-platform/o-process/dist/events/cancel";
   import { ProcessEvent } from "@o-platform/o-process/dist/interfaces/processEvent";
 
   let isOpen: boolean = false;
@@ -194,6 +195,9 @@
             isOpen = !isOpen;
             if (!isOpen) {
               lastPrompt = null;
+              if (modalProcess) {
+                modalProcess.sendEvent(new Cancel())
+              }
             }
           }}
         >

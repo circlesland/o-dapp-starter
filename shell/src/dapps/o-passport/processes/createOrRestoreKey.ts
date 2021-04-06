@@ -144,6 +144,7 @@ const processDefinition = (processId: string) =>
         always: "#success"
       },
       success: {
+        id: "success",
         type: 'final',
         entry: (context, event) => {
           window.location = <any>"http://localhost:5000/#/passport/profile";
