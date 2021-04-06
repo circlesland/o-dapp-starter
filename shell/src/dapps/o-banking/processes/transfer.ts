@@ -5,12 +5,10 @@ import { createMachine } from "xstate";
 import { prompt } from "@o-platform/o-process/dist/states/prompt";
 import TextEditor from "../../../../../packages/o-editors/src/TextEditor.svelte";
 import CurrencyTransfer from "../../../../../packages/o-editors/src/CurrencyTransfer.svelte";
-import { CloseModal } from "@o-platform/o-events/dist/shell/closeModal";
 import { CreateOrRestoreKeyContext } from "../../o-passport/processes/createOrRestoreKey";
 import { ipc } from "@o-platform/o-process/dist/triggers/ipc";
 import { transferXdai } from "./transferXdai";
 import { transferCircles } from "./transferCircles";
-import { Cancel } from "@o-platform/o-process/dist/events/cancel";
 import { PlatformEvent } from "@o-platform/o-events/dist/platformEvent";
 
 export type TransferCirclesContextData = {
