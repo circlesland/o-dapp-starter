@@ -50,6 +50,7 @@ export const auth : DappManifest<DappState> = {
   routeParts: [],
   tag: Promise.resolve("alpha"),
   isEnabled: true,
+  actions: [],
   initialize: async (stack, runtimeDapp) => {
     // Do init stuff here
     return {
