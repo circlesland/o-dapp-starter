@@ -7,6 +7,12 @@ import Keys from "./o-passport/pages/Keys.svelte";
 import Settings from "./o-passport/pages/Settings.svelte";
 import {PageManifest} from "@o-platform/o-interfaces/dist/pageManifest";
 import {DappManifest} from "@o-platform/o-interfaces/dist/dappManifest";
+import {RunProcess} from "@o-platform/o-process/dist/events/runProcess";
+import {shellProcess, ShellProcessContext} from "../shared/processes/shellProcess";
+import Error from "../shared/atoms/Error.svelte";
+import LoadingIndicator from "../shared/atoms/LoadingIndicator.svelte";
+import Success from "../shared/atoms/Success.svelte";
+import {logout} from "./o-passport/processes/logout";
 
 const index : PageManifest = {
   isDefault: true,
@@ -92,7 +98,29 @@ export const passport : DappManifest<DappState> = {
   title: "Passport",
   routeParts: ["passport"],
   tag: Promise.resolve("alpha"),
-  actions: [],
+  actions: [{
+    key: "logout",
+    label: "Logout",
+    event: () => {
+      return new RunProcess<ShellProcessContext>(
+        shellProcess,
+        true,
+        async (ctx) => {
+          ctx.childProcessDefinition = logout;
+          ctx.childContext = {
+            data: {
+            },
+            dirtyFlags: {},
+            environment: {
+              errorView: Error,
+              progressView: LoadingIndicator,
+              successView: Success,
+            },
+          };
+          return ctx;
+        })
+    }
+  }],
   isEnabled: true,
   initialize: async (stack, runtimeDapp) => {
     // Do init stuff here

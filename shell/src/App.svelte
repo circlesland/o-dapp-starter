@@ -5,6 +5,7 @@
 
   import routes from "./loader";
   import { getLastLoadedDapp } from "./loader";
+  import {getLastLoadedPage} from "./loader";
 
   import Router, { push } from "svelte-spa-router";
   import Modal from "./shared/molecules/Modal.svelte";
@@ -31,6 +32,8 @@
   import { Skip } from "@o-platform/o-process/dist/events/skip";
   import { Cancel } from "@o-platform/o-process/dist/events/cancel";
   import { ProcessEvent } from "@o-platform/o-process/dist/interfaces/processEvent";
+  import {PageManifest} from "@o-platform/o-interfaces/dist/pageManifest";
+  import {DappManifest} from "@o-platform/o-interfaces/dist/dappManifest";
 
   let isOpen: boolean = false;
   let modalProcess: Process;
@@ -101,6 +104,14 @@
 
   function modalWantsToClose() {
     // Use this to cancel the close request etc.
+    if (isOpen) {
+      isOpen = false;
+      lastPrompt = null;
+      if (modalProcess) {
+        modalProcess.sendEvent(new Cancel());
+      }
+      return;
+    }
   }
 
   function conditionsFailed(event) {
@@ -112,8 +123,13 @@
   function routeLoading() {
     // Pretty self explanatory. For more lookup the svelte-spa-router docs,
   }
+
+  let lastLoadedPage:PageManifest;
+  let lastLoadedDapp:DappManifest<any>;
   function routeLoaded() {
     // Pretty self explanatory. For more lookup the svelte-spa-router docs,
+    lastLoadedPage = getLastLoadedPage();
+    lastLoadedDapp = getLastLoadedDapp();
     if (isOpen) {
       isOpen = false;
       lastPrompt = null;
@@ -165,9 +181,11 @@
     <div
       class="mb-2 rounded-b-lg shadow-lg navbar bg-neutral text-neutral-content"
     >
-      <div class="flex-1 px-2 mx-2">
-        <span class="text-lg font-bold">Dapp Title / Page </span>
-      </div>
+        {#if lastLoadedDapp && lastLoadedPage}
+        <div class="flex-1 px-2 mx-2">
+          <span class="text-lg font-bold">{#if lastLoadedDapp.title != lastLoadedPage.title} {lastLoadedDapp.title} / {/if}{lastLoadedPage.title}</span>
+        </div>
+      {/if}
       <div class="flex-none">
         <div class="avatar">
           <div class="w-10 h-10 m-1 rounded-lg">

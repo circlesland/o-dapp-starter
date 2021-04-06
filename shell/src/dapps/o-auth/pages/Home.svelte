@@ -8,12 +8,7 @@
   import Error from "../../../shared/atoms/Error.svelte";
   import LoadingIndicator from "../../../shared/atoms/LoadingIndicator.svelte";
   import Success from "../../../shared/atoms/Success.svelte";
-  import { Process } from "@o-platform/o-process/dist/interfaces/process";
   import { Generate } from "@o-platform/o-utils/dist/generate";
-
-  let devHome = true;
-  let devDash = false;
-  let runningProcess: Process;
 
   export let params: {
     code: string;

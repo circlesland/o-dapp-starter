@@ -4,16 +4,14 @@ import { fatalError } from "@o-platform/o-process/dist/states/fatalError";
 import { createMachine } from "xstate";
 import { prompt } from "@o-platform/o-process/dist/states/prompt";
 import TextEditor from "../../../../../packages/o-editors/src/TextEditor.svelte";
+import HtmlViewer from "../../../../../packages/o-editors/src/HtmlViewer.svelte";
 import CurrencyTransfer from "../../../../../packages/o-editors/src/CurrencyTransfer.svelte";
-import { CloseModal } from "@o-platform/o-events/dist/shell/closeModal";
-import { CreateOrRestoreKeyContext } from "../../o-passport/processes/createOrRestoreKey";
 import { ipc } from "@o-platform/o-process/dist/triggers/ipc";
 import { transferXdai } from "./transferXdai";
 import { transferCircles } from "./transferCircles";
-import { Cancel } from "@o-platform/o-process/dist/events/cancel";
 import { PlatformEvent } from "@o-platform/o-events/dist/platformEvent";
 
-export type TransferCirclesContextData = {
+export type TransferContextData = {
   safeAddress: string;
   recipientAddress?: string;
   tokens?: {
@@ -23,6 +21,7 @@ export type TransferCirclesContextData = {
     },
     amount: string
   };
+  acceptSummary?: boolean;
 };
 
 /**
@@ -30,7 +29,7 @@ export type TransferCirclesContextData = {
  * The actual fields are defined above in the 'AuthenticateContextData' type.
  * The 'AuthenticateContextData' type is also the return value of the process (see bottom for the signature).
  */
-export type TransferCirclesContext = ProcessContext<TransferCirclesContextData>;
+export type TransferContext = ProcessContext<TransferContextData>;
 
 /**
  * In case you want to translate the flow later, it's nice to have the strings at one place.
@@ -39,19 +38,29 @@ const strings = {
   labelRecipientAddress: "Select the recipient you want to send money to (autocomplete up)",
   tokensLabel: "Please enter the amount and the token you want to transfer",
   currencyCircles: "CRC",
-  currencyXdai: "xDai"
+  currencyXdai: "xDai",
+  summaryLabel: "Summary"
 };
 
 const processDefinition = (processId: string) =>
-  createMachine<TransferCirclesContext, any>({
+  createMachine<TransferContext, any>({
     id: `${processId}:transfer`,
-    initial: "recipientAddress",
+    initial: "checkRecipientAddress",
     states: {
       // Include a default 'error' state that propagates the error by re-throwing it in an action.
       // TODO: Check if this works as intended
-      ...fatalError<TransferCirclesContext, any>("error"),
+      ...fatalError<TransferContext, any>("error"),
 
-      recipientAddress: prompt<TransferCirclesContext, any>({
+      checkRecipientAddress: {
+        id: "checkRecipientAddress",
+        always: [{
+          cond: (context) => !!context.data.recipientAddress,
+          target: "#tokens"
+        }, {
+          target: "#recipientAddress"
+        }]
+      },
+      recipientAddress: prompt<TransferContext, any>({
         fieldName: "recipientAddress",
         component: TextEditor,
         params: {
@@ -61,7 +70,7 @@ const processDefinition = (processId: string) =>
           next: "#tokens",
         },
       }),
-      tokens: prompt<CreateOrRestoreKeyContext, any>({
+      tokens: prompt<TransferContext, any>({
         fieldName: "tokens",
         component: CurrencyTransfer,
         params: {
@@ -75,6 +84,24 @@ const processDefinition = (processId: string) =>
           }]
         },
         navigation: {
+          next: "#acceptSummary",
+        },
+      }),
+      acceptSummary: prompt<TransferContext, any>({
+        fieldName: "acceptSummary",
+        component: HtmlViewer,
+        params: {
+          label: strings.summaryLabel,
+          html: (context) => {
+            if (!context.data.tokens) {
+              throw new Error(`No currency or amount selected`);
+            } else {
+              return `You are about to transfer <b>${context.data.tokens.amount} ${context.data.tokens.currency.key.toUpperCase()}</b> to <b>${context.data.recipientAddress}</b>.<br/>Do you want to continue?`
+            }
+          }
+        },
+        navigation: {
+          previous: "#tokens",
           next: "#checkChoice",
         },
       }),
@@ -127,7 +154,7 @@ const processDefinition = (processId: string) =>
     },
   });
 
-export const transfer: ProcessDefinition<void, TransferCirclesContextData> = {
+export const transfer: ProcessDefinition<void, TransferContext> = {
   name: "transfer",
   stateMachine: <any>processDefinition,
 };

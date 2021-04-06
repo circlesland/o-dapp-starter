@@ -30,12 +30,21 @@ const strings = {
 const processDefinition = (processId: string) =>
   createMachine<SetTrustContext, any>({
     id: `${processId}:setTrust`,
-    initial: "trustReceiver",
+    initial: "checkTrustReceiver",
     states: {
       // Include a default 'error' state that propagates the error by re-throwing it in an action.
       // TODO: Check if this works as intended
       ...fatalError<SetTrustContext, any>("error"),
 
+      checkTrustReceiver: {
+        id: "checkTrustReceiver",
+        always: [{
+          cond: (context) => !!context.data.trustReceiver,
+          target: "#checkTrustLimit"
+        }, {
+          target: "#trustReceiver"
+        }]
+      },
       trustReceiver: prompt<SetTrustContext, any>({
         fieldName: "trustReceiver",
         component: TextEditor,
@@ -43,9 +52,18 @@ const processDefinition = (processId: string) =>
           label: strings.labelTrustReceiver,
         },
         navigation: {
-          next: "#trustLimit",
+          next: "#checkTrustLimit",
         },
       }),
+      checkTrustLimit: {
+        id: "checkTrustLimit",
+        always: [{
+          cond: (context) => context.data.trustLimit !== undefined && context.data.trustLimit !== null,
+          target: "#setTrust"
+        }, {
+          target: "#trustLimit"
+        }]
+      },
       trustLimit: prompt<SetTrustContext, any>({
         fieldName: "trustLimit",
         component: TextEditor,
@@ -53,7 +71,7 @@ const processDefinition = (processId: string) =>
           label: strings.labelTrustLimit,
         },
         navigation: {
-          previous: "#trustReceiver",
+          previous: "#checkTrustReceiver",
           next: "#setTrust"
         },
       }),
