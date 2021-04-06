@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { Back } from "@o-platform/o-process/dist/events/back";
-  import { Skip } from "@o-platform/o-process/dist/events/skip";
   import { Continue } from "@o-platform/o-process/dist/events/continue";
-  import { Cancel } from "@o-platform/o-process/dist/events/cancel";
   import { EditorContext } from "./editorContext";
+  import { createEventDispatcher } from 'svelte';
+
+  const dispatch = createEventDispatcher();
 
   export let context: EditorContext;
   $: {
@@ -17,9 +17,11 @@
   <div class="flex-1">
     <button
       on:click={() => {
-        const answer = new Continue();
+        dispatch("buttonClick");
+       /* const answer = new Continue();
         answer.data = context.data;
-        context.process.sendAnswer(answer);
+        context.process.submit(answer);
+        */
       }}
       class="btn btn-primary btn-block"
       >Submit
@@ -38,50 +40,4 @@
       </svg>
     </button>
   </div>
-  <!-- {#if context.canGoBack}
-    <div class="flex-1 ">
-      <button
-        on:click={() => context.process.sendAnswer(new Back())}
-        class="btn btn-outline btn-secondary btn-block"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          class="inline-block w-6 h-6 ml-2 stroke-current"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
-        Go back
-      </button>
-    </div>
-  {/if} -->
-  <!-- {#if context.canSkip}
-    <div class="flex-1">
-      <button
-        on:click={() => context.process.sendAnswer(new Skip())}
-        class="btn btn-outline btn-primary btn-block"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          class="inline-block w-6 h-6 mr-2 stroke-current"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
-        Skip
-      </button>
-    </div>
-  {/if} -->
 </div>

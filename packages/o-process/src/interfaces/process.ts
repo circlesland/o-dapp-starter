@@ -25,7 +25,7 @@ export interface Process {
    */
   inEvents: Observable<ProcessEvent>;
   /**
-   * Stores the last received Bubble-event for the use with the 'sendAnswer' function
+   * Stores the last received Bubble-event for the use with the 'submit' function
    */
   lastReceivedBubble?:Bubble;
   /**

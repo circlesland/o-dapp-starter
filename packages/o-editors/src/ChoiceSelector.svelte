@@ -4,7 +4,7 @@
 
   export let context: ChoiceSelectorContext;
 
-  function sendAnswer(selected: { key: string; label: string }) {
+  function submit(selected: { key: string; label: string }) {
     const event = new Continue();
     event.data = {};
     event.data[context.fieldName] = selected;
@@ -18,7 +18,7 @@
 </p>
 <div class="flex w-full space-x-2">
   {#each context.params.choices as choice}
-    <button on:click={() => sendAnswer(choice)} class="w-1/2 btn btn-outline">
+    <button on:click={() => submit(choice)} class="w-1/2 btn btn-outline">
       {choice.label}
     </button>
   {/each}
