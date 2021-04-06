@@ -24,7 +24,7 @@
     } else {
       if (!localStorage.getItem("circles.session") && localStorage.getItem("circles.key")) {
         createOrUpdateIdentity();
-      } else {
+      } else if (!localStorage.getItem("circles.key")) {
         window.location = <any>"/";
       }
     }
