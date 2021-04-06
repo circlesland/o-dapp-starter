@@ -8,6 +8,8 @@ import TextEditor from "@o-platform/o-editors/src/TextEditor.svelte";
 import TextViewer from "@o-platform/o-editors/src/TextViewer.svelte";
 import ChoiceSelector from "../../../../../packages/o-editors/src/ChoiceSelector.svelte";
 import { CloseModal } from "@o-platform/o-events/dist/shell/closeModal";
+import {Cancel} from "@o-platform/o-process/dist/events/cancel";
+import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
 
 export type CreateOrRestoreKeyContextData = {
   loginEmail?: string;
@@ -142,13 +144,14 @@ const processDefinition = (processId: string) =>
         always: "#success"
       },
       success: {
-        id: "success",
+        type: 'final',
         entry: (context, event) => {
-          console.log("Create or restore key - success")
-          window.o.publishEvent(new CloseModal());
           window.location = <any>"http://localhost:5000/#/passport/profile";
         },
-      },
+        data: (context, event: PlatformEvent) => {
+          return "yeah!";
+        }
+      }
     },
   });
 

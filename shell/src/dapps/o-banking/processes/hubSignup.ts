@@ -4,6 +4,7 @@ import { fatalError } from "@o-platform/o-process/dist/states/fatalError";
 import { createMachine } from "xstate";
 import {CloseModal} from "@o-platform/o-events/dist/shell/closeModal";
 import {Cancel} from "@o-platform/o-process/dist/events/cancel";
+import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
 
 export type HubSignupContextData = {
   safeAddress:string;
@@ -46,12 +47,12 @@ createMachine<HubSignupContext, any>({
       },
     },
     success: {
-      id: "success",
-      entry: (context, event) => {
-        console.log("hubSignup - success")
-        window.o.publishEvent(new CloseModal());
-      },
-    },
+      id: 'success',
+      type: 'final',
+      data: (context, event: PlatformEvent) => {
+        return "yeah!";
+      }
+    }
   },
 });
 

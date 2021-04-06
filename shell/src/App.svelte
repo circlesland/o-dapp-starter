@@ -62,6 +62,7 @@
         modalProcessEventSubscription = modalProcess.events.subscribe(
           (processEvent: ProcessEvent) => {
             if (
+              processEvent.event &&
               processEvent.event.type == "process.ipc.bubble" &&
               (<any>processEvent.event).wrappedEvent.type == "process.prompt"
             ) {

@@ -11,6 +11,7 @@ import {ipc} from "@o-platform/o-process/dist/triggers/ipc";
 import {transferXdai} from "./transferXdai";
 import {transferCircles} from "./transferCircles";
 import {Cancel} from "@o-platform/o-process/dist/events/cancel";
+import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
 
 export type TransferCirclesContextData = {
   safeAddress:string;
@@ -117,12 +118,12 @@ createMachine<TransferCirclesContext, any>({
       }
     },
     success: {
-      id: "success",
-      entry: (context, event) => {
-        console.log("transfer - success")
-        window.o.publishEvent(new CloseModal());
-      },
-    },
+      id: 'success',
+      type: 'final',
+      data: (context, event: PlatformEvent) => {
+        return "yeah!";
+      }
+    }
   },
 });
 
