@@ -185,10 +185,10 @@
         </button>
       {:else}
         {#if !modalProcess}
-          <button class="bg-white btn btn-outline">profile</button>
+          <button class="btn">user</button>
         {/if}
         <button
-          class="bottom-0 p-3 bg-white border border-black rounded-full"
+          class="p-2 bg-white border border-gray-700 rounded-lg "
           on:click={() => {
             isOpen = !isOpen;
             if (!isOpen) {
@@ -197,14 +197,16 @@
           }}
         >
           <img
-            width="40px"
+            width="42px"
             src="/images/common/circles.png"
             alt="circles.land"
           />
         </button>
         {#if !modalProcess}
-          <button class="bg-white btn btn-outline"
-                  on:click={() => window.location = "/#/dashboard"}>home</button>
+          <button
+            class="btn"
+            on:click={() => (window.location = "/#/dashboard")}>home</button
+          >
         {/if}
       {/if}
       {#if lastPrompt && lastPrompt.navigation.canSkip}
@@ -231,24 +233,31 @@
     {:else}
       <!-- No process -->
       {#if getLastLoadedDapp()}
-        Actions:<bt/><hr/>
-        {#each getLastLoadedDapp().actions as action}
-          <button on:click={() => window.o.publishEvent(action.event(getLastLoadedDapp()))}>{action.label}</button><br/>
-        {/each}<br/>
+        <div class="mb-8 space-y-4">
+          {#each getLastLoadedDapp().actions as action}
+            <button
+              on:click={() =>
+                window.o.publishEvent(action.event(getLastLoadedDapp()))}
+              class="w-full btn btn-primary btn-outline">{action.label}</button
+            >
+          {/each}
+        </div>
       {/if}
-        {#if getLastLoadedDapp()}
-          <div class="flex justify-between">
-            {#each getLastLoadedDapp().pages.filter((o) => !o.isSystem) as page}
-              <a
-                href="#/{getLastLoadedDapp().routeParts.join('/') + '/' + page.routeParts.join('/')}"
-                class="justify-center inline-block w-full text-center focus:text-teal-500 hover:text-teal-500"
-              >
-                icon
-                <span class="block text-xs tab tab-home">{page.title}</span>
-              </a>
-            {/each}
-          </div>
-        {/if}
+      {#if getLastLoadedDapp()}
+        <div class="flex justify-between">
+          {#each getLastLoadedDapp().pages.filter((o) => !o.isSystem) as page}
+            <a
+              href="#/{getLastLoadedDapp().routeParts.join('/') +
+                '/' +
+                page.routeParts.join('/')}"
+              class="justify-center inline-block w-full text-center focus:text-teal-500 hover:text-teal-500"
+            >
+              icon
+              <span class="block text-xs tab tab-home">{page.title}</span>
+            </a>
+          {/each}
+        </div>
+      {/if}
     {/if}
   </div>
 </Modal>
