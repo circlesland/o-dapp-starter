@@ -112,11 +112,25 @@
   function routeLoading() {
     // Pretty self explanatory. For more lookup the svelte-spa-router docs,
   }
+  function routeLoaded() {
+    // Pretty self explanatory. For more lookup the svelte-spa-router docs,
+    if (isOpen) {
+      isOpen = false;
+      lastPrompt = null;
+      if (modalProcess) {
+        modalProcess.sendEvent(new Cancel())
+      }
+      return;
+    }
+  }
 
   function authenticateWithCircles(appId: string, code?: string) {
     if (isOpen) {
       isOpen = false;
       lastPrompt = null;
+      if (modalProcess) {
+        modalProcess.sendEvent(new Cancel())
+      }
       return;
     }
 
@@ -153,6 +167,7 @@
         {routes}
         on:conditionsFailed={conditionsFailed}
         on:routeLoading={routeLoading}
+        on:routeLoaded={routeLoaded}
       />
     </div>
   </main>
