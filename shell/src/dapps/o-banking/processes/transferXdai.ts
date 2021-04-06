@@ -41,6 +41,9 @@ createMachine<TransferXdaiContext, any>({
       id: "transferXdai",
       invoke: {
         src: async (context) => {
+          return {
+            data: "yeah!"
+          }
         },
         onDone: "#success",
         onError: "#error",

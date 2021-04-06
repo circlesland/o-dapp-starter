@@ -10,6 +10,7 @@ import {CreateOrRestoreKeyContext} from "../../o-passport/processes/createOrRest
 import {ipc} from "@o-platform/o-process/dist/triggers/ipc";
 import {transferXdai} from "./transferXdai";
 import {transferCircles} from "./transferCircles";
+import {Cancel} from "@o-platform/o-process/dist/events/cancel";
 
 export type TransferCirclesContextData = {
   safeAddress:string;

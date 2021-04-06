@@ -6,6 +6,7 @@ import {prompt} from "@o-platform/o-process/dist/states/prompt";
 import TextEditor from "../../../../../packages/o-editors/src/TextEditor.svelte";
 import {AuthenticateContext} from "../../o-auth/processes/authenticate";
 import {CloseModal} from "@o-platform/o-events/dist/shell/closeModal";
+import {Cancel} from "@o-platform/o-process/dist/events/cancel";
 
 export type SetTrustContextData = {
   safeAddress:string;
@@ -24,14 +25,14 @@ export type SetTrustContext = ProcessContext<SetTrustContextData>;
  * In case you want to translate the flow later, it's nice to have the strings at one place.
  */
 const strings = {
-  labelTrustReceiver: "",
-  labelTrustLimit: ""
+  labelTrustReceiver: "Enter the address of the account that you want to trust",
+  labelTrustLimit: "Enter the trust limit (0-100)"
 };
 
 const processDefinition = (processId: string) =>
   createMachine<SetTrustContext, any>({
     id: `${processId}:setTrust`,
-    initial: "findEntryPoint",
+    initial: "trustReceiver",
     states: {
       // Include a default 'error' state that propagates the error by re-throwing it in an action.
       // TODO: Check if this works as intended
@@ -64,6 +65,9 @@ const processDefinition = (processId: string) =>
         id: "setTrust",
         invoke: {
           src: async (context) => {
+            return {
+              data: "yeah!"
+            }
           },
           onDone: "#success",
           onError: "#error",

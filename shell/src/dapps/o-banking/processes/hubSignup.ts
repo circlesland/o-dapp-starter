@@ -3,6 +3,7 @@ import { ProcessContext } from "@o-platform/o-process/dist/interfaces/processCon
 import { fatalError } from "@o-platform/o-process/dist/states/fatalError";
 import { createMachine } from "xstate";
 import {CloseModal} from "@o-platform/o-events/dist/shell/closeModal";
+import {Cancel} from "@o-platform/o-process/dist/events/cancel";
 
 export type HubSignupContextData = {
   safeAddress:string;
@@ -36,6 +37,9 @@ createMachine<HubSignupContext, any>({
       id: "hubSignup",
       invoke: {
         src: async (context) => {
+          return {
+            data: "yeah!"
+          }
         },
         onDone: "#success",
         onError: "#error",

@@ -213,31 +213,39 @@
 </div>
 
 <Modal bind:isOpen on:closeRequest={modalWantsToClose}>
-  {#if modalProcess}
-    <ProcessContainer
-      process={modalProcess}
-      on:stopped={() => {
-        isOpen = false;
-        lastPrompt = null;
-        modalProcess = null;
-      }}
-    />
-  {:else}
-    <!-- No process -->
-    {#if getLastLoadedDapp()}
-      <div class="flex justify-between">
-        {#each getLastLoadedDapp().pages.filter((o) => !o.isSystem) as page}
-          <a
-            href="#/{getLastLoadedDapp().routeParts.join('/') +
+  <div class="font-primary">
+    {#if modalProcess}
+      <ProcessContainer
+        process={modalProcess}
+        on:stopped={() => {
+          isOpen = false;
+          lastPrompt = null;
+          modalProcess = null;
+        }}
+      />
+    {:else}
+      <!-- No process -->
+      {#if getLastLoadedDapp()}
+        Actions:<bt/><hr/>
+        {#each getLastLoadedDapp().actions as action}
+          <button on:click={() => window.o.publishEvent(action.event(getLastLoadedDapp()))}>{action.label}</button><br/>
+        {/each}<br/>
+      {/if}
+        {#if getLastLoadedDapp()}
+          <div class="flex justify-between">
+            {#each getLastLoadedDapp().pages.filter((o) => !o.isSystem) as page}
+              <a
+                href="#/{getLastLoadedDapp().routeParts.join('/') +
               '/' +
               page.routeParts.join('/')}"
-            class="justify-center inline-block w-full text-center focus:text-teal-500 hover:text-teal-500"
-          >
-            icon
-            <span class="block text-xs tab tab-home">{page.title}</span>
-          </a>
-        {/each}
-      </div>
+                class="justify-center inline-block w-full text-center focus:text-teal-500 hover:text-teal-500"
+              >
+                icon
+                <span class="block text-xs tab tab-home">{page.title}</span>
+              </a>
+            {/each}
+          </div>
+        {/if}
     {/if}
-  {/if}
+  </div>
 </Modal>
