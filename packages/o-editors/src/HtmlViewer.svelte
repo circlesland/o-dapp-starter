@@ -5,6 +5,6 @@
   export let context: HtmlViewerContext;
 </script>
 
-{@html context.params.html}
+{@html context.params.html({data:context.data})}
 
 <ProcessNavigation {context} />

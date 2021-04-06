@@ -10,6 +10,7 @@
   import Success from "../../../shared/atoms/Success.svelte";
   import { upsertIdentity } from "../processes/upsertIdentity";
   import { Generate } from "@o-platform/o-utils/dist/generate";
+  import {onMount} from "svelte";
 
   export let params: {
     jwt: string;
@@ -21,8 +22,10 @@
       connectOrCreateKey(params.jwt);
       params.jwt = null;
     } else {
-      if (!localStorage.getItem("circles.session")) {
+      if (!localStorage.getItem("circles.session") && localStorage.getItem("circles.key")) {
         createOrUpdateIdentity();
+      } else {
+        window.location = <any>"/";
       }
     }
   }

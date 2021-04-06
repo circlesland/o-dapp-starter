@@ -31,6 +31,11 @@ export function getLastLoadedDapp() {
 }
 let lastLoadedDapp: RuntimeDapp<any>;
 
+export function getLastLoadedPage() {
+  return lastLoadedPage;
+}
+let lastLoadedPage: PageManifest;
+
 export function constructAppUrl(dappManifest: DappManifest<any>): { appBaseUrl: string, appDefaultRoute: string } {
   const appBaseUrl = dappManifest.routeParts.reduce((p, c) => p + "/" + c, "");
   const appDefaultPage = dappManifest.pages.find(o => o.isDefault) ?? dappManifest.pages[0];
@@ -49,6 +54,7 @@ function constructPageUrl(appBaseUrl: string, pageManifest: PageManifest): strin
 
 async function getDappEntryPoint(dappManifest:DappManifest<any>, pageManifest:PageManifest) {
   try {
+    lastLoadedPage = pageManifest;
     let runtimeDapp = loadedDapps.find(o => o.dappId == dappManifest.dappId);
     if (!runtimeDapp) {
       // The auth isn't yet loaded
@@ -62,6 +68,7 @@ async function getDappEntryPoint(dappManifest:DappManifest<any>, pageManifest:Pa
           throw new Error("The auth '" + freshRuntimeDapp.runtimeDapp.dappId  + "' has no 'initialPage' attribute or its value is null.");
         }
 
+        lastLoadedPage = freshRuntimeDapp.initialPage;
         return freshRuntimeDapp.initialPage.component;
       }
       else {
@@ -76,6 +83,7 @@ async function getDappEntryPoint(dappManifest:DappManifest<any>, pageManifest:Pa
       console.log("lastLoadedDapp:", runtimeDapp);
       lastLoadedDapp = runtimeDapp;
     }
+    lastLoadedPage = pageManifest;
     return pageManifest.component;
   }
   catch (e) {

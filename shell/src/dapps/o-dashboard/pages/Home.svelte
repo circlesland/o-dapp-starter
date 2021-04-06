@@ -1,9 +1,16 @@
 <script lang="ts">
   import { dapps } from "../../../loader";
   import {dashboard} from "../../o-dashboard.manifest";
+  import {onMount} from "svelte";
+
+  onMount(() => {
+    if (!localStorage.getItem("circles.session")) {
+      window.location = <any>"/";
+    }
+  });
 
   function buyXats() {
-    window.o.publishEvent(dashboard.actions[0].event(undefined));
+    window.o.publishEvent(dashboard.actions.find(o => o.key == "xats").event(undefined));
   }
 </script>
 
