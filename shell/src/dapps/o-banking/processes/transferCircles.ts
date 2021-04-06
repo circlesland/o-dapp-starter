@@ -9,8 +9,8 @@ import {CloseModal} from "@o-platform/o-events/dist/shell/closeModal";
 
 export type TransferCirclesContextData = {
   safeAddress:string;
-  recipientAddress?:string;
-  amount?:string;
+  recipientAddress:string;
+  amount:string;
   pathToRecipient?: {
     tokenOwners: string[];
     sources: string[];
@@ -37,33 +37,12 @@ const strings = {
 const processDefinition = (processId: string) =>
 createMachine<TransferCirclesContext, any>({
   id: `${processId}:transferCircles`,
-  initial: "transferCircles",
+  initial: "requestPathToRecipient",
   states: {
     // Include a default 'error' state that propagates the error by re-throwing it in an action.
     // TODO: Check if this works as intended
     ...fatalError<TransferCirclesContext, any>("error"),
 
-    recipientAddress: prompt<TransferCirclesContext, any>({
-      fieldName: "recipientAddress",
-      component: TextEditor,
-      params: {
-        label: strings.labelRecipientAddress,
-      },
-      navigation: {
-        next: "#amount",
-      },
-    }),
-    amount: prompt<TransferCirclesContext, any>({
-      fieldName: "amount",
-      component: TextEditor,
-      params: {
-        label: strings.labelAmount,
-      },
-      navigation: {
-        previous: "#recipientAddress",
-        next: "#requestPathToRecipient"
-      },
-    }),
     requestPathToRecipient: {
       id: "requestPathToRecipient",
       invoke: {

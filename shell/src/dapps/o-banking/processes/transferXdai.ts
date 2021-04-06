@@ -9,8 +9,8 @@ import {CloseModal} from "@o-platform/o-events/dist/shell/closeModal";
 
 export type TransferXdaiContextData = {
   safeAddress:string;
-  recipientAddress?:string;
-  amount?:string;
+  recipientAddress:string;
+  amount:string;
 };
 
 /**
@@ -30,34 +30,13 @@ const strings = {
 
 const processDefinition = (processId: string) =>
 createMachine<TransferXdaiContext, any>({
-  id: `${processId}:transferCircles`,
-  initial: "transferCircles",
+  id: `${processId}:transferXdai`,
+  initial: "transferXdai",
   states: {
     // Include a default 'error' state that propagates the error by re-throwing it in an action.
     // TODO: Check if this works as intended
     ...fatalError<TransferXdaiContext, any>("error"),
 
-    recipientAddress: prompt<TransferXdaiContext, any>({
-      fieldName: "recipientAddress",
-      component: TextEditor,
-      params: {
-        label: strings.labelRecipientAddress,
-      },
-      navigation: {
-        next: "#amount",
-      },
-    }),
-    amount: prompt<TransferXdaiContext, any>({
-      fieldName: "amount",
-      component: TextEditor,
-      params: {
-        label: strings.labelAmount,
-      },
-      navigation: {
-        previous: "#recipientAddress",
-        next: "#transferXdai"
-      },
-    }),
     transferXdai: {
       id: "transferXdai",
       invoke: {
