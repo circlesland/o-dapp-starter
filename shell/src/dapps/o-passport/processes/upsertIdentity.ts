@@ -7,6 +7,8 @@ import TextEditor from "@o-platform/o-editors/src/TextEditor.svelte";
 import PictureEditor from "@o-platform/o-editors/src/PictureEditor.svelte";
 import {CloseModal} from "@o-platform/o-events/dist/shell/closeModal";
 import {AuthenticateContext} from "../../o-auth/processes/authenticate";
+import {Cancel} from "@o-platform/o-process/dist/events/cancel";
+import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
 
 export type UpsertIdentityContextData = {
   loginEmail: string;
@@ -108,12 +110,12 @@ const processDefinition = (processId: string) =>
         }
       },
       success: {
+        type: 'final',
         id: "success",
-        entry: (context, event) => {
-          console.log("upsertIdentity - success")
-          window.o.publishEvent(new CloseModal());
-        },
-      },
+        data: (context, event: PlatformEvent) => {
+          return "yeah!";
+        }
+      }
     },
   });
 
