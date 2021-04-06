@@ -8,11 +8,8 @@
   import Error from "../../../shared/atoms/Error.svelte";
   import LoadingIndicator from "../../../shared/atoms/LoadingIndicator.svelte";
   import Success from "../../../shared/atoms/Success.svelte";
-  import ProcessContainer from "../../../shared/molecules/ProcessContainer.svelte";
   import { Process } from "@o-platform/o-process/dist/interfaces/process";
-  import { Subscription } from "rxjs";
   import { Generate } from "@o-platform/o-utils/dist/generate";
-  import { ProcessStarted } from "@o-platform/o-process/dist/events/processStarted";
 
   let devHome = true;
   let devDash = false;
@@ -25,6 +22,8 @@
   $: {
     if (params && params.code) {
       authenticateWithCircles("circles.land", params.code);
+    } else if (localStorage.getItem("circles.session")) {
+      window.location = <any>"/#/dashboard";
     }
   }
 
