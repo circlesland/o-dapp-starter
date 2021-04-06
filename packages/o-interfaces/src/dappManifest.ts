@@ -1,6 +1,7 @@
 import {IconDefinition} from "@fortawesome/fontawesome-common-types";
 import {PageManifest} from "./pageManifest";
 import {RuntimeDapp} from "./runtimeDapp";
+import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
 
 export interface DappManifest<TState extends {[x:string]:any}>
 {
@@ -53,6 +54,13 @@ export interface DappManifest<TState extends {[x:string]:any}>
    * before the dependency was initialized.
    */
   dependencies?: string[],
+
+  actions?: {
+    key: string;
+    icon?: string;
+    label: string;
+    event: (runtimeDapp:RuntimeDapp<any>) => PlatformEvent
+  }[];
 
   /**
    * If the auth needs to initialize things before it can be used,

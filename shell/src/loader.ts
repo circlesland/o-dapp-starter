@@ -60,7 +60,6 @@ async function getDappEntryPoint(dappManifest:DappManifest<any>, pageManifest:Pa
           throw new Error("The auth '" + freshRuntimeDapp.runtimeDapp.dappId  + "' has no 'initialPage' attribute or its value is null.");
         }
 
-        //lastLoadedDapp = freshRuntimeDapp.runtimeDapp;
         return freshRuntimeDapp.initialPage.component;
       }
       else {

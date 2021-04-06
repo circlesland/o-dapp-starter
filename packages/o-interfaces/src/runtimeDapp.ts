@@ -10,8 +10,6 @@ export interface RuntimeDapp<TState extends {[x:string]:any}> extends DappManife
   runtimeId:string,
   route: string,
 
-  // shell: Shell,
-
   /**
    * Used by the auth to receive incoming events.
    */
@@ -20,7 +18,6 @@ export interface RuntimeDapp<TState extends {[x:string]:any}> extends DappManife
    * Used by the auth to send outgoing events for other dapps to subscribe.
    */
   outEvents?:Topic<PlatformEvent>,
-
 
   state: BehaviorSubject<StatePropagation<TState>>
 

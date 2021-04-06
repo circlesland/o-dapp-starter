@@ -221,7 +221,14 @@
       />
     {:else}
       <!-- No process -->
+      {#if getLastLoadedDapp()}
+        Actions:<bt/><hr/>
+        {#each getLastLoadedDapp().actions as action}
+          <button on:click={() => window.o.publishEvent(action.event(getLastLoadedDapp()))}>{action.label}</button><br/>
+        {/each}<br/>
+      {/if}
         {#if getLastLoadedDapp()}
+          Pages:<br/><hr/>
           {#each getLastLoadedDapp().pages.filter(o => !o.isSystem) as page}
             <a href="#/{getLastLoadedDapp().routeParts.join('/') + '/' + page.routeParts.join('/')}">{page.title}</a><br/>
           {/each}
