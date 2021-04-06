@@ -54,33 +54,3 @@
     window.o.publishEvent(requestEvent);
   }
 </script>
-
-<!-- <div class="grid grid-cols-1 p-2">
-  <div class="flex h-screen ">
-    <div class="grid m-auto">
-      <img
-        class="z-30 inline w-12 h-12 m-auto -mb-6"
-        src="/images/common/circles.png"
-        alt="circles.land"
-      />
-      <div class="z-0 bg-white shadow card">
-        <div class="card-body">
-          {#if !params || !params.code}
-            <h1 class="mb-4 justify-self-left">Hi!</h1>
-            <div class="mb-4">Click the Button below to login with Circles</div>
-            <button
-              class="btn btn-outline"
-              on:click={() => authenticateWithCircles("circles.land")}
-              >Login with Circles</button
-            >
-          {:else}
-            <p>
-              Please wait ..<br />
-              We're logging you in.
-            </p>
-          {/if}
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->

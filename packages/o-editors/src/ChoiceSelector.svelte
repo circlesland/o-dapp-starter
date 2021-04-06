@@ -1,10 +1,10 @@
 <script lang="ts">
-  import {ChoiceSelectorContext} from "./choiceSelectorContext";
-  import {Continue} from "@o-platform/o-process/dist/events/continue";
+  import { ChoiceSelectorContext } from "./choiceSelectorContext";
+  import { Continue } from "@o-platform/o-process/dist/events/continue";
 
   export let context: ChoiceSelectorContext;
 
-  function sendAnswer(selected:{key:string, label:string}) {
+  function sendAnswer(selected: { key: string; label: string }) {
     const event = new Continue();
     event.data = {};
     event.data[context.fieldName] = selected;
@@ -13,28 +13,13 @@
   }
 </script>
 
-<p>
+<p class="py-4">
   {context.params.label}
 </p>
-<div class="flex space-x-2 w-full">
-{#each context.params.choices as choice}
-  <button
-          on:click={() => sendAnswer(choice)}
-          class="btn btn-outline"
-  >
-    <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            class="inline-block w-6 h-6 ml-2 stroke-current"
-    >
-      <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M15 19l-7-7 7-7"
-      />
-    </svg>
-    {choice.label}
-  </button>
-{/each}</div>
+<div class="flex w-full space-x-2">
+  {#each context.params.choices as choice}
+    <button on:click={() => sendAnswer(choice)} class="w-1/2 btn btn-outline">
+      {choice.label}
+    </button>
+  {/each}
+</div>

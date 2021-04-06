@@ -3,11 +3,11 @@ import { ProcessContext } from "@o-platform/o-process/dist/interfaces/processCon
 import { prompt } from "@o-platform/o-process/dist/states/prompt";
 import { fatalError } from "@o-platform/o-process/dist/states/fatalError";
 import { createMachine } from "xstate";
-import {userIsRegistered} from "./conditions/userIsRegistered";
+import { userIsRegistered } from "./conditions/userIsRegistered";
 import TextEditor from "@o-platform/o-editors/src/TextEditor.svelte";
 import TextViewer from "@o-platform/o-editors/src/TextViewer.svelte";
 import ChoiceSelector from "../../../../../packages/o-editors/src/ChoiceSelector.svelte";
-import {CloseModal} from "@o-platform/o-events/dist/shell/closeModal";
+import { CloseModal } from "@o-platform/o-events/dist/shell/closeModal";
 
 export type CreateOrRestoreKeyContextData = {
   loginEmail?: string;
@@ -15,8 +15,8 @@ export type CreateOrRestoreKeyContextData = {
     key: string,
     label: string
   };
-  seedPhrase?:string;
-  safeOwner?:string;
+  seedPhrase?: string;
+  safeOwner?: string;
 };
 
 export type CreateOrRestoreKeyContext = ProcessContext<CreateOrRestoreKeyContextData>;
@@ -25,9 +25,9 @@ export type CreateOrRestoreKeyContext = ProcessContext<CreateOrRestoreKeyContext
  * In case you want to translate the flow later, it's nice to have the strings at one place.
  */
 const strings = {
-  choiceLabel: "Do you want to create a new private key or connect an existing circles seedphrase?",
-  choiceConnect: "Connect existing circles safe",
-  choiceCreate: "Create a new key",
+  choiceLabel: "Do you want to create a new private key or connect an existing Circles Seedphrase?",
+  choiceConnect: "Connect",
+  choiceCreate: "Create",
   labelEditSeedphrase: "Please enter your seedphrase below:",
   labelExportSeedphrase: "Please make a backup of your seedphrase:",
 };
@@ -58,10 +58,10 @@ const processDefinition = (processId: string) =>
         component: ChoiceSelector,
         params: {
           label: strings.choiceLabel,
-          choices:[{
+          choices: [{
             key: "connect",
             label: strings.choiceConnect
-          },{
+          }, {
             key: "create",
             label: strings.choiceCreate
           }]
@@ -115,7 +115,7 @@ const processDefinition = (processId: string) =>
         id: "generateSeedPhrase",
         invoke: {
           src: async (context) => {
-            context.data.seedPhrase ="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            context.data.seedPhrase = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             // TODO: Generate seed phrase
           },
           onDone: "exportSeedphrase",

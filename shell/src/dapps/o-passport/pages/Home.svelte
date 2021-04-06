@@ -8,8 +8,8 @@
   import Error from "../../../shared/atoms/Error.svelte";
   import LoadingIndicator from "../../../shared/atoms/LoadingIndicator.svelte";
   import Success from "../../../shared/atoms/Success.svelte";
-  import {upsertIdentity} from "../processes/upsertIdentity";
-  import {Generate} from "@o-platform/o-utils/dist/generate";
+  import { upsertIdentity } from "../processes/upsertIdentity";
+  import { Generate } from "@o-platform/o-utils/dist/generate";
 
   export let params: {
     jwt: string;
@@ -28,25 +28,26 @@
   }
 
   function connectOrCreateKey(jwt?: string) {
-    const sub = jwt//.sub; //TODO: Get email from jwt
+    const sub = jwt; //.sub; //TODO: Get email from jwt
     const requestEvent = new RunProcess<ShellProcessContext>(
       shellProcess,
       true,
       async (ctx) => {
-      ctx.childProcessDefinition = createOrRestoreKey;
-      ctx.childContext = {
-        data: {
-          loginEmail: sub
-        },
-        dirtyFlags: {},
-        environment: {
-          errorView: Error,
-          progressView: LoadingIndicator,
-          successView: Success,
-        },
-      };
-      return ctx;
-    });
+        ctx.childProcessDefinition = createOrRestoreKey;
+        ctx.childContext = {
+          data: {
+            loginEmail: sub,
+          },
+          dirtyFlags: {},
+          environment: {
+            errorView: Error,
+            progressView: LoadingIndicator,
+            successView: Success,
+          },
+        };
+        return ctx;
+      }
+    );
 
     window.o.publishEvent(requestEvent);
   }
@@ -59,7 +60,7 @@
         ctx.childProcessDefinition = upsertIdentity;
         ctx.childContext = {
           data: {
-            loginEmail: "TODO"
+            loginEmail: "TODO",
           },
           dirtyFlags: {},
           environment: {
@@ -69,13 +70,21 @@
           },
         };
         return ctx;
-      });
+      }
+    );
 
     requestEvent.id = Generate.randomHexString(8);
     window.o.publishEvent(requestEvent);
   }
 </script>
 
-<div class="w-full mx-auto mb-20 md:w-2/3 xl:w-1/2 rounded-t-xl md:rounded-xl">
-  <div class="p-4 mt-4 bg-white">Profile Component</div>
+<div class="p-4 mt-4 bg-white rounded-t-xl md:rounded-xl">
+  IDENTITY<br />
+</div>
+
+<div class="p-4 mt-4 bg-white rounded-t-xl md:rounded-xl">
+  image <br />
+  first name<br />
+  last name<br />
+  safeaddress<br />
 </div>

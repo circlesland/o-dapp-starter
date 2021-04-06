@@ -4,7 +4,7 @@
   import "./shared/css/utilities.css";
 
   import routes from "./loader";
-  import {getLastLoadedDapp} from "./loader";
+  import { getLastLoadedDapp } from "./loader";
 
   import Router, { push } from "svelte-spa-router";
   import Modal from "./shared/molecules/Modal.svelte";
@@ -146,11 +146,13 @@
 
 <div class="flex flex-col h-screen bg-gray-100">
   <main class="flex-1 overflow-y-auto">
-    <Router
-      {routes}
-      on:conditionsFailed={conditionsFailed}
-      on:routeLoading={routeLoading}
-    />
+    <div class="w-full mx-auto md:w-2/3 xl:w-1/2 ">
+      <Router
+        {routes}
+        on:conditionsFailed={conditionsFailed}
+        on:routeLoading={routeLoading}
+      />
+    </div>
   </main>
   <footer class="z-50 flex justify-center w-full">
     <div class="flex space-x-2">
@@ -166,12 +168,12 @@
           on:click={() => authenticateWithCircles("circles.land")}
         >
           {#if !isOpen}
-          <img
-            width="15px"
-            class="mr-3"
-            src="/images/common/circles.png"
-            alt="circles.land"
-          /> login with circles
+            <img
+              width="15px"
+              class="mr-3"
+              src="/images/common/circles.png"
+              alt="circles.land"
+            /> login with circles
           {:else}
             <img
               width="15px"
@@ -182,6 +184,7 @@
           {/if}
         </button>
       {:else}
+        <button class="bg-white btn btn-outline">profile</button>
         <button
           class="bottom-0 p-3 bg-white border border-black rounded-full"
           on:click={() => {
@@ -197,6 +200,7 @@
             alt="circles.land"
           />
         </button>
+        <button class="bg-white btn btn-outline">home</button>
       {/if}
       {#if lastPrompt && lastPrompt.navigation.canSkip}
         <button
@@ -209,23 +213,31 @@
 </div>
 
 <Modal bind:isOpen on:closeRequest={modalWantsToClose}>
-  <div class="font-primary">
-    {#if modalProcess}
-      <ProcessContainer
-        process={modalProcess}
-        on:stopped={() => {
-          isOpen = false;
-          lastPrompt = null;
-          modalProcess = null;
-        }}
-      />
-    {:else}
-      <!-- No process -->
-        {#if getLastLoadedDapp()}
-          {#each getLastLoadedDapp().pages.filter(o => !o.isSystem) as page}
-            <a href="#/{getLastLoadedDapp().routeParts.join('/') + '/' + page.routeParts.join('/')}">{page.title}</a><br/>
-          {/each}
-        {/if}
+  {#if modalProcess}
+    <ProcessContainer
+      process={modalProcess}
+      on:stopped={() => {
+        isOpen = false;
+        lastPrompt = null;
+        modalProcess = null;
+      }}
+    />
+  {:else}
+    <!-- No process -->
+    {#if getLastLoadedDapp()}
+      <div class="flex justify-between">
+        {#each getLastLoadedDapp().pages.filter((o) => !o.isSystem) as page}
+          <a
+            href="#/{getLastLoadedDapp().routeParts.join('/') +
+              '/' +
+              page.routeParts.join('/')}"
+            class="justify-center inline-block w-full text-center focus:text-teal-500 hover:text-teal-500"
+          >
+            icon
+            <span class="block text-xs tab tab-home">{page.title}</span>
+          </a>
+        {/each}
+      </div>
     {/if}
-  </div>
+  {/if}
 </Modal>
