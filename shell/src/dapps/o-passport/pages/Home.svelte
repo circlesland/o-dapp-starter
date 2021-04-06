@@ -10,7 +10,7 @@
   import Success from "../../../shared/atoms/Success.svelte";
   import { upsertIdentity } from "../processes/upsertIdentity";
   import { Generate } from "@o-platform/o-utils/dist/generate";
-  import {onMount} from "svelte";
+  import { onMount } from "svelte";
 
   export let params: {
     jwt: string;
@@ -22,7 +22,10 @@
       connectOrCreateKey(params.jwt);
       params.jwt = null;
     } else {
-      if (!localStorage.getItem("circles.session") && localStorage.getItem("circles.key")) {
+      if (
+        !localStorage.getItem("circles.session") &&
+        localStorage.getItem("circles.key")
+      ) {
         createOrUpdateIdentity();
       } else if (!localStorage.getItem("circles.key")) {
         window.location = <any>"/";
@@ -80,6 +83,38 @@
     window.o.publishEvent(requestEvent);
   }
 </script>
+
+<div class="grid grid-cols-1 bg-white">
+  <main class="flex-grow">
+    <div
+      class="flex items-center w-full px-4 py-10 bg-cover card bg-base-200 rounded-none"
+      style="background-image: url('/images/common/nice-bg.jpg');"
+    >
+      <div class="card glass lg:card-side text-neutral-content">
+        <figure class="p-6">
+          <div class="form-control">
+            <div class="avatar m-auto">
+              <div class="rounded-full w-32 h-32">
+                <img src="https://i.pravatar.cc/500?img=32" />
+              </div>
+            </div>
+          </div>
+        </figure>
+        <div class="max-w-md card-body">
+          <h2 class="card-title">First Name</h2>
+          <h2 class="card-title">Last Name</h2>
+          <small class="break-all">
+            0x87asdgt9adsofz98ad6fs8as7odft9aszf98pasdzfasdg
+          </small>
+
+          <div class="card-actions self-center">
+            <button class="btn glass rounded-full">Do something</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
 
 <div class="p-4 mt-4 bg-white rounded-t-xl md:rounded-xl">
   PASSPORT<br />

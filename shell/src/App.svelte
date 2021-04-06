@@ -5,7 +5,7 @@
 
   import routes from "./loader";
   import { getLastLoadedDapp } from "./loader";
-  import {getLastLoadedPage} from "./loader";
+  import { getLastLoadedPage } from "./loader";
 
   import Router, { push } from "svelte-spa-router";
   import Modal from "./shared/molecules/Modal.svelte";
@@ -32,8 +32,8 @@
   import { Skip } from "@o-platform/o-process/dist/events/skip";
   import { Cancel } from "@o-platform/o-process/dist/events/cancel";
   import { ProcessEvent } from "@o-platform/o-process/dist/interfaces/processEvent";
-  import {PageManifest} from "@o-platform/o-interfaces/dist/pageManifest";
-  import {DappManifest} from "@o-platform/o-interfaces/dist/dappManifest";
+  import { PageManifest } from "@o-platform/o-interfaces/dist/pageManifest";
+  import { DappManifest } from "@o-platform/o-interfaces/dist/dappManifest";
 
   let isOpen: boolean = false;
   let modalProcess: Process;
@@ -124,8 +124,8 @@
     // Pretty self explanatory. For more lookup the svelte-spa-router docs,
   }
 
-  let lastLoadedPage:PageManifest;
-  let lastLoadedDapp:DappManifest<any>;
+  let lastLoadedPage: PageManifest;
+  let lastLoadedDapp: DappManifest<any>;
   function routeLoaded() {
     // Pretty self explanatory. For more lookup the svelte-spa-router docs,
     lastLoadedPage = getLastLoadedPage();
@@ -176,14 +176,16 @@
   }
 </script>
 
-<div class="flex flex-col h-screen bg-gray-100">
+<div class="flex flex-col h-screen ">
   <header class="w-full mx-auto md:w-2/3 xl:w-1/2 ">
-    <div
-      class="mb-2 rounded-b-lg shadow-lg navbar bg-neutral text-neutral-content"
-    >
-        {#if lastLoadedDapp && lastLoadedPage}
+    <div class="mb-2 shadow-lg navbar bg-neutral text-neutral-content">
+      {#if lastLoadedDapp && lastLoadedPage}
         <div class="flex-1 px-2 mx-2">
-          <span class="text-lg font-bold">{#if lastLoadedDapp.title != lastLoadedPage.title} {lastLoadedDapp.title} / {/if}{lastLoadedPage.title}</span>
+          <span class="text-lg font-bold"
+            >{#if lastLoadedDapp.title != lastLoadedPage.title}
+              {lastLoadedDapp.title} /
+            {/if}{lastLoadedPage.title}</span
+          >
         </div>
       {/if}
       <div class="flex-none">
