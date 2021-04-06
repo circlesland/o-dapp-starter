@@ -16,6 +16,7 @@
 >
   <div class="flex-1">
     <button
+      type="submit"
       on:click={() => {
         dispatch("buttonClick");
        /* const answer = new Continue();
