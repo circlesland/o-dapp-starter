@@ -184,7 +184,9 @@
           {/if}
         </button>
       {:else}
-        <button class="bg-white btn btn-outline">profile</button>
+        {#if !modalProcess}
+          <button class="bg-white btn btn-outline">profile</button>
+        {/if}
         <button
           class="bottom-0 p-3 bg-white border border-black rounded-full"
           on:click={() => {
@@ -200,7 +202,10 @@
             alt="circles.land"
           />
         </button>
-        <button class="bg-white btn btn-outline">home</button>
+        {#if !modalProcess}
+          <button class="bg-white btn btn-outline"
+                  on:click={() => window.location = "/#/dashboard"}>home</button>
+        {/if}
       {/if}
       {#if lastPrompt && lastPrompt.navigation.canSkip}
         <button
@@ -235,9 +240,7 @@
           <div class="flex justify-between">
             {#each getLastLoadedDapp().pages.filter((o) => !o.isSystem) as page}
               <a
-                href="#/{getLastLoadedDapp().routeParts.join('/') +
-              '/' +
-              page.routeParts.join('/')}"
+                href="#/{getLastLoadedDapp().routeParts.join('/') + '/' + page.routeParts.join('/')}"
                 class="justify-center inline-block w-full text-center focus:text-teal-500 hover:text-teal-500"
               >
                 icon

@@ -79,7 +79,7 @@
 </script>
 
 <div class="p-4 mt-4 bg-white rounded-t-xl md:rounded-xl">
-  IDENTITY<br />
+  PASSPORT<br />
 </div>
 
 <div class="p-4 mt-4 bg-white rounded-t-xl md:rounded-xl">

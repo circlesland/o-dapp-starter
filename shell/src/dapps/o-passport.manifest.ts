@@ -89,9 +89,10 @@ export const passport : DappManifest<DappState> = {
   dependencies: [],
   isHidden: false,
   icon: faPeopleArrows,
-  title: "Circles authentication",
+  title: "Passport",
   routeParts: ["passport"],
   tag: Promise.resolve("alpha"),
+  actions: [],
   isEnabled: true,
   initialize: async (stack, runtimeDapp) => {
     // Do init stuff here
