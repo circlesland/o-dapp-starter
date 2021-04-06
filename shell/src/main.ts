@@ -159,7 +159,7 @@ const shell: IShell = {
 };
 
 async function connectToApi() {
-  const apiConnection = new ApiConnection("http://localhost:1234/");
+  const apiConnection = new ApiConnection("https://auth.circles.name/");
   shell.graphQLClient = await apiConnection.client.subscribeToResult();
 }
 connectToApi();

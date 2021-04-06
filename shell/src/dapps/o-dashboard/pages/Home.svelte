@@ -5,7 +5,7 @@
 
   onMount(() => {
     if (!localStorage.getItem("circles.session")) {
-      window.location = <any>"/";
+      window.location = <any>"/#/passport/profile";
     }
   });
 
