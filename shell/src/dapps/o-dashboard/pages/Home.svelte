@@ -34,4 +34,13 @@
       ><br />
     </div>
   {/each}
+  <div class="p-12 mt-4 bg-white rounded-t-xl md:rounded-xl">
+    <a href="#" class="text-gray-400">Market Dapp<br />(coming soon)</a><br />
+  </div>
+</div>
+
+<div class="flex space-x-4">
+  <div class="p-12 mt-4 bg-white rounded-t-xl md:rounded-xl">
+    <a href="#" class="text-gray-400">Chat Dapp<br />(coming soon)</a>
+  </div>
 </div>
