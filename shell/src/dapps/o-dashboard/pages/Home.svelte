@@ -35,8 +35,8 @@
   </div>
 </div>
 <div class="p-4 bg-white">
-  Welcome Home, Martin! This is your dashboard and door into the CirclesLAND
-  universe.
+  Welcome Home, Martin! <br />
+  This is your dashboard and door into the CirclesLAND universe.
 </div>
 
 <div class="p-2  mt-4 md:p-0">
