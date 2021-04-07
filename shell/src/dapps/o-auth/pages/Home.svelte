@@ -15,10 +15,10 @@
   };
 
   $: {
-    if (params && params.code) {
+    if (params) {
       authenticateWithCircles("circles.land", params.code);
-    } else if (localStorage.getItem("circles.session")) {
-      window.location = <any>"/#/dashboard";
+    } else {
+      authenticateWithCircles("circles.land");
     }
   }
 
