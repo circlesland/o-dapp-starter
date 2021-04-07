@@ -14,6 +14,7 @@ import {auth} from "./dapps/o-auth.manifest";
 import {passport} from "./dapps/o-passport.manifest";
 import {banking} from "./dapps/o-banking.manifest";
 import {dashboard} from "./dapps/o-dashboard.manifest";
+import {website} from "./dapps/o-website.manifest";
 
 const errorIndicator = Error;
 
@@ -21,7 +22,8 @@ export const dapps: DappManifest<any>[] = [
   auth,
   passport,
   banking,
-  dashboard
+  dashboard,
+  website
 ];
 
 export const loadedDapps: RuntimeDapp<any>[] = [];
