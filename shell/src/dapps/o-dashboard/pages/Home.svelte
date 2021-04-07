@@ -5,7 +5,7 @@
 
   onMount(() => {
     if (!localStorage.getItem("circles.session")) {
-      window.location = <any>"/#/passport/profile";
+      window.location = <any>"/";
     }
   });
 
@@ -17,7 +17,7 @@
 </script>
 
 <div
-  class="w-full mt-4 h-72 bg-center bg-no-repeat bg-cover"
+  class="w-full  h-72 bg-center bg-no-repeat bg-cover"
   style="background-image: url('https://images.unsplash.com/photo-1609343007774-dad98a8f8c33?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1225&q=80');"
 >
   <div
@@ -28,35 +28,68 @@
       <h2 class="font-bold text-3xl mb-12">Xats is what you want!</h2>
     </div>
     <div class="absolute bottom-4">
-      <button class="btn btn-accent" on:click={() => buyXats()}
+      <button class="btn btn-primary" on:click={() => buyXats()}
         >buy Xats now</button
       >
     </div>
   </div>
 </div>
-
-<div class="p-4 mt-4 bg-white rounded-t-xl md:rounded-xl">
+<div class="p-4 bg-white">
   Welcome Home, Martin! This is your dashboard and door into the CirclesLAND
   universe.
 </div>
 
-<div class="flex space-x-4">
-  {#each dapps.filter((o) => !o.isHidden) as dapp}
-    <div class="p-12 mt-4 bg-white rounded-t-xl md:rounded-xl">
-      <a
-        href="/#/{dapp.routeParts.join('/') +
-          '/' +
-          dapp.pages[0].routeParts.join('/')}">{dapp.title} Dapp</a
-      ><br />
+<div class="p-2  mt-4 md:p-0">
+  <div class="flex space-x-4 flex-wrap">
+    <div class="card mt-4 shadow-lg flex-1 compact bg-base-100">
+      <a href="/#/passport/profile">
+        <figure><img src="https://picsum.photos/id/1005/600/400" /></figure>
+        <div class="flex-row items-center space-x-4 card-body">
+          <div>
+            <h2 class="card-title justify-self-center">Passport</h2>
+          </div>
+        </div>
+      </a>
     </div>
-  {/each}
-  <div class="p-12 mt-4 bg-white rounded-t-xl md:rounded-xl">
-    <a href="#" class="text-gray-400">Market Dapp<br />(coming soon)</a><br />
-  </div>
-</div>
+    <div class="card mt-4 shadow-lg flex-1 compact bg-base-100">
+      <a href="/#/banking/transactions">
+        <figure><img src="https://picsum.photos/id/1005/600/400" /></figure>
+        <div class="flex-row items-center space-x-4 card-body">
+          <div>
+            <h2 class="card-title justify-self-center">Banking</h2>
+          </div>
+        </div>
+      </a>
+    </div>
 
-<div class="flex space-x-4">
-  <div class="p-12 mt-4 bg-white rounded-t-xl md:rounded-xl">
-    <a href="#" class="text-gray-400">Chat Dapp<br />(coming soon)</a>
+    <!-- {#each dapps.filter((o) => !o.isHidden) as dapp}
+      <div class="p-12 h-48 flex-1 mt-4 bg-white rounded-xl">
+        <a
+          href="/#/{dapp.routeParts.join('/') +
+            '/' +
+            dapp.pages[0].routeParts.join('/')}">{dapp.title} Dapp</a
+        >
+      </div>
+    {/each} -->
+  </div>
+  <div class="flex mt-4 space-x-4">
+    <div class="card mt-4 shadow-lg flex-1 compact bg-base-100">
+      <figure><img src="https://picsum.photos/600/400" /></figure>
+      <div class="flex-row items-center space-x-4 card-body">
+        <div>
+          <h2 class="card-title justify-self-center">Market</h2>
+          <p class="text-base-content text-opacity-40">coming soon</p>
+        </div>
+      </div>
+    </div>
+    <div class="card mt-4 shadow-lg flex-1 compact bg-base-100">
+      <figure><img src="https://picsum.photos/600/400" /></figure>
+      <div class="flex-row items-center space-x-4 card-body">
+        <div>
+          <h2 class="card-title justify-self-center">Chat</h2>
+          <p class="text-base-content text-opacity-40">coming soon</p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
