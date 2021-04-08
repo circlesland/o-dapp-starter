@@ -1,0 +1,11 @@
+.circles-button {
+    padding-left: 3px;
+    padding-right: 5px;
+    padding-bottom: 4px;
+    padding-top: 3px;
+}
+
+input:focus, select:focus,
+button:focus {
+    outline: none;
+}

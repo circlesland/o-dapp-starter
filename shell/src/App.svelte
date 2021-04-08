@@ -126,10 +126,20 @@
 
   let lastLoadedPage: PageManifest;
   let lastLoadedDapp: DappManifest<any>;
+  let headertype = "small";
+
   function routeLoaded() {
     // Pretty self explanatory. For more lookup the svelte-spa-router docs,
     lastLoadedPage = getLastLoadedPage();
     lastLoadedDapp = getLastLoadedDapp();
+
+    if (lastLoadedDapp.dappId == "dashboard:1") {
+      headertype = "dashboard";
+    } else if (lastLoadedDapp.dappId == "auth:1") {
+      headertype = "auth";
+    } else {
+      headertype = "small";
+    }
     if (isOpen) {
       isOpen = false;
       lastPrompt = null;
@@ -177,27 +187,85 @@
 </script>
 
 <div class="flex flex-col h-screen ">
-  <header class="w-full mx-auto md:w-2/3 xl:w-1/2 ">
-    <div class="mb-2 shadow-lg navbar bg-neutral text-neutral-content">
-      {#if lastLoadedDapp && lastLoadedPage}
-        <div class="flex-1 px-2 mx-2">
-          <span class="text-lg font-bold"
-            >{#if lastLoadedDapp.title != lastLoadedPage.title}
-              {lastLoadedDapp.title} /
-            {/if}{lastLoadedPage.title}</span
-          >
-        </div>
-      {/if}
-      <div class="flex-none">
-        <div class="avatar">
-          <div class="w-10 h-10 m-1 rounded-lg">
-            <img src="https://i.pravatar.cc/500?img=32" />
+  <header class="w-full mx-auto md:w-2/3 xl:w-1/2 z-10">
+    {#if headertype == "auth"}
+      <!-- DASHBOARD HEADER START -->
+      <div
+        class="h-80 flex flex-col items-stretch navbar bg-gradient-to-r from-gradient1 to-gradient2 text-white"
+      >
+        {#if lastLoadedDapp && lastLoadedPage}
+          <div class=" pl-2 ">
+            <span class="text-lg font-bold"
+              >{#if lastLoadedDapp.title != lastLoadedPage.title}
+                {lastLoadedDapp.title} /
+              {/if}{lastLoadedPage.title}</span
+            >
+          </div>
+        {/if}
+        <div class="self-center text-center mt-16 block">
+          <div class="avatar">
+            <div class="w-24 h-24 rounded-full mb-4">
+              <img src="/images/common/circles.png" />
+            </div>
+          </div>
+          <div class="">Welcome to CirclesLAND</div>
+          <div class="">
+            <small>Use the button to log in or create an Account</small>
           </div>
         </div>
       </div>
-    </div>
+      <!-- DASHBOARD HEADER STOP -->
+    {/if}
+    {#if headertype == "dashboard"}
+      <!-- DASHBOARD HEADER START -->
+      <div
+        class="h-80 flex flex-col items-stretch navbar bg-gradient-to-r from-gradient1 to-gradient2 text-white"
+      >
+        {#if lastLoadedDapp && lastLoadedPage}
+          <div class=" pl-2 ">
+            <span class="text-lg font-bold"
+              >{#if lastLoadedDapp.title != lastLoadedPage.title}
+                {lastLoadedDapp.title} /
+              {/if}{lastLoadedPage.title}</span
+            >
+          </div>
+        {/if}
+        <div class="self-center text-center mt-16 block">
+          <div class="avatar">
+            <div class="w-24 h-24 rounded-full ring ring-gradient1 mb-4">
+              <img src="https://i.pravatar.cc/500?img=32" />
+            </div>
+          </div>
+          <div class="">
+            <strong>Hi Martin,</strong> Welcome to CirclesLAND
+          </div>
+          <div class="">
+            <small>This is your dashboard and door into our universe.</small>
+          </div>
+        </div>
+      </div>
+      <!-- DASHBOARD HEADER STOP -->
+    {/if}
+    {#if headertype == "small"}
+      <!-- PROFILE HEADER START -->
+      <div
+        class="h-28 flex flex-col  navbar bg-gradient-to-r from-gradient1 to-gradient2 text-white"
+      >
+        {#if lastLoadedDapp && lastLoadedPage}
+          <div class=" pl-2 ">
+            <span class="text-lg font-bold self-center"
+              >{#if lastLoadedDapp.title != lastLoadedPage.title}
+                {lastLoadedDapp.title} /
+              {/if}{lastLoadedPage.title}</span
+            >
+          </div>
+        {/if}
+      </div>
+      <!-- DASHBOARD HEADER STOP -->
+    {/if}
   </header>
-  <main class="flex-1 overflow-y-auto">
+
+  <main class="flex-1 overflow-y-visible z-30">
     <div class="w-full mx-auto md:w-2/3 xl:w-1/2 ">
       <Router
         {routes}
@@ -207,17 +275,12 @@
       />
     </div>
   </main>
-  <footer class="z-50 flex justify-center w-full">
-    <div class="flex space-x-2">
-      {#if lastPrompt && lastPrompt.navigation.canGoBack}
+
+  {#if !localStorage.getItem("circles.key")}
+    <footer class="z-50  w-full sticky bottom-0 ">
+      <div class="flex justify-around ">
         <button
-          class="bg-white btn btn-outline"
-          on:click={() => modalProcess.sendAnswer(new Back())}>back</button
-        >
-      {/if}
-      {#if !localStorage.getItem("circles.key")}
-        <button
-          class="mb-4 bg-white btn btn-outline"
+          class="mb-4 btn btn-outline bg-base-100"
           on:click={() => authenticateWithCircles("circles.land")}
         >
           {#if !isOpen}
@@ -236,30 +299,37 @@
             /> Close
           {/if}
         </button>
-      {:else}
-        {#if !modalProcess}
-          <button class="btn">
-            <div class="flex-none">
-              <button class="btn btn-square btn-ghost">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  class="inline-block w-6 h-6 stroke-current"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                  />
-                </svg>
-              </button>
-            </div></button
+      </div>
+    </footer>
+  {:else}
+    <footer class="z-50  w-full sticky bottom-0 bg-white h-12">
+      <div class="flex justify-around ">
+        {#if lastPrompt && lastPrompt.navigation.canGoBack}
+          <button
+            class="bg-white btn btn-outline"
+            on:click={() => modalProcess.sendAnswer(new Back())}>back</button
           >
         {/if}
+
+        {#if !modalProcess}
+          <button class="bg-white text-linkgrey self-center h-12">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              class="inline-block w-6 h-6 stroke-current"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+              />
+            </svg>
+          </button>
+        {/if}
         <button
-          class="p-2 bg-white border border-gray-700 rounded-lg "
+          class="bg-white btn-circle -m-4 w-14 h-14 shadow-lg circles-button "
           on:click={() => {
             isOpen = !isOpen;
             if (!isOpen) {
@@ -271,26 +341,42 @@
           }}
         >
           <img
-            width="42px"
+            class="w-full"
             src="/images/common/circles.png"
             alt="circles.land"
           />
         </button>
         {#if !modalProcess}
           <button
-            class="btn"
-            on:click={() => (window.location = "/#/dashboard")}>home</button
+            class="bg-white text-linkgrey self-center h-12"
+            on:click={() => (window.location = "/#/dashboard")}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+              />
+            </svg>
+          </button>
+        {/if}
+
+        {#if lastPrompt && lastPrompt.navigation.canSkip}
+          <button
+            class="bg-white btn btn-outline"
+            on:click={() => modalProcess.sendAnswer(new Skip())}>skip</button
           >
         {/if}
-      {/if}
-      {#if lastPrompt && lastPrompt.navigation.canSkip}
-        <button
-          class="bg-white btn btn-outline"
-          on:click={() => modalProcess.sendAnswer(new Skip())}>skip</button
-        >
-      {/if}
-    </div>
-  </footer>
+      </div>
+    </footer>
+  {/if}
 </div>
 
 <Modal bind:isOpen on:closeRequest={modalWantsToClose}>

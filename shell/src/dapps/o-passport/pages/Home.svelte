@@ -84,31 +84,15 @@
   }
 </script>
 
-<div class="grid grid-cols-1 ">
-  <main class="flex-grow">
-    <div class="flex items-center w-full px-4 py-10 bg-cover card rounded-none">
-      <div class="card glass lg:card-side text-neutral-content">
-        <figure class="p-6">
-          <div class="form-control">
-            <div class="avatar m-auto">
-              <div class="rounded-full w-32 h-32">
-                <img src="https://i.pravatar.cc/500?img=32" />
-              </div>
-            </div>
-          </div>
-        </figure>
-        <div class="max-w-md card-body">
-          <h2 class="card-title">Dr. Maria Eduard</h2>
-          <h2 class="card-title">von Brunsheim</h2>
-          <small class="break-all">
-            0x87asdgt9adsofz98ad6fs8as7odft9aszf98pasdzfasdg
-          </small>
-
-          <div class="card-actions self-center">
-            <button class="btn glass rounded-full">Profil Bearbeiten</button>
-          </div>
-        </div>
-      </div>
+<div class="flex flex-col self-center text-center -mt-12 ">
+  <div class="avatar self-center">
+    <div class="w-24 h-24 rounded-full  mb-4">
+      <img src="https://i.pravatar.cc/500?img=32" />
     </div>
-  </main>
+  </div>
+  <h2 class="card-title">Ernst Stavro Blofeld</h2>
+  <small class="break-all">
+    0x87asdgt9adsofz98ad6fs8as7odft9aszf98pasdzfasdg
+  </small>
+  <button class="btn btn-primary w-1/2 mt-4 self-center">Edit Profile</button>
 </div>

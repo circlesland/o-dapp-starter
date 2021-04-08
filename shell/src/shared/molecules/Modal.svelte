@@ -28,14 +28,14 @@
     class="z-40 overlay p-2"
   >
     <div
-      class="w-full min-w-min grid justify-items-stretch mb-20 bg-white md:w-2/3 xl:w-1/2 rounded-t-xl md:rounded-xl"
+      class="w-full min-w-min grid justify-items-stretch pt-2 mb-20 bg-white md:w-2/3 xl:w-1/2 "
     >
       <img
-        class="inline justify-self-center -mt-6 w-12 h-12 -mb-6 z-30 "
+        class="inline justify-self-center -mt-8 w-12 h-12 -mb-6 z-30 "
         src="/images/common/circles.png"
         alt="circles.land"
       />
-      <div class="p-4 space-y-2 md:p-8">
+      <div class="p-4 pt-8 space-y-2 md:p-8">
         <div class="flex">
           <div class="w-full m-auto">
             <slot />
