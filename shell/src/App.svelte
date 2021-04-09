@@ -133,9 +133,9 @@
     lastLoadedPage = getLastLoadedPage();
     lastLoadedDapp = getLastLoadedDapp();
 
-    if (lastLoadedDapp.dappId == "dashboard:1") {
+    if (lastLoadedDapp && lastLoadedDapp.dappId == "dashboard:1") {
       headertype = "dashboard";
-    } else if (lastLoadedDapp.dappId == "auth:1") {
+    } else if (lastLoadedDapp && lastLoadedDapp.dappId == "auth:1") {
       headertype = "auth";
     } else {
       headertype = "small";
