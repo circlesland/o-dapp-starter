@@ -137,6 +137,8 @@
       headertype = "dashboard";
     } else if (lastLoadedDapp && lastLoadedDapp.dappId == "auth:1") {
       headertype = "auth";
+    } else if (lastLoadedDapp && lastLoadedDapp.dappId == "banking:1") {
+      headertype = "banking";
     } else {
       headertype = "small";
     }
@@ -262,6 +264,27 @@
         {/if}
       </div>
       <!-- DASHBOARD HEADER STOP -->
+    {/if}
+    {#if headertype == "banking"}
+      <!-- DASHBOARD HEADER START -->
+      <div
+        class="h-80 flex flex-col items-stretch navbar bg-gradient-to-r from-gradient1 to-gradient2 text-white"
+      >
+        {#if lastLoadedDapp && lastLoadedPage}
+          <div class=" pl-2 ">
+            <span class="text-lg font-bold"
+              >{#if lastLoadedDapp.title != lastLoadedPage.title}
+                {lastLoadedDapp.title} /
+              {/if}{lastLoadedPage.title}</span
+            >
+          </div>
+        {/if}
+        <div class="self-center text-center mt-16 block">
+          <span class="block">Your Balance</span>
+          <span class="block text-8xl">4500</span>
+        </div>
+      </div>
+      <!-- BANKING HEADER STOP -->
     {/if}
   </header>
 
@@ -412,7 +435,9 @@
                 page.routeParts.join('/')}"
               class="justify-center inline-block w-full text-center focus:text-teal-500 hover:text-teal-500"
             >
-              icon
+              <div
+                class="h-full m-auto bottom-nav-icon icon-{page.title.toLowerCase()}"
+              />
               <span class="block text-xs tab tab-home">{page.title}</span>
             </a>
           {/each}

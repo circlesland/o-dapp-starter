@@ -18,12 +18,15 @@ module.exports = {
     extend: {
       // colors: require("daisyui/colors"),
       colors: {
+        red: "#e3342f",
         gradient1: "#00BFA9",
         gradient2: "#08568B",
         circlesblue: "#08568B",
         circlesdarkblue: "#032A45",
         circleshighlightblue: "#099BB0",
         linkgrey: "#97acbc",
+        transactionpositive: "#32CD32",
+        transactionnegative: "#DC143C",
       },
       fontFamily: {
         primary: ["Now Alt Light", "sans-serif"],
