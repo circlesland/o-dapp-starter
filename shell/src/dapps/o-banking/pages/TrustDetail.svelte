@@ -1,17 +1,16 @@
 <script lang="ts">
   import {onMount} from "svelte";
+  import {RunProcess} from "@o-platform/o-process/dist/events/runProcess";
+  import {shellProcess, ShellProcessContext} from "../../../shared/processes/shellProcess";
+  import {transfer} from "../processes/transfer";
+  import {setTrust} from "../processes/setTrust";
+  import BankingDetailHeader from "../atoms/BankingDetailHeader.svelte";
 
   onMount(() => {
     if (!localStorage.getItem("circles.session")) {
       window.location = <any>"/";
     }
   });
-
-  import {RunProcess} from "@o-platform/o-process/dist/events/runProcess";
-  import {shellProcess, ShellProcessContext} from "../../../shared/processes/shellProcess";
-  import {transfer} from "../processes/transfer";
-  import {setTrust} from "../processes/setTrust";
-  import BankingHeader from "../atoms/BankingHeader.svelte";
 
   export let params:{
     trustPartner:string
@@ -70,5 +69,5 @@
       }));
   }
 </script>
-<BankingHeader />
+<BankingDetailHeader />
 Your trust relation with: {params.trustPartner}

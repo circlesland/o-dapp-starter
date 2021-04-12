@@ -1,6 +1,6 @@
 <script lang="ts">
   import {onMount} from "svelte";
-  import BankingHeader from "../atoms/BankingHeader.svelte";
+  import BankingDetailHeader from "../atoms/BankingDetailHeader.svelte";
 
   export let params:{
     from:string
@@ -14,7 +14,7 @@
     }
   });
 </script>
-<BankingHeader />
+<BankingDetailHeader />
 Transaction detail page for <br/>
 From: {params.from}<br/>
 To: {params.to}<br/>
