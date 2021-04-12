@@ -39,4 +39,23 @@
     window.o.publishEvent(requestEvent);
   }
 </script>
-Hi! I'm the homepage
+<div class="flex flex-col h-screen ">
+  <main class="flex-1 overflow-y-visible z-30">
+    Hi! I'm the homepage
+  </main>
+  <footer class="z-50  w-full sticky bottom-0 ">
+    <div class="flex justify-around ">
+      <a
+        class="mb-4 btn btn-outline bg-base-100"
+        href="/#/login"
+      >
+          <img
+            width="15px"
+            class="mr-3"
+            src="/images/common/circles.png"
+            alt="circles.land"
+          /> Login
+      </a>
+    </div>
+  </footer>
+</div>
