@@ -10,8 +10,9 @@
 </script>
 <BankingHeader />
 
-<div class="p-4 mt-4 bg-white rounded-t-xl md:rounded-xl">GENERAL TOKENS</div>
-
+<a href="#/banking/tokens/GNRL" class="underline">
+  <div class="p-4 mt-4 bg-white rounded-t-xl md:rounded-xl">GENERAL TOKENS</div>
+</a>
 <div class="p-4 mt-4 bg-white rounded-t-xl md:rounded-xl">ALL CIRCLES</div>
 
 <div class="p-4 mt-4 bg-white rounded-t-xl md:rounded-xl">ALL MY xDAI</div>

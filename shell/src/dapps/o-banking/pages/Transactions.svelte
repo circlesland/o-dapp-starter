@@ -40,13 +40,13 @@
             </div>
           </div>
 
-          <h2 class="text-2xl sm:text-5xl font-bold ml-4">Samuel</h2>
+          <a href="#/banking/transactions/samuel/daniel/123">
+            <h2 class="text-2xl sm:text-5xl font-bold ml-4 underline">Samuel</h2>
+          </a>
         </div>
         <p class="text-sm mt-4">time</p>
       </div>
-      <div
-        class="flex justify-end flex-1 text-transactionpositive text-2xl sm:text-3xl"
-      >
+      <div class="flex justify-end flex-1 text-transactionpositive text-2xl sm:text-3xl">
         <span>200.00</span>
       </div>
     </div>

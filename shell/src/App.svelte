@@ -228,6 +228,7 @@
     </footer>
   {:else}
     <footer class="z-50  w-full sticky bottom-0 bg-white h-12">
+      <div class="w-full mx-auto md:w-2/3 xl:w-1/2 ">
       {#if !modalProcess}
         <!-- NOT MODAL START -->
         <div class="grid grid-cols-5">
@@ -326,6 +327,7 @@
         </div>
         <!--  MODAL END -->
       {/if}
+      </div>
     </footer>
   {/if}
 </div>

@@ -2,8 +2,11 @@ import {
   faPeopleArrows,
 } from "@fortawesome/free-solid-svg-icons";
 import Transactions from "./o-banking/pages/Transactions.svelte";
+import TransactionDetail from "./o-banking/pages/TransactionDetail.svelte";
 import Tokens from "./o-banking/pages/Tokens.svelte";
+import TokenDetail from "./o-banking/pages/TokenDetail.svelte";
 import Trusts from "./o-banking/pages/Trusts.svelte";
+import TrustDetail from "./o-banking/pages/TrustDetail.svelte";
 import Graph from "./o-banking/pages/Graph.svelte";
 import { PageManifest } from "@o-platform/o-interfaces/dist/pageManifest";
 import { DappManifest } from "@o-platform/o-interfaces/dist/dappManifest";
@@ -31,9 +34,23 @@ const transactions: PageManifest = {
     }
   ]
 };
+const transactionDetail: PageManifest = {
+  isDefault: false,
+  isSystem: true,
+  routeParts: ["transactions", ":from", ":to", ":blockNo"],
+  component: TransactionDetail,
+  title: "TransactionDetail",
+  available: [
+    (detail) => {
+      // Can navigate to?
+      // Sure!
+      return true;
+    }
+  ]
+};
 
 const tokens: PageManifest = {
-  isDefault: true,
+  isDefault: false,
   routeParts: ["tokens"],
   component: Tokens,
   title: "Tokens",
@@ -45,9 +62,23 @@ const tokens: PageManifest = {
     }
   ]
 };
+const tokenDetail: PageManifest = {
+  isDefault: false,
+  isSystem: true,
+  routeParts: ["tokens", ":symbol"],
+  component: TokenDetail,
+  title: "TokenDetail",
+  available: [
+    (detail) => {
+      // Can navigate to?
+      // Sure!
+      return true;
+    }
+  ]
+};
 
 const trusts: PageManifest = {
-  isDefault: true,
+  isDefault: false,
   routeParts: ["trusts"],
   component: Trusts,
   title: "Trusts",
@@ -59,9 +90,23 @@ const trusts: PageManifest = {
     }
   ]
 };
+const trustDetail: PageManifest = {
+  isDefault: false,
+  isSystem: true,
+  routeParts: ["trusts", ":trustPartner"],
+  component: TrustDetail,
+  title: "TrustDetail",
+  available: [
+    (detail) => {
+      // Can navigate to?
+      // Sure!
+      return true;
+    }
+  ]
+};
 
 const graph: PageManifest = {
-  isDefault: true,
+  isDefault: false,
   routeParts: ["graph"],
   component: Graph,
   title: "Graph",
@@ -185,5 +230,5 @@ export const banking: DappManifest<DappState> = {
       cancelDependencyLoading: false
     };
   },
-  pages: [transactions, tokens, trusts, graph]
+  pages: [transactions, transactionDetail, tokens, tokenDetail, trusts, trustDetail, graph]
 };
