@@ -13,7 +13,9 @@
 </script>
 
 <div class="mx-4 mt-4">
-  <section class="flex items-center justify-center mb-1 text-circlesdarkblue">
+  <section
+    class="flex items-center justify-center mb-1 text-circlesdarkblue -mt-10"
+  >
     <div class="flex items-center bg-white shadow p-4 w-full">
       <div class="flex flex-col items-start">
         <h3 class="font-bold mr-2">My Seedphrase</h3>
