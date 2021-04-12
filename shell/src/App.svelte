@@ -201,7 +201,7 @@
       >
         {#if lastLoadedDapp && lastLoadedPage}
           <div class=" pl-2 ">
-            <span class="text-lg font-bold"
+            <span class="text-lg font-circles"
               >{#if lastLoadedDapp.title != lastLoadedPage.title}
                 {lastLoadedDapp.title} /
               {/if}{lastLoadedPage.title}</span
@@ -229,7 +229,7 @@
       >
         {#if lastLoadedDapp && lastLoadedPage}
           <div class=" pl-2 ">
-            <span class="text-lg font-bold"
+            <span class="text-lg font-circles"
               >{#if lastLoadedDapp.title != lastLoadedPage.title}
                 {lastLoadedDapp.title} /
               {/if}{lastLoadedPage.title}</span
@@ -259,7 +259,7 @@
       >
         {#if lastLoadedDapp && lastLoadedPage}
           <div class=" pl-2 ">
-            <span class="text-lg font-bold self-center"
+            <span class="text-lg font-circles self-center"
               >{#if lastLoadedDapp.title != lastLoadedPage.title}
                 {lastLoadedDapp.title} /
               {/if}{lastLoadedPage.title}</span
@@ -276,7 +276,7 @@
       >
         {#if lastLoadedDapp && lastLoadedPage}
           <div class=" pl-2 ">
-            <span class="text-lg font-bold"
+            <span class="text-lg font-circles"
               >{#if lastLoadedDapp.title != lastLoadedPage.title}
                 {lastLoadedDapp.title} /
               {/if}{lastLoadedPage.title}</span
@@ -284,9 +284,9 @@
           </div>
         {/if}
         <div class="self-center text-center mt-16 block">
-          <span class="block text-linkgrey">Your Balance</span>
-          <span class="inline-block text-8xl ml-10 ">4500 </span>
-          <span class="inline-block text-l self-start align-top">
+          <span class="block text-base-300">Your Balance</span>
+          <span class="inline-block text-8xl font-circles ml-10 ">4500 </span>
+          <span class="inline-block text-l align-middle">
             <svg
               class="w-8 h-8 inline"
               viewBox="0 0 209 215"
@@ -300,7 +300,7 @@
               <circle cx="119.5" cy="111.5" r="18.5" fill="white" />
             </svg>
           </span>
-          <div class="p-6 space-y-2 self-end text-linkgrey max-w-max m-auto">
+          <div class="p-6 space-y-2 self-end text-base-300 max-w-max m-auto">
             <small class="block">Transactions Update: 33% complete.</small>
             <progress
               class="progress progress-secondary transaction-update-progress"

@@ -31,6 +31,7 @@ module.exports = {
         transactionnegative: "#DC143C",
       },
       fontFamily: {
+        circles: ["Ostrich Sans Heavy", "sans"],
         primary: ["Now Alt Light", "sans-serif"],
         sans: ["Now Alt Light", "sans-serif"],
         serif: ["Merriweather", "serif"],
