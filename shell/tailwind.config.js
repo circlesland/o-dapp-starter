@@ -18,6 +18,8 @@ module.exports = {
     extend: {
       // colors: require("daisyui/colors"),
       colors: {
+        base: "#000000",
+        "base-300": "#D1D5DB",
         red: "#e3342f",
         gradient1: "#00BFA9",
         gradient2: "#08568B",
