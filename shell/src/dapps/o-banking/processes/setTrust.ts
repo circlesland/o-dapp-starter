@@ -28,7 +28,7 @@ const strings = {
   labelTrustLimit: "Enter the trust limit (0-100)",
 };
 
-const colorList = [
+const trustList = [
   { id: 1, name: "White", code: "#FFFFFF" },
   { id: 2, name: "Red", code: "#FF0000" },
   { id: 3, name: "Yellow", code: "#FF00FF" },
@@ -69,7 +69,7 @@ const processDefinition = (processId: string) =>
         component: TextAutocompleteEditor,
         params: {
           label: strings.labelTrustReceiver,
-          data: colorList,
+          data: trustList,
         },
         navigation: {
           next: "#checkTrustLimit",

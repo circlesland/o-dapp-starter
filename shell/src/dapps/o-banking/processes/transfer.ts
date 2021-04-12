@@ -3,7 +3,7 @@ import { ProcessContext } from "@o-platform/o-process/dist/interfaces/processCon
 import { fatalError } from "@o-platform/o-process/dist/states/fatalError";
 import { createMachine } from "xstate";
 import { prompt } from "@o-platform/o-process/dist/states/prompt";
-import TextEditor from "../../../../../packages/o-editors/src/TextEditor.svelte";
+import TextAutocompleteEditor from "../../../../../packages/o-editors/src/TextAutocompleteEditor.svelte";
 import HtmlViewer from "../../../../../packages/o-editors/src/HtmlViewer.svelte";
 import CurrencyTransfer from "../../../../../packages/o-editors/src/CurrencyTransfer.svelte";
 import { ipc } from "@o-platform/o-process/dist/triggers/ipc";
@@ -16,13 +16,28 @@ export type TransferContextData = {
   recipientAddress?: string;
   tokens?: {
     currency: {
-      key: string,
-      label: string
-    },
-    amount: string
+      key: string;
+      label: string;
+    };
+    amount: string;
   };
   acceptSummary?: boolean;
 };
+
+const userNames = [
+  { id: 1, name: "Markus", code: "#FFFFFF" },
+  { id: 2, name: "Martin", code: "#FF0000" },
+  { id: 3, name: "Martina", code: "#FF00FF" },
+  { id: 4, name: "Michael", code: "#00FF00" },
+  { id: 5, name: "Bruce", code: "#0000FF" },
+  { id: 6, name: "Berry", code: "#000000" },
+  { id: 7, name: "Tina", code: "#FF00FF" },
+  { id: 8, name: "Frank", code: "#FF00FF" },
+  { id: 9, name: "Samuel", code: "#FF00FF" },
+  { id: 10, name: "Sandra", code: "#00FF00" },
+  { id: 11, name: "markus San", code: "#0000FF" },
+  { id: 12, name: "Klaus", code: "#000000" },
+];
 
 /**
  * This is the context on which the process will work.
@@ -35,11 +50,12 @@ export type TransferContext = ProcessContext<TransferContextData>;
  * In case you want to translate the flow later, it's nice to have the strings at one place.
  */
 const strings = {
-  labelRecipientAddress: "Select the recipient you want to send money to (autocomplete up)",
+  labelRecipientAddress:
+    "Select the recipient you want to send money to (autocomplete up)",
   tokensLabel: "Please enter the amount and the token you want to transfer",
   currencyCircles: "CRC",
   currencyXdai: "xDai",
-  summaryLabel: "Summary"
+  summaryLabel: "Summary",
 };
 
 const processDefinition = (processId: string) =>
@@ -53,18 +69,22 @@ const processDefinition = (processId: string) =>
 
       checkRecipientAddress: {
         id: "checkRecipientAddress",
-        always: [{
-          cond: (context) => !!context.data.recipientAddress,
-          target: "#tokens"
-        }, {
-          target: "#recipientAddress"
-        }]
+        always: [
+          {
+            cond: (context) => !!context.data.recipientAddress,
+            target: "#tokens",
+          },
+          {
+            target: "#recipientAddress",
+          },
+        ],
       },
       recipientAddress: prompt<TransferContext, any>({
         fieldName: "recipientAddress",
-        component: TextEditor,
+        component: TextAutocompleteEditor,
         params: {
           label: strings.labelRecipientAddress,
+          data: userNames,
         },
         navigation: {
           next: "#tokens",
@@ -75,13 +95,16 @@ const processDefinition = (processId: string) =>
         component: CurrencyTransfer,
         params: {
           label: strings.tokensLabel,
-          currencies: [{
-            key: "crc",
-            label: strings.currencyCircles
-          }, {
-            key: "xdai",
-            label: strings.currencyXdai
-          }]
+          currencies: [
+            {
+              key: "crc",
+              label: strings.currencyCircles,
+            },
+            {
+              key: "xdai",
+              label: strings.currencyXdai,
+            },
+          ],
         },
         navigation: {
           next: "#acceptSummary",
@@ -96,9 +119,13 @@ const processDefinition = (processId: string) =>
             if (!context.data.tokens) {
               throw new Error(`No currency or amount selected`);
             } else {
-              return `You are about to transfer <b>${context.data.tokens.amount} ${context.data.tokens.currency.key.toUpperCase()}</b> to <b>${context.data.recipientAddress}</b>.<br/>Do you want to continue?`
+              return `You are about to transfer <b>${
+                context.data.tokens.amount
+              } ${context.data.tokens.currency.key.toUpperCase()}</b> to <b>${
+                context.data.recipientAddress
+              }</b>.<br/>Do you want to continue?`;
             }
-          }
+          },
         },
         navigation: {
           previous: "#tokens",
@@ -110,13 +137,13 @@ const processDefinition = (processId: string) =>
         always: [
           {
             cond: (context) => {
-              return context.data.tokens.currency.key == "crc"
+              return context.data.tokens.currency.key == "crc";
             },
             target: "callCirclesTransfer",
           },
           {
             cond: (context) => {
-              return context.data.tokens.currency.key == "xdai"
+              return context.data.tokens.currency.key == "xdai";
             },
             target: "callXdaiTransfer",
           },
@@ -128,10 +155,12 @@ const processDefinition = (processId: string) =>
           ...ipc("callCirclesTransfer"),
         },
         invoke: {
-          src: transferCircles.stateMachine(`${processId}:transfer:transferCircles`),
+          src: transferCircles.stateMachine(
+            `${processId}:transfer:transferCircles`
+          ),
           onDone: "#success",
-          onError: "#error"
-        }
+          onError: "#error",
+        },
       },
       callXdaiTransfer: {
         id: "callXdaiTransfer",
@@ -141,16 +170,16 @@ const processDefinition = (processId: string) =>
         invoke: {
           src: transferXdai.stateMachine(`${processId}:transfer:transferXdai`),
           onDone: "#success",
-          onError: "#error"
-        }
+          onError: "#error",
+        },
       },
       success: {
-        id: 'success',
-        type: 'final',
+        id: "success",
+        type: "final",
         data: (context, event: PlatformEvent) => {
           return "yeah!";
-        }
-      }
+        },
+      },
     },
   });
 
