@@ -8,7 +8,7 @@ import {DappManifest} from "@o-platform/o-interfaces/dist/dappManifest";
 const index : PageManifest = {
   isDefault: true,
   isSystem: true,
-  routeParts: [""],
+  routeParts: [],
   component: Home,
   title: "Login with Circles",
   available: [
@@ -24,7 +24,7 @@ const index : PageManifest = {
 const exchangeCode : PageManifest = {
   isDefault: false,
   isSystem: true,
-  routeParts: ["login", ":code"],
+  routeParts: [":code"],
   component: Home,
   title: "Login with Circles",
   available: [
@@ -47,7 +47,7 @@ export const auth : DappManifest<DappState> = {
   isHidden: true,
   icon: faPeopleArrows,
   title: "Circles authentication",
-  routeParts: [],
+  routeParts: ["login"],
   tag: Promise.resolve("alpha"),
   isEnabled: true,
   actions: [],

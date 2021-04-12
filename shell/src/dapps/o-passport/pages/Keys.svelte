@@ -1,16 +1,20 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import {onMount} from "svelte";
+  import PassportHeader from "../atoms/PassportHeader.svelte";
 
   let showPhrase = false;
+
   function show() {
     showPhrase = !showPhrase;
   }
+
   onMount(() => {
     if (!localStorage.getItem("circles.session")) {
       window.location = <any>"/";
     }
   });
 </script>
+<PassportHeader />
 
 <div class="mx-4 mt-4">
   <section

@@ -1,6 +1,5 @@
 <script lang="ts">
-  import {authenticate} from "../processes/authenticate";
-  import {RunProcess} from "@o-platform/o-process/dist/events/runProcess";
+  import { RunProcess } from "@o-platform/o-process/dist/events/runProcess";
   import {
     shellProcess,
     ShellProcessContext,
@@ -8,19 +7,10 @@
   import Error from "../../../shared/atoms/Error.svelte";
   import LoadingIndicator from "../../../shared/atoms/LoadingIndicator.svelte";
   import Success from "../../../shared/atoms/Success.svelte";
-  import {Generate} from "@o-platform/o-utils/dist/generate";
-  import AuthHeader from "../atoms/AuthHeader.svelte";
-
-  export let params: {
-    code: string;
-  };
+  import { Generate } from "@o-platform/o-utils/dist/generate";
+  import {authenticate} from "../../o-auth/processes/authenticate";
 
   $: {
-    if (params && params.code) {
-      authenticateWithCircles("circles.land", params.code);
-    } else if (localStorage.getItem("circles.session")) {
-      window.location = <any>"/#/dashboard";
-    }
   }
 
   function authenticateWithCircles(appId: string, code?: string) {
@@ -49,4 +39,3 @@
     window.o.publishEvent(requestEvent);
   }
 </script>
-<AuthHeader />

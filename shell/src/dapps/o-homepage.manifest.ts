@@ -1,16 +1,16 @@
 import {
   faPeopleArrows,
 } from "@fortawesome/free-solid-svg-icons";
-import Home from "./o-auth/pages/Home.svelte";
+import Home from "./o-homepage/pages/Home.svelte";
 import {PageManifest} from "@o-platform/o-interfaces/dist/pageManifest";
 import {DappManifest} from "@o-platform/o-interfaces/dist/dappManifest";
 
 const index : PageManifest = {
   isDefault: true,
   isSystem: true,
-  routeParts: [""],
+  routeParts: [],
   component: Home,
-  title: "Login with Circles",
+  title: "Circles Land",
   available: [
     (detail) => {
       // Can navigate to?
@@ -20,33 +20,18 @@ const index : PageManifest = {
   ]
 };
 
-// Same as 'index' but accepts a ':code' parameter that will be passed to 'Home'
-const exchangeCode : PageManifest = {
-  isDefault: false,
-  isSystem: true,
-  routeParts: ["login", ":code"],
-  component: Home,
-  title: "Login with Circles",
-  available: [
-    (detail) => {
-      // Can navigate to?
-      // Sure!
-      return true;
-    }
-  ]
-};
 
 export interface DappState {
   // put state here
 }
 
-export const auth : DappManifest<DappState> = {
-  dappId: "auth:1",
+export const homepage : DappManifest<DappState> = {
+  dappId: "homepage:1",
   isSingleton: true,
   dependencies: [],
   isHidden: true,
   icon: faPeopleArrows,
-  title: "Circles authentication",
+  title: "Circles Land",
   routeParts: [],
   tag: Promise.resolve("alpha"),
   isEnabled: true,
@@ -58,5 +43,5 @@ export const auth : DappManifest<DappState> = {
       cancelDependencyLoading: false
     };
   },
-  pages: [index, exchangeCode]
+  pages: [index]
 };

@@ -1,5 +1,6 @@
 <script lang="ts">
   import {onMount} from "svelte";
+  import PassportHeader from "../atoms/PassportHeader.svelte";
 
   onMount(() => {
     if (!localStorage.getItem("circles.session")) {
@@ -8,6 +9,7 @@
   });
 </script>
 
+<PassportHeader />
 <div class="p-4 mt-4 bg-white rounded-t-xl md:rounded-xl">
   SETTINGS<br />
 </div>

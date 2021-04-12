@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { dapps } from "../../../loader";
-  import { dashboard } from "../../o-dashboard.manifest";
-  import { onMount } from "svelte";
+  import {dapps} from "../../../loader";
+  import {dashboard} from "../../o-dashboard.manifest";
+  import {onMount} from "svelte";
+  import DashboardHeader from "../atoms/DashboardHeader.svelte";
 
   onMount(() => {
     if (!localStorage.getItem("circles.session")) {
@@ -15,7 +16,7 @@
     );
   }
 </script>
-
+<DashboardHeader />
 <div class="mx-4">
   <!-- PASSPORT  -->
   <a href="/#/passport/profile">

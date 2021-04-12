@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import { Tabs, Tab, TabList, TabPanel } from "svelte-tabs";
+  import {onMount} from "svelte";
+  import {Tabs, Tab, TabList, TabPanel} from "svelte-tabs";
+  import PassportHeader from "../atoms/PassportHeader.svelte";
 
   onMount(() => {
     if (!localStorage.getItem("circles.session")) {
@@ -8,7 +9,7 @@
     }
   });
 </script>
-
+<PassportHeader />
 <div style="margin-top: -2.2rem;">
   <div class="mx-4 mt-4">
     <section

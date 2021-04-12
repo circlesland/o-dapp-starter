@@ -11,8 +11,9 @@
   import {shellProcess, ShellProcessContext} from "../../../shared/processes/shellProcess";
   import {transfer} from "../processes/transfer";
   import {setTrust} from "../processes/setTrust";
+  import BankingHeader from "../atoms/BankingHeader.svelte";
 
-  function execTransfer(recipientAddress?:string) {
+  function execTransfer(recipientAddress?: string) {
     window.o.publishEvent(new RunProcess<ShellProcessContext>(
       shellProcess,
       true,
@@ -28,7 +29,8 @@
         return ctx;
       }));
   }
-  function execTrust(recipientAddress?:string) {
+
+  function execTrust(recipientAddress?: string) {
     window.o.publishEvent(new RunProcess<ShellProcessContext>(
       shellProcess,
       true,
@@ -45,7 +47,8 @@
         return ctx;
       }));
   }
-  function execUntrust(recipientAddress?:string) {
+
+  function execUntrust(recipientAddress?: string) {
     window.o.publishEvent(new RunProcess<ShellProcessContext>(
       shellProcess,
       true,
@@ -63,6 +66,7 @@
       }));
   }
 </script>
+<BankingHeader />
 
 <div class="p-4 mt-4 bg-white rounded-t-xl md:rounded-xl">TRUSTS</div>
 

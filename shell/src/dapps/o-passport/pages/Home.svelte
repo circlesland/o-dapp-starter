@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { createOrRestoreKey } from "../processes/createOrRestoreKey";
-  import { RunProcess } from "@o-platform/o-process/dist/events/runProcess";
+  import {createOrRestoreKey} from "../processes/createOrRestoreKey";
+  import {RunProcess} from "@o-platform/o-process/dist/events/runProcess";
   import {
     shellProcess,
     ShellProcessContext,
@@ -8,9 +8,10 @@
   import Error from "../../../shared/atoms/Error.svelte";
   import LoadingIndicator from "../../../shared/atoms/LoadingIndicator.svelte";
   import Success from "../../../shared/atoms/Success.svelte";
-  import { upsertIdentity } from "../processes/upsertIdentity";
-  import { Generate } from "@o-platform/o-utils/dist/generate";
-  import { onMount } from "svelte";
+  import {upsertIdentity} from "../processes/upsertIdentity";
+  import {Generate} from "@o-platform/o-utils/dist/generate";
+  import {onMount} from "svelte";
+  import PassportHeader from "../atoms/PassportHeader.svelte";
 
   export let params: {
     jwt: string;
@@ -83,6 +84,7 @@
     window.o.publishEvent(requestEvent);
   }
 </script>
+<PassportHeader />
 
 <div class="flex flex-col self-center text-center -mt-12 ">
   <div class="avatar self-center">
