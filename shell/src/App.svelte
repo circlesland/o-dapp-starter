@@ -133,12 +133,16 @@
     lastLoadedPage = getLastLoadedPage();
     lastLoadedDapp = getLastLoadedDapp();
 
+    console.log("LAST PAGE: ", lastLoadedPage);
     if (lastLoadedDapp && lastLoadedDapp.dappId == "dashboard:1") {
       headertype = "dashboard";
     } else if (lastLoadedDapp && lastLoadedDapp.dappId == "auth:1") {
       headertype = "auth";
     } else if (lastLoadedDapp && lastLoadedDapp.dappId == "banking:1") {
-      headertype = "banking";
+      headertype = "small";
+      if (lastLoadedPage.title == "Transactions") {
+        headertype = "banking";
+      }
     } else {
       headertype = "small";
     }
@@ -266,7 +270,7 @@
       <!-- DASHBOARD HEADER STOP -->
     {/if}
     {#if headertype == "banking"}
-      <!-- DASHBOARD HEADER START -->
+      <!-- BANKING HEADER START -->
       <div
         class="h-80 flex flex-col items-stretch navbar bg-gradient-to-r from-gradient1 to-gradient2 text-white"
       >
@@ -296,6 +300,14 @@
               <circle cx="119.5" cy="111.5" r="18.5" fill="white" />
             </svg>
           </span>
+          <div class="p-6 space-y-2 self-end text-linkgrey max-w-max m-auto">
+            <small class="block">Transactions Update: 33% complete.</small>
+            <progress
+              class="progress progress-secondary transaction-update-progress"
+              value="33"
+              max="100"
+            />
+          </div>
         </div>
       </div>
       <!-- BANKING HEADER STOP -->

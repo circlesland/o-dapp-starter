@@ -43,3 +43,10 @@ button:focus {
 .autocomplete-list-item-no-results {
   width: 100%;
 }
+
+.transaction-update-progress {
+    vertical-align: top;
+    height: 0.1rem;
+    margin-top: 0.1rem!important;
+    
+}
