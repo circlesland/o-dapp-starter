@@ -21,6 +21,7 @@
   let runningProcess: Process;
 
   onMount(() => {
+    // <!-- TODO: Check if the passport creation was successful -->
     createPassport();
   })
 

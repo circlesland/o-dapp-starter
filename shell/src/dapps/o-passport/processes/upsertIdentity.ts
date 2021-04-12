@@ -14,6 +14,8 @@ export type UpsertIdentityContextData = {
   loginEmail: string;
   firstName?: string;
   lastName?: string;
+  country?:string;
+  statement?:string;
   avatar?: {
     bytes: Buffer,
     mimeType: string
@@ -25,7 +27,9 @@ export type UpsertIdentityContext = ProcessContext<UpsertIdentityContextData>;
 const strings = {
   labelFirstName: "firstName",
   labelLastName: "lastName",
-  labelAvatar: "avatar"
+  labelAvatar: "avatar",
+  labelCountry: "country",
+  labelStatement: "statement"
 };
 
 const processDefinition = (processId: string) =>
@@ -60,7 +64,7 @@ const processDefinition = (processId: string) =>
         id: "checkLastName",
         always:[{
           cond: (context) => false,
-          target: "#checkAvatar"
+          target: "#checkCountry"
         }, {
           target: "#lastName"
         }]
@@ -72,11 +76,54 @@ const processDefinition = (processId: string) =>
           label: strings.labelLastName,
         },
         navigation: {
-          next: "#checkAvatar",
+          next: "#checkCountry",
           previous: "#checkFirstName",
           canSkip: () => true
         },
       }),
+      checkCountry: {
+        id: "checkCountry",
+        always:[{
+          cond: (context) => false,
+          target: "#checkStatement"
+        }, {
+          target: "#country"
+        }]
+      },
+      country: prompt<AuthenticateContext, any>({
+        fieldName: "country",
+        component: TextEditor,
+        params: {
+          label: strings.labelCountry,
+        },
+        navigation: {
+          next: "#checkStatement",
+          previous: "#checkLastName",
+          canSkip: () => true
+        },
+      }),
+      checkStatement: {
+        id: "checkStatement",
+        always:[{
+          cond: (context) => false,
+          target: "#checkAvatar"
+        }, {
+          target: "#statement"
+        }]
+      },
+      statement: prompt<AuthenticateContext, any>({
+        fieldName: "statement",
+        component: TextEditor,
+        params: {
+          label: strings.labelStatement,
+        },
+        navigation: {
+          next: "#checkAvatar",
+          previous: "#checkCountry",
+          canSkip: () => true
+        },
+      }),
+
       checkAvatar: {
         id: "checkAvatar",
         always:[{
