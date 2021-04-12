@@ -3,6 +3,7 @@ import Home from "./o-passport/pages/Home.svelte";
 import Account from "./o-passport/pages/Account.svelte";
 import Keys from "./o-passport/pages/Keys.svelte";
 import Settings from "./o-passport/pages/Settings.svelte";
+import CreatePassport from "./o-passport/pages/CreatePassport.svelte";
 import { PageManifest } from "@o-platform/o-interfaces/dist/pageManifest";
 import { DappManifest } from "@o-platform/o-interfaces/dist/dappManifest";
 import { RunProcess } from "@o-platform/o-process/dist/events/runProcess";
@@ -27,6 +28,24 @@ const index: PageManifest = {
       return true;
     },
   ],
+};
+
+
+const createPassport : PageManifest = {
+  isDefault: true,
+  isSystem: true,
+  isFullWidth: true,
+  hideFooter: true,
+  routeParts: ["new-passport"],
+  component: CreatePassport,
+  title: "Create your new passport",
+  available: [
+    (detail) => {
+      // Can navigate to?
+      // Sure!
+      return true;
+    }
+  ]
 };
 
 const account: PageManifest = {
@@ -132,5 +151,5 @@ export const passport: DappManifest<DappState> = {
       cancelDependencyLoading: false,
     };
   },
-  pages: [index, account, keys, settings, exchangeToken],
+  pages: [index, account, keys, settings, exchangeToken, createPassport],
 };

@@ -181,7 +181,7 @@
 
   let layoutClasses = "";
   $:{
-    layoutClasses = lastLoadedDapp && lastLoadedDapp.isFullWidth ? "" : "md:w-2/3 xl:w-1/2";
+    layoutClasses = (lastLoadedDapp && lastLoadedDapp.isFullWidth) || (lastLoadedPage && lastLoadedPage.isFullWidth) ? "" : "md:w-2/3 xl:w-1/2";
   }
 </script>
 
@@ -202,7 +202,7 @@
     </div>
   </main>
 
-  {#if lastLoadedDapp && !lastLoadedDapp.hideFooter}
+  {#if lastLoadedDapp && !lastLoadedDapp.hideFooter && lastLoadedPage && !lastLoadedPage.hideFooter}
     {#if !localStorage.getItem("circles.key")}
       <footer class="z-50  w-full sticky bottom-0 ">
         <div class="flex justify-around ">
