@@ -1,8 +1,11 @@
+@import "./fonts.css";
+
 .circles-button {
   padding-left: 3px;
   padding-right: 5px;
   padding-bottom: 4px;
   padding-top: 3px;
+  min-width: 3.5rem;
 }
 
 input:focus,
@@ -45,8 +48,7 @@ button:focus {
 }
 
 .transaction-update-progress {
-    vertical-align: top;
-    height: 0.1rem;
-    margin-top: 0.1rem!important;
-    
+  vertical-align: top;
+  height: 0.1rem;
+  margin-top: 0.1rem !important;
 }

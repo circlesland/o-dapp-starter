@@ -40,7 +40,9 @@
           </svg>
         </div>
         <div class="flex items-center">
-          <h2 class="text-2xl font-bold mr-2 text-circlesdarkblue">Passport</h2>
+          <h2 class="text-4xl font-circles mr-2 text-circlesdarkblue">
+            Passport
+          </h2>
         </div>
         <div class="flex justify-end flex-1 mr-1 text-base-300">
           <svg
@@ -83,7 +85,9 @@
           </svg>
         </div>
         <div class="flex items-center">
-          <h2 class="text-2xl font-bold mr-2 text-circlesdarkblue">Banking</h2>
+          <h2 class="text-4xl font-circles mr-2 text-circlesdarkblue">
+            Banking
+          </h2>
         </div>
         <div class="flex justify-end flex-1 mr-1 text-base-300">
           <svg
@@ -124,7 +128,7 @@
           </svg>
         </div>
         <div class="flex flex-col items-left">
-          <h2 class="text-2xl font-bold mr-2 text-base-300">Market</h2>
+          <h2 class="text-4xl font-circles mr-2 text-base-300">Market</h2>
           <p class="text-sm text-base-300">coming soon</p>
         </div>
         <div class="flex justify-end flex-1 mr-1 text-base-300">
@@ -166,7 +170,7 @@
           </svg>
         </div>
         <div class="flex flex-col items-left">
-          <h2 class="text-2xl font-bold mr-2 text-base-300">Chat</h2>
+          <h2 class="text-4xl font-circles mr-2 text-base-300">Chat</h2>
           <p class="text-sm text-base-300">coming soon</p>
         </div>
         <div class="flex justify-end flex-1 mr-1 text-base-300">
