@@ -61,7 +61,8 @@
 }
 
 .bottom-nav-icon {
-  width: 2rem;
+  width: 1.5rem;
+  height: 1.5rem;
   background-color: rgba(31, 41, 55, 0.5);
   background-size: 2rem 100%;
 }

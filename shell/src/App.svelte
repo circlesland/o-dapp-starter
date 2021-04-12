@@ -253,21 +253,42 @@
       <!-- DASHBOARD HEADER STOP -->
     {/if}
     {#if headertype == "small"}
-      <!-- PROFILE HEADER START -->
+      <!-- SMALL HEADER START -->
       <div
-        class="h-28 flex flex-col  navbar bg-gradient-to-r from-gradient1 to-gradient2 text-white"
+        class="h-28 flex flex-row  justify-between navbar bg-gradient-to-r from-gradient1 to-gradient2 text-white"
       >
         {#if lastLoadedDapp && lastLoadedPage}
-          <div class=" pl-2 ">
-            <span class="text-lg font-circles self-center"
+          <div class=" pl-2 self-start">
+            <span class="text-lg font-circles "
               >{#if lastLoadedDapp.title != lastLoadedPage.title}
                 {lastLoadedDapp.title} /
               {/if}{lastLoadedPage.title}</span
             >
           </div>
+          <div class="self-start">
+            <button
+              class=" text-base-300"
+              on:click={() => (window.location = "/#/dashboard")}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                />
+              </svg>
+            </button>
+          </div>
         {/if}
       </div>
-      <!-- DASHBOARD HEADER STOP -->
+      <!-- SMALL HEADER STOP -->
     {/if}
     {#if headertype == "banking"}
       <!-- BANKING HEADER START -->
@@ -275,12 +296,37 @@
         class="h-80 flex flex-col items-stretch navbar bg-gradient-to-r from-gradient1 to-gradient2 text-white"
       >
         {#if lastLoadedDapp && lastLoadedPage}
-          <div class=" pl-2 ">
-            <span class="text-lg font-circles"
-              >{#if lastLoadedDapp.title != lastLoadedPage.title}
-                {lastLoadedDapp.title} /
-              {/if}{lastLoadedPage.title}</span
-            >
+          <div
+            class="h-28 flex flex-row  justify-between navbar bg-gradient-to-r from-gradient1 to-gradient2 text-white"
+          >
+            <div class=" pl-2 self-start">
+              <span class="text-lg font-circles "
+                >{#if lastLoadedDapp.title != lastLoadedPage.title}
+                  {lastLoadedDapp.title} /
+                {/if}{lastLoadedPage.title}</span
+              >
+            </div>
+            <div class="self-start">
+              <button
+                class=" text-base-300"
+                on:click={() => (window.location = "/#/dashboard")}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         {/if}
         <div class="self-center text-center mt-16 block">
@@ -352,78 +398,104 @@
     </footer>
   {:else}
     <footer class="z-50  w-full sticky bottom-0 bg-white h-12">
-      <div class="flex justify-around ">
-        {#if lastPrompt && lastPrompt.navigation.canGoBack}
-          <button
-            class="bg-white btn btn-outline"
-            on:click={() => modalProcess.sendAnswer(new Back())}>back</button
-          >
-        {/if}
+      {#if !modalProcess}
+        <!-- NOT MODAL START -->
+        <div class="grid grid-cols-5">
+          {#if lastLoadedDapp}
+            {#each lastLoadedDapp.pages
 
-        {#if !modalProcess}
-          <button class="bg-white text-linkgrey self-center h-12">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              class="inline-block w-6 h-6 stroke-current"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-              />
-            </svg>
-          </button>
-        {/if}
-        <button
-          class="bg-white btn-circle -m-4 w-14 h-14 shadow-lg circles-button "
-          on:click={() => {
-            isOpen = !isOpen;
-            if (!isOpen) {
-              lastPrompt = null;
-              if (modalProcess) {
-                modalProcess.sendEvent(new Cancel());
+              .filter((o) => !o.isSystem)
+              .slice(0, 2) as page}
+              <a
+                href="#/{lastLoadedDapp.routeParts.join('/') +
+                  '/' +
+                  page.routeParts.join('/')}"
+                class="justify-self-center inline-block w-full text-center focus:text-teal-500 hover:text-teal-500"
+              >
+                <div
+                  class="justify-self-center h-full m-auto mt-1 bottom-nav-icon icon-{page.title.toLowerCase()} "
+                />
+                <span class="block text-xs tab p-0">{page.title}</span>
+              </a>
+            {/each}
+          {/if}
+          <button
+            class="justify-self-center col-start-3 col-end-3 bg-white btn-circle -m-4 min-w-min w-14 h-14 mx-2 shadow-lg circles-button "
+            on:click={() => {
+              isOpen = !isOpen;
+              if (!isOpen) {
+                lastPrompt = null;
+                if (modalProcess) {
+                  modalProcess.sendEvent(new Cancel());
+                }
               }
-            }
-          }}
-        >
-          <img
-            class="w-full"
-            src="/images/common/circles.png"
-            alt="circles.land"
-          />
-        </button>
-        {#if !modalProcess}
-          <button
-            class="bg-white text-linkgrey self-center h-12"
-            on:click={() => (window.location = "/#/dashboard")}
+            }}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-              />
-            </svg>
+            <img
+              class="w-full"
+              src="/images/common/circles.png"
+              alt="circles.land"
+            />
           </button>
-        {/if}
 
-        {#if lastPrompt && lastPrompt.navigation.canSkip}
+          {#if lastLoadedDapp}
+            {#each lastLoadedDapp.pages
+
+              .filter((o) => !o.isSystem)
+              .splice(2) as page}
+              <a
+                href="#/{lastLoadedDapp.routeParts.join('/') +
+                  '/' +
+                  page.routeParts.join('/')}"
+                class="justify-self-center inline-block w-full text-center focus:text-teal-500 hover:text-teal-500"
+              >
+                <div
+                  class="justify-self-center h-full m-auto mt-1  bottom-nav-icon icon-{page.title.toLowerCase()}"
+                />
+                <span class="block text-xs tab p-0">{page.title}</span>
+              </a>
+            {/each}
+          {/if}
+          <!-- NOT MODAL END -->
+        </div>
+      {:else}
+        <!-- MODAL START -->
+        <div class="grid grid-cols-1">
+          {#if lastPrompt && lastPrompt.navigation.canGoBack}
+            <button
+              class="bg-white btn btn-outline"
+              on:click={() => modalProcess.sendAnswer(new Back())}>back</button
+            >
+          {/if}
+
           <button
-            class="bg-white btn btn-outline"
-            on:click={() => modalProcess.sendAnswer(new Skip())}>skip</button
+            class="justify-self-center bg-white btn-circle -m-4 min-w-min w-14 h-14 mx-2 shadow-lg circles-button "
+            on:click={() => {
+              isOpen = !isOpen;
+              if (!isOpen) {
+                lastPrompt = null;
+                if (modalProcess) {
+                  modalProcess.sendEvent(new Cancel());
+                }
+              }
+            }}
           >
-        {/if}
-      </div>
+            <img
+              class="w-full"
+              src="/images/common/circles.png"
+              alt="circles.land"
+            />
+          </button>
+
+          {#if lastPrompt && lastPrompt.navigation.canSkip}
+            <button
+              class="bg-white btn btn-outline"
+              on:click={() => modalProcess.sendAnswer(new Skip())}>skip</button
+            >
+          {/if}
+        </div>
+        <!--  MODAL END -->
+      {/if}
     </footer>
   {/if}
 </div>
@@ -449,23 +521,6 @@
                 window.o.publishEvent(action.event(getLastLoadedDapp()))}
               class="w-full btn btn-primary btn-outline">{action.label}</button
             >
-          {/each}
-        </div>
-      {/if}
-      {#if getLastLoadedDapp()}
-        <div class="flex justify-between pb-8">
-          {#each getLastLoadedDapp().pages.filter((o) => !o.isSystem) as page}
-            <a
-              href="#/{getLastLoadedDapp().routeParts.join('/') +
-                '/' +
-                page.routeParts.join('/')}"
-              class="justify-center inline-block w-full text-center focus:text-teal-500 hover:text-teal-500"
-            >
-              <div
-                class="h-full m-auto bottom-nav-icon icon-{page.title.toLowerCase()}"
-              />
-              <span class="block text-xs tab tab-home">{page.title}</span>
-            </a>
           {/each}
         </div>
       {/if}
