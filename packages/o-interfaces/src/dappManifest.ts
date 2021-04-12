@@ -18,6 +18,8 @@ export interface DappManifest<TState extends {[x:string]:any}>
 
   hideFooter?: boolean;
 
+  isFullWidth?: boolean;
+
   /**
    * If the auth should be hidden in menus.
    */

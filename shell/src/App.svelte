@@ -178,6 +178,11 @@
     requestEvent.id = Generate.randomHexString(8);
     window.o.publishEvent(requestEvent);
   }
+
+  let layoutClasses = "";
+  $:{
+    layoutClasses = lastLoadedDapp && lastLoadedDapp.isFullWidth ? "" : "md:w-2/3 xl:w-1/2";
+  }
 </script>
 
 <div class="flex flex-col h-screen ">
@@ -187,7 +192,7 @@
   </header> -->
 
   <main class="flex-1 overflow-y-visible z-30">
-    <div class="w-full mx-auto md:w-2/3 xl:w-1/2 ">
+    <div class="w-full mx-auto {layoutClasses}">
       <Router
         {routes}
         on:conditionsFailed={conditionsFailed}
