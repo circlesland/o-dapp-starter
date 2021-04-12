@@ -2,14 +2,15 @@ import { ProcessDefinition } from "@o-platform/o-process/dist/interfaces/process
 import { ProcessContext } from "@o-platform/o-process/dist/interfaces/processContext";
 import { fatalError } from "@o-platform/o-process/dist/states/fatalError";
 import { createMachine } from "xstate";
-import {prompt} from "@o-platform/o-process/dist/states/prompt";
+import { prompt } from "@o-platform/o-process/dist/states/prompt";
 import TextEditor from "../../../../../packages/o-editors/src/TextEditor.svelte";
-import {PlatformEvent} from "@o-platform/o-events/dist/platformEvent";
+import TextAutocompleteEditor from "../../../../../packages/o-editors/src/TextAutocompleteEditor.svelte";
+import { PlatformEvent } from "@o-platform/o-events/dist/platformEvent";
 
 export type SetTrustContextData = {
-  safeAddress:string;
-  trustReceiver?:string;
-  trustLimit?:number;
+  safeAddress: string;
+  trustReceiver?: string;
+  trustLimit?: number;
 };
 
 /**
@@ -24,8 +25,23 @@ export type SetTrustContext = ProcessContext<SetTrustContextData>;
  */
 const strings = {
   labelTrustReceiver: "Enter the address of the account that you want to trust",
-  labelTrustLimit: "Enter the trust limit (0-100)"
+  labelTrustLimit: "Enter the trust limit (0-100)",
 };
+
+const colorList = [
+  { id: 1, name: "White", code: "#FFFFFF" },
+  { id: 2, name: "Red", code: "#FF0000" },
+  { id: 3, name: "Yellow", code: "#FF00FF" },
+  { id: 4, name: "Green", code: "#00FF00" },
+  { id: 5, name: "Blue", code: "#0000FF" },
+  { id: 6, name: "Black", code: "#000000" },
+  { id: 7, name: "Yeller", code: "#FF00FF" },
+  { id: 8, name: "Yelleri", code: "#FF00FF" },
+  { id: 9, name: "Yellera", code: "#FF00FF" },
+  { id: 10, name: "Yellero", code: "#00FF00" },
+  { id: 11, name: "Yellomatic", code: "#0000FF" },
+  { id: 12, name: "Black", code: "#000000" },
+];
 
 const processDefinition = (processId: string) =>
   createMachine<SetTrustContext, any>({
@@ -38,18 +54,22 @@ const processDefinition = (processId: string) =>
 
       checkTrustReceiver: {
         id: "checkTrustReceiver",
-        always: [{
-          cond: (context) => !!context.data.trustReceiver,
-          target: "#checkTrustLimit"
-        }, {
-          target: "#trustReceiver"
-        }]
+        always: [
+          {
+            cond: (context) => !!context.data.trustReceiver,
+            target: "#checkTrustLimit",
+          },
+          {
+            target: "#trustReceiver",
+          },
+        ],
       },
       trustReceiver: prompt<SetTrustContext, any>({
         fieldName: "trustReceiver",
-        component: TextEditor,
+        component: TextAutocompleteEditor,
         params: {
           label: strings.labelTrustReceiver,
+          data: colorList,
         },
         navigation: {
           next: "#checkTrustLimit",
@@ -57,12 +77,17 @@ const processDefinition = (processId: string) =>
       }),
       checkTrustLimit: {
         id: "checkTrustLimit",
-        always: [{
-          cond: (context) => context.data.trustLimit !== undefined && context.data.trustLimit !== null,
-          target: "#setTrust"
-        }, {
-          target: "#trustLimit"
-        }]
+        always: [
+          {
+            cond: (context) =>
+              context.data.trustLimit !== undefined &&
+              context.data.trustLimit !== null,
+            target: "#setTrust",
+          },
+          {
+            target: "#trustLimit",
+          },
+        ],
       },
       trustLimit: prompt<SetTrustContext, any>({
         fieldName: "trustLimit",
@@ -72,7 +97,7 @@ const processDefinition = (processId: string) =>
         },
         navigation: {
           previous: "#checkTrustReceiver",
-          next: "#setTrust"
+          next: "#setTrust",
         },
       }),
       // The code was either manually entered or pre-configured at launch.
@@ -82,20 +107,20 @@ const processDefinition = (processId: string) =>
         invoke: {
           src: async (context) => {
             return {
-              data: "yeah!"
-            }
+              data: "yeah!",
+            };
           },
           onDone: "#success",
           onError: "#error",
         },
       },
       success: {
-        type: 'final',
+        type: "final",
         id: "success",
         data: (context, event: PlatformEvent) => {
           return "yeah!";
-        }
-      }
+        },
+      },
     },
   });
 
