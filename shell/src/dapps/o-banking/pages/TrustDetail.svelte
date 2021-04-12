@@ -12,8 +12,8 @@
     }
   });
 
-  export let params:{
-    trustPartner:string
+  export let params: {
+    trustPartner: string
   };
 
   function execTransfer(recipientAddress?: string) {

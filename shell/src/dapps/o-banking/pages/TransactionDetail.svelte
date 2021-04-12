@@ -2,10 +2,11 @@
   import {onMount} from "svelte";
   import BankingDetailHeader from "../atoms/BankingDetailHeader.svelte";
 
-  export let params:{
-    from:string
-    to:string
-    blockNo?:string
+
+  export let params: {
+    from: string
+    to: string
+    blockNo?: string
   };
 
   onMount(() => {

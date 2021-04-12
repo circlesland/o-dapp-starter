@@ -16,6 +16,8 @@ export interface DappManifest<TState extends {[x:string]:any}>
    */
   isSingleton: boolean;
 
+  hideFooter?: boolean;
+
   /**
    * If the auth should be hidden in menus.
    */

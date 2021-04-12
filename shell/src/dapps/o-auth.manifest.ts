@@ -45,6 +45,7 @@ export const auth : DappManifest<DappState> = {
   isSingleton: true,
   dependencies: [],
   isHidden: true,
+  hideFooter: true,
   icon: faPeopleArrows,
   title: "Circles authentication",
   routeParts: ["login"],

@@ -35,6 +35,7 @@ export const homepage : DappManifest<DappState> = {
   routeParts: [],
   tag: Promise.resolve("alpha"),
   isEnabled: true,
+  hideFooter: true,
   actions: [],
   initialize: async (stack, runtimeDapp) => {
     // Do init stuff here

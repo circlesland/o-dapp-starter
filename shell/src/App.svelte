@@ -34,9 +34,6 @@
   import {ProcessEvent} from "@o-platform/o-process/dist/interfaces/processEvent";
   import {PageManifest} from "@o-platform/o-interfaces/dist/pageManifest";
   import {DappManifest} from "@o-platform/o-interfaces/dist/dappManifest";
-  import AuthHeader from "./dapps/o-auth/atoms/AuthHeader.svelte";
-  import DashboardHeader from "./dapps/o-dashboard/atoms/DashboardHeader.svelte";
-  import BankingHeader from "./dapps/o-banking/atoms/BankingHeader.svelte";
 
   let isOpen: boolean = false;
   let modalProcess: Process;
@@ -129,7 +126,6 @@
 
   let lastLoadedPage: PageManifest;
   let lastLoadedDapp: DappManifest<any>;
-  let headertype = "small";
 
   function routeLoaded() {
     // Pretty self explanatory. For more lookup the svelte-spa-router docs,
@@ -201,134 +197,136 @@
     </div>
   </main>
 
-  {#if !localStorage.getItem("circles.key")}
-    <footer class="z-50  w-full sticky bottom-0 ">
-      <div class="flex justify-around ">
-        <button
-          class="mb-4 btn btn-outline bg-base-100"
-          on:click={() => authenticateWithCircles("circles.land")}
-        >
-          {#if !isOpen}
-            <img
-              width="15px"
-              class="mr-3"
-              src="/images/common/circles.png"
-              alt="circles.land"
-            /> login with circles
-          {:else}
-            <img
-              width="15px"
-              class="mr-3"
-              src="/images/common/circles.png"
-              alt="circles.land"
-            /> Close
-          {/if}
-        </button>
-      </div>
-    </footer>
-  {:else}
-    <footer class="z-50  w-full sticky bottom-0 bg-white h-12">
-      <div class="w-full mx-auto md:w-2/3 xl:w-1/2 ">
-      {#if !modalProcess}
-        <!-- NOT MODAL START -->
-        <div class="grid grid-cols-5">
-          {#if lastLoadedDapp}
-            {#each lastLoadedDapp.pages
-
-              .filter((o) => !o.isSystem)
-              .slice(0, 2) as page}
-              <a
-                href="#/{lastLoadedDapp.routeParts.join('/') +
-                  '/' +
-                  page.routeParts.join('/')}"
-                class="justify-self-center inline-block w-full text-center focus:text-teal-500 hover:text-teal-500"
-              >
-                <div
-                  class="justify-self-center h-full m-auto mt-1 bottom-nav-icon icon-{page.title.toLowerCase()} "
-                />
-                <span class="block text-xs tab p-0">{page.title}</span>
-              </a>
-            {/each}
-          {/if}
+  {#if lastLoadedDapp && !lastLoadedDapp.hideFooter}
+    {#if !localStorage.getItem("circles.key")}
+      <footer class="z-50  w-full sticky bottom-0 ">
+        <div class="flex justify-around ">
           <button
-            class="justify-self-center col-start-3 col-end-3 bg-white btn-circle -m-4 min-w-min w-14 h-14 mx-2 shadow-lg circles-button "
-            on:click={() => {
-              isOpen = !isOpen;
-              if (!isOpen) {
-                lastPrompt = null;
-                if (modalProcess) {
-                  modalProcess.sendEvent(new Cancel());
-                }
-              }
-            }}
+            class="mb-4 btn btn-outline bg-base-100"
+            on:click={() => authenticateWithCircles("circles.land")}
           >
-            <img
-              class="w-full"
-              src="/images/common/circles.png"
-              alt="circles.land"
-            />
+            {#if !isOpen}
+              <img
+                width="15px"
+                class="mr-3"
+                src="/images/common/circles.png"
+                alt="circles.land"
+              /> login with circles
+            {:else}
+              <img
+                width="15px"
+                class="mr-3"
+                src="/images/common/circles.png"
+                alt="circles.land"
+              /> Close
+            {/if}
           </button>
+        </div>
+      </footer>
+    {:else}
+      <footer class="z-50  w-full sticky bottom-0 bg-white h-12">
+        <div class="w-full mx-auto md:w-2/3 xl:w-1/2 ">
+        {#if !modalProcess}
+          <!-- NOT MODAL START -->
+          <div class="grid grid-cols-5">
+            {#if lastLoadedDapp}
+              {#each lastLoadedDapp.pages
 
-          {#if lastLoadedDapp}
-            {#each lastLoadedDapp.pages
+                .filter((o) => !o.isSystem)
+                .slice(0, 2) as page}
+                <a
+                  href="#/{lastLoadedDapp.routeParts.join('/') +
+                    '/' +
+                    page.routeParts.join('/')}"
+                  class="justify-self-center inline-block w-full text-center focus:text-teal-500 hover:text-teal-500"
+                >
+                  <div
+                    class="justify-self-center h-full m-auto mt-1 bottom-nav-icon icon-{page.title.toLowerCase()} "
+                  />
+                  <span class="block text-xs tab p-0">{page.title}</span>
+                </a>
+              {/each}
+            {/if}
+            <button
+              class="justify-self-center col-start-3 col-end-3 bg-white btn-circle -m-4 min-w-min w-14 h-14 mx-2 shadow-lg circles-button "
+              on:click={() => {
+                isOpen = !isOpen;
+                if (!isOpen) {
+                  lastPrompt = null;
+                  if (modalProcess) {
+                    modalProcess.sendEvent(new Cancel());
+                  }
+                }
+              }}
+            >
+              <img
+                class="w-full"
+                src="/images/common/circles.png"
+                alt="circles.land"
+              />
+            </button>
 
-              .filter((o) => !o.isSystem)
-              .splice(2) as page}
-              <a
-                href="#/{lastLoadedDapp.routeParts.join('/') +
-                  '/' +
-                  page.routeParts.join('/')}"
-                class="justify-self-center inline-block w-full text-center focus:text-teal-500 hover:text-teal-500"
+            {#if lastLoadedDapp}
+              {#each lastLoadedDapp.pages
+
+                .filter((o) => !o.isSystem)
+                .splice(2) as page}
+                <a
+                  href="#/{lastLoadedDapp.routeParts.join('/') +
+                    '/' +
+                    page.routeParts.join('/')}"
+                  class="justify-self-center inline-block w-full text-center focus:text-teal-500 hover:text-teal-500"
+                >
+                  <div
+                    class="justify-self-center h-full m-auto mt-1  bottom-nav-icon icon-{page.title.toLowerCase()}"
+                  />
+                  <span class="block text-xs tab p-0">{page.title}</span>
+                </a>
+              {/each}
+            {/if}
+            <!-- NOT MODAL END -->
+          </div>
+        {:else}
+          <!-- MODAL START -->
+          <div class="grid grid-cols-1">
+            {#if lastPrompt && lastPrompt.navigation.canGoBack}
+              <button
+                class="bg-white btn btn-outline"
+                on:click={() => modalProcess.sendAnswer(new Back())}>back</button
               >
-                <div
-                  class="justify-self-center h-full m-auto mt-1  bottom-nav-icon icon-{page.title.toLowerCase()}"
-                />
-                <span class="block text-xs tab p-0">{page.title}</span>
-              </a>
-            {/each}
-          {/if}
-          <!-- NOT MODAL END -->
-        </div>
-      {:else}
-        <!-- MODAL START -->
-        <div class="grid grid-cols-1">
-          {#if lastPrompt && lastPrompt.navigation.canGoBack}
-            <button
-              class="bg-white btn btn-outline"
-              on:click={() => modalProcess.sendAnswer(new Back())}>back</button
-            >
-          {/if}
+            {/if}
 
-          <button
-            class="justify-self-center bg-white btn-circle -m-4 min-w-min w-14 h-14 mx-2 shadow-lg circles-button "
-            on:click={() => {
-              isOpen = !isOpen;
-              if (!isOpen) {
-                lastPrompt = null;
-                if (modalProcess) {
-                  modalProcess.sendEvent(new Cancel());
+            <button
+              class="justify-self-center bg-white btn-circle -m-4 min-w-min w-14 h-14 mx-2 shadow-lg circles-button "
+              on:click={() => {
+                isOpen = !isOpen;
+                if (!isOpen) {
+                  lastPrompt = null;
+                  if (modalProcess) {
+                    modalProcess.sendEvent(new Cancel());
+                  }
                 }
-              }
-            }}
-          >
-            <img
-              class="w-full"
-              src="/images/common/circles.png"
-              alt="circles.land"
-            />
-          </button>
-
-          {#if lastPrompt && lastPrompt.navigation.canSkip}
-            <button
-              class="bg-white btn btn-outline"
-              on:click={() => modalProcess.sendAnswer(new Skip())}>skip</button
+              }}
             >
-          {/if}
+              <img
+                class="w-full"
+                src="/images/common/circles.png"
+                alt="circles.land"
+              />
+            </button>
+
+            {#if lastPrompt && lastPrompt.navigation.canSkip}
+              <button
+                class="bg-white btn btn-outline"
+                on:click={() => modalProcess.sendAnswer(new Skip())}>skip</button
+              >
+            {/if}
+          </div>
+          <!--  MODAL END -->
+        {/if}
         </div>
-        <!--  MODAL END -->
-      {/if}
-      </div>
-    </footer>
+      </footer>
+    {/if}
   {/if}
 </div>
 

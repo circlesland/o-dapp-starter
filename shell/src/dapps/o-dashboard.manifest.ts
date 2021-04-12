@@ -41,6 +41,7 @@ export const dashboard : DappManifest<DappState> = {
   routeParts: ["dashboard"],
   tag: Promise.resolve("alpha"),
   isEnabled: true,
+  hideFooter: true,
   actions: [{
     key: "xats",
     label: "Featured xATS TokenSale Campaign",

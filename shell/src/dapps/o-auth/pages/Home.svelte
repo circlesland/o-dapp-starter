@@ -18,9 +18,9 @@
   $: {
     if (params && params.code) {
       authenticateWithCircles("circles.land", params.code);
-    } else if (localStorage.getItem("circles.session")) {
+    } /*else if (localStorage.getItem("circles.session")) {
       window.location = <any>"/#/dashboard";
-    }
+    }*/
   }
 
   function authenticateWithCircles(appId: string, code?: string) {
