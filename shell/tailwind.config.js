@@ -26,6 +26,7 @@ module.exports = {
         circlesblue: "#08568B",
         circlesdarkblue: "#032A45",
         circleshighlightblue: "#099BB0",
+        circleslightblue: "#7c96a3",
         linkgrey: "#97acbc",
         transactionpositive: "#32CD32",
         transactionnegative: "#DC143C",
