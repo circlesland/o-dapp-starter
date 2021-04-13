@@ -4,6 +4,7 @@ import Account from "./o-passport/pages/Account.svelte";
 import Keys from "./o-passport/pages/Keys.svelte";
 import Settings from "./o-passport/pages/Settings.svelte";
 import CreatePassport from "./o-passport/pages/CreatePassport.svelte";
+import CreateOrImportKey from "./o-passport/pages/CreateOrImportKey.svelte";
 import { PageManifest } from "@o-platform/o-interfaces/dist/pageManifest";
 import { DappManifest } from "@o-platform/o-interfaces/dist/dappManifest";
 import { RunProcess } from "@o-platform/o-process/dist/events/runProcess";
@@ -30,15 +31,31 @@ const index: PageManifest = {
   ],
 };
 
-
 const createPassport : PageManifest = {
-  isDefault: true,
+  isDefault: false,
   isSystem: true,
   isFullWidth: true,
   hideFooter: true,
   routeParts: ["new-passport"],
   component: CreatePassport,
   title: "Create your new passport",
+  available: [
+    (detail) => {
+      // Can navigate to?
+      // Sure!
+      return true;
+    }
+  ]
+};
+
+const createOrImportKey : PageManifest = {
+  isDefault: false,
+  isSystem: true,
+  isFullWidth: true,
+  hideFooter: true,
+  routeParts: ["create-or-import-key"],
+  component: CreateOrImportKey,
+  title: "Create a new key or import an existing",
   available: [
     (detail) => {
       // Can navigate to?
@@ -91,10 +108,12 @@ const settings: PageManifest = {
 };
 
 const exchangeToken: PageManifest = {
-  isDefault: true,
+  isDefault: false,
   isSystem: true,
+  isFullWidth: true,
+  hideFooter: true,
   routeParts: ["exchangeToken", ":jwt"],
-  component: Home,
+  component: CreatePassport,
   title: "Login",
   available: [
     (detail) => {
@@ -151,5 +170,5 @@ export const passport: DappManifest<DappState> = {
       cancelDependencyLoading: false,
     };
   },
-  pages: [index, account, keys, settings, exchangeToken, createPassport],
+  pages: [index, account, keys, settings, exchangeToken, createPassport, createOrImportKey],
 };

@@ -12,20 +12,20 @@
   import {Subscription} from "rxjs";
   import {Generate} from "@o-platform/o-utils/dist/generate";
   import {ProcessStarted} from "@o-platform/o-process/dist/events/processStarted";
-  import {upsertIdentity} from "../processes/upsertIdentity";
   import {onMount} from "svelte";
   import {push} from "svelte-spa-router";
+  import {createOrRestoreKey} from "../processes/createOrRestoreKey";
 
   let devHome = true;
   let devDash = false;
   let runningProcess: Process;
 
   onMount(() => {
-    // <!-- TODO: Check if the passport creation was successful -->
-    createPassport();
+    // <!-- TODO: Check if the user already has a key -->
+    createOrImportKey();
   })
 
-  function createPassport() {
+  function createOrImportKey() {
     // TODO: Refactor to request/response pattern with timeout
     let answerSubscription: Subscription;
     let requestId: string;
@@ -34,7 +34,7 @@
       shellProcess,
       false,
       async (ctx) => {
-        ctx.childProcessDefinition = upsertIdentity;
+        ctx.childProcessDefinition = createOrRestoreKey;
         ctx.childContext = {
           data: {
           },
@@ -78,8 +78,8 @@
             <ProcessContainer
               process={runningProcess}
               on:stopped={() => {
-// <!-- TODO: Check if the passport creation was successful -->
-                push("/passport/create-or-import-key")
+// <!-- TODO: Check if the key creation or import was successful -->
+                push("/dashboard")
               }} />{
             /if}
         </div>

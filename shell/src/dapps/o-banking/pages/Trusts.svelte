@@ -2,10 +2,14 @@
   import { onMount } from "svelte";
 
   onMount(() => {
-    if (!localStorage.getItem("circles.session")) {
-      window.location = <any>"/";
+    if (params && params.inviteAccountAddress) {
+      execSendInviteGas(params.inviteAccountAddress);
     }
   });
+
+  export let params: {
+    inviteAccountAddress?: string
+  };
 
   import { RunProcess } from "@o-platform/o-process/dist/events/runProcess";
   import {
@@ -15,6 +19,7 @@
   import { transfer } from "../processes/transfer";
   import { setTrust } from "../processes/setTrust";
   import BankingHeader from "../atoms/BankingHeader.svelte";
+  import {sendInviteGas} from "../processes/sendInviteGas";
 
   function execTransfer(recipientAddress?: string) {
     window.o.publishEvent(
@@ -64,6 +69,25 @@
         return ctx;
       })
     );
+  }
+
+  function execSendInviteGas(recipientAddress?: string) {
+    window.o.publishEvent(new RunProcess<ShellProcessContext>(
+      shellProcess,
+      true,
+      async (ctx) => {
+        ctx.childProcessDefinition = sendInviteGas;
+        ctx.childContext = {
+          data: {
+            safeAddress: "TODO: my safe address",
+            recipientAddress: recipientAddress,
+            amount: 0.1
+          },
+          dirtyFlags: {},
+          environment: {},
+        };
+        return ctx;
+      }));
   }
 </script>
 

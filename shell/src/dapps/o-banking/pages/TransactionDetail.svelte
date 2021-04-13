@@ -7,12 +7,6 @@
     to: string;
     blockNo?: string;
   };
-
-  onMount(() => {
-    if (!localStorage.getItem("circles.session")) {
-      window.location = <any>"/";
-    }
-  });
 </script>
 
 <BankingDetailHeader amount={params.blockNo} type={"positive"} />

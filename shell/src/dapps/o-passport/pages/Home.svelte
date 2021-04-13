@@ -22,15 +22,6 @@
       // TODO: Verify the token and extract the e-mail address
       connectOrCreateKey(params.jwt);
       params.jwt = null;
-    } else {
-      if (
-        !localStorage.getItem("circles.session") &&
-        localStorage.getItem("circles.key")
-      ) {
-        createOrUpdateIdentity();
-      } else if (!localStorage.getItem("circles.key")) {
-        window.location = <any>"/";
-      }
     }
   }
 

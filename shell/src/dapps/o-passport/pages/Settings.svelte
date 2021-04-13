@@ -2,11 +2,6 @@
   import {onMount} from "svelte";
   import PassportHeader from "../atoms/PassportHeader.svelte";
 
-  onMount(() => {
-    if (!localStorage.getItem("circles.session")) {
-      window.location = <any>"/";
-    }
-  });
 </script>
 
 <PassportHeader />

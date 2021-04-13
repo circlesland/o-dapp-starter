@@ -179,6 +179,8 @@
     window.o.publishEvent(requestEvent);
   }
 
+  let globalState = window.o.globalState;
+
   let layoutClasses = "";
   $: {
     layoutClasses =
@@ -279,33 +281,32 @@
               {#if lastLoadedDapp}
                 {#each lastLoadedDapp.pages
 
-                  .filter((o) => !o.isSystem)
-                  .splice(2) as page}
-                  <a
-                    href="#/{lastLoadedDapp.routeParts.join('/') +
-                      '/' +
-                      page.routeParts.join('/')}"
-                    class="justify-self-center inline-block w-full text-center focus:text-teal-500 hover:text-teal-500"
-                  >
-                    <div
-                      class="justify-self-center h-full m-auto mt-1  bottom-nav-icon icon-{page.title.toLowerCase()}"
-                    />
-                    <span class="block text-xs tab p-0">{page.title}</span>
-                  </a>
-                {/each}
-              {/if}
-              <!-- NOT MODAL END -->
-            </div>
-          {:else}
-            <!-- MODAL START -->
-            <div class="grid grid-cols-1">
-              {#if lastPrompt && lastPrompt.navigation.canGoBack}
-                <button
-                  class="bg-white btn btn-outline"
-                  on:click={() => modalProcess.sendAnswer(new Back())}
-                  >back</button
+                .filter((o) => !o.isSystem)
+                .splice(2) as page}
+                <a
+                  href="#/{lastLoadedDapp.routeParts.join('/') +
+                    '/' +
+                    page.routeParts.join('/')}"
+                  class="justify-self-center inline-block w-full text-center focus:text-teal-500 hover:text-teal-500"
                 >
-              {/if}
+                  <div
+                    class="justify-self-center h-full m-auto mt-1  bottom-nav-icon icon-{page.title.toLowerCase()}"
+                  />
+                  <span class="block text-xs tab p-0">{page.title}</span>
+                </a>
+              {/each}
+            {/if}
+            <!-- NOT MODAL END -->
+          </div>
+        {:else}
+          <!-- MODAL START -->
+          <div class="grid grid-cols-1">
+            {#if lastPrompt && lastPrompt.navigation.canGoBack}
+              <button
+                class="bg-white btn btn-outline"
+                on:click={() => modalProcess.sendAnswer(new Back())}>back</button
+              >
+            {/if}
 
               <button
                 class="justify-self-center bg-white btn-circle -m-4 min-w-min w-14 h-14 mx-2 shadow-lg circles-button "
@@ -326,16 +327,15 @@
                 />
               </button>
 
-              {#if lastPrompt && lastPrompt.navigation.canSkip}
-                <button
-                  class="bg-white btn btn-outline"
-                  on:click={() => modalProcess.sendAnswer(new Skip())}
-                  >skip</button
-                >
-              {/if}
-            </div>
-            <!--  MODAL END -->
-          {/if}
+            {#if lastPrompt && lastPrompt.navigation.canSkip}
+              <button
+                class="bg-white btn btn-outline"
+                on:click={() => modalProcess.sendAnswer(new Skip())}>skip</button
+              >
+            {/if}
+          </div>
+          <!--  MODAL END -->
+        {/if}
         </div>
       </footer>
     {/if}

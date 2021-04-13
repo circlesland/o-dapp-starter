@@ -6,12 +6,22 @@ import {ProcessContext} from "@o-platform/o-process/dist/interfaces/processConte
 import ApolloClient from "apollo-client";
 import {NormalizedCacheObject} from "apollo-cache-inmemory";
 
+export interface GlobalState {
+  isLoggedOn?: boolean,
+  hasPassport?: boolean,
+  isFunded?: boolean,
+  hasSafe?: boolean,
+  hasKey?: boolean,
+  isSignedUpAtCircles?: boolean
+}
+
 export interface IShell {
   contactUsername?: string;
   graphQLClient?: ApolloClient<NormalizedCacheObject>,
   lastError?: any;
   events?: Subject<PlatformEvent>,
   publishEvent?: (event: PlatformEvent) => void,
+  globalState?: GlobalState,
   stateMachines: {
     findById(processId:string): Process;
     run<TContext>(definition: ProcessDefinition<any,any>, contextModifier?: (processContext: ProcessContext<any>) => Promise<TContext>) : Promise<Process>

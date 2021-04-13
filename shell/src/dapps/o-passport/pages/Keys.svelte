@@ -8,11 +8,6 @@
     showPhrase = !showPhrase;
   }
 
-  onMount(() => {
-    if (!localStorage.getItem("circles.session")) {
-      window.location = <any>"/";
-    }
-  });
 </script>
 <PassportHeader />
 

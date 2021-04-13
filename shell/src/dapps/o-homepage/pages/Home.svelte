@@ -9,8 +9,17 @@
   import Success from "../../../shared/atoms/Success.svelte";
   import { Generate } from "@o-platform/o-utils/dist/generate";
   import {authenticate} from "../../o-auth/processes/authenticate";
+  import {push} from "svelte-spa-router";
 
   $: {
+  }
+
+  function login() {
+    if (window.o.globalState.isLoggedOn) {
+      push("/dashboard")
+    } else {
+      push("/login")
+    }
   }
 
   function authenticateWithCircles(appId: string, code?: string) {
@@ -46,8 +55,8 @@
   <footer class="z-50  w-full sticky bottom-0 ">
     <div class="flex justify-around ">
       <a
+        on:click={login}
         class="mb-4 btn btn-outline bg-base-100"
-        href="/#/login"
       >
           <img
             width="15px"

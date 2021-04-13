@@ -149,7 +149,7 @@ const processDefinition = (processId: string) =>
         id: "upsertIdentity",
         invoke: {
           src: async (context) => {
-            localStorage.setItem("circles.session", "true");
+            localStorage.setItem("hasPassport", "true");
             console.log("upsertIdentity():", context.data)
           },
           onDone: "#success",

@@ -4,6 +4,7 @@ import {
 import Home from "./o-auth/pages/Home.svelte";
 import {PageManifest} from "@o-platform/o-interfaces/dist/pageManifest";
 import {DappManifest} from "@o-platform/o-interfaces/dist/dappManifest";
+import {push} from "svelte-spa-router";
 
 const index : PageManifest = {
   isDefault: true,

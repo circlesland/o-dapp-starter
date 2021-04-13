@@ -9,11 +9,6 @@
   import { setTrust } from "../processes/setTrust";
   import TrustDetailHeader from "../atoms/TrustDetailHeader.svelte";
 
-  onMount(() => {
-    if (!localStorage.getItem("circles.session")) {
-      window.location = <any>"/";
-    }
-  });
 
   export let params: {
     trustPartner: string;

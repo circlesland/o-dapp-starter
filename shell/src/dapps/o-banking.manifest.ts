@@ -20,6 +20,7 @@ import { getUbi } from "./o-banking/processes/getUbi";
 import { hubSignup } from "./o-banking/processes/hubSignup";
 import { setTrust } from "./o-banking/processes/setTrust";
 import { transfer } from "./o-banking/processes/transfer";
+import {push} from "svelte-spa-router";
 
 const transactions: PageManifest = {
   isDefault: true,
@@ -90,6 +91,22 @@ const trusts: PageManifest = {
     }
   ]
 };
+
+const sendInvite:PageManifest = {
+  isDefault: false,
+  routeParts: ["trusts", "invite", ":inviteAccountAddress"],
+  isSystem: true,
+  component: Trusts,
+  title: "Trusts",
+  available: [
+    (detail) => {
+      // Can navigate to?
+      // Sure!
+      return true;
+    }
+  ]
+}
+
 const trustDetail: PageManifest = {
   isDefault: false,
   isSystem: true,
@@ -230,5 +247,5 @@ export const banking: DappManifest<DappState> = {
       cancelDependencyLoading: false
     };
   },
-  pages: [transactions, transactionDetail, tokens, tokenDetail, trusts, trustDetail, graph]
+  pages: [transactions, transactionDetail, tokens, tokenDetail, trusts, trustDetail, graph, sendInvite]
 };

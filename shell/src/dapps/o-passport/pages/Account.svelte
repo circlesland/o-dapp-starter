@@ -3,11 +3,6 @@
   import {Tabs, Tab, TabList, TabPanel} from "svelte-tabs";
   import PassportHeader from "../atoms/PassportHeader.svelte";
 
-  onMount(() => {
-    if (!localStorage.getItem("circles.session")) {
-      window.location = <any>"/";
-    }
-  });
 </script>
 <PassportHeader />
 <div style="margin-top: -2.2rem;">

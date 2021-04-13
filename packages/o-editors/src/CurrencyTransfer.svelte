@@ -1,13 +1,15 @@
 <script lang="ts">
-  import { Continue } from "@o-platform/o-process/dist/events/continue";
-  import { CurrencyTransferContext } from "./currencyTransferContext";
+  import {Continue} from "@o-platform/o-process/dist/events/continue";
+  import {CurrencyTransferContext} from "./currencyTransferContext";
+  import ProcessNavigation from "./ProcessNavigation.svelte";
 
   export let context: CurrencyTransferContext;
   let amount: string = "0";
+  let selectedCurrency: any = "CRC";
 
   function sendAnswer(
-    amount: string,
-    selected: { key: string; label: string }
+          amount: string,
+          selected: { key: string; label: string }
   ) {
     const event = new Continue();
     event.data = {};
@@ -15,7 +17,7 @@
       amount: amount,
       currency: selected,
     };
-    context.data[context.fieldName] = selected;
+    context.data[context.fieldName] = selectedCurrency;
     context.process.sendAnswer(event);
   }
 </script>
@@ -58,34 +60,14 @@
         id="currency"
         name="currency"
         class=" h-full py-0 pl-2 mr-1 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
+        bind:value={selectedCurrency}
       >
         {#each context.params.currencies as currency}
-          <option>{currency.label}</option>
+          <option label={currency.label} value={currency.key}>{currency.label}</option>
         {/each}
       </select>
     </div>
   </div>
-  <!-- 
-  <input type="text" bind:value={amount} />
-  {#each context.params.currencies as currency}
-    <button
-      on:click={() => sendAnswer(amount, currency)}
-      class="btn btn-outline"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        class="inline-block w-6 h-6 ml-2 stroke-current"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M15 19l-7-7 7-7"
-        />
-      </svg>
-      Send {currency.label}
-    </button>
-  {/each} -->
+
+  <ProcessNavigation on:buttonClick={() => sendAnswer(amount, selectedCurrency)} {context} />
 </div>

@@ -15,10 +15,7 @@ export type TransferContextData = {
   safeAddress: string;
   recipientAddress?: string;
   tokens?: {
-    currency: {
-      key: string;
-      label: string;
-    };
+    currency: string;
     amount: string;
   };
   acceptSummary?: boolean;
@@ -121,7 +118,7 @@ const processDefinition = (processId: string) =>
             } else {
               return `You are about to transfer <b>${
                 context.data.tokens.amount
-              } ${context.data.tokens.currency.key.toUpperCase()}</b> to <b>${
+              } ${context.data.tokens.currency.toUpperCase()}</b> to <b>${
                 context.data.recipientAddress
               }</b>.<br/>Do you want to continue?`;
             }
@@ -137,13 +134,13 @@ const processDefinition = (processId: string) =>
         always: [
           {
             cond: (context) => {
-              return context.data.tokens.currency.key == "crc";
+              return context.data.tokens.currency == "crc";
             },
             target: "callCirclesTransfer",
           },
           {
             cond: (context) => {
-              return context.data.tokens.currency.key == "xdai";
+              return context.data.tokens.currency == "xdai";
             },
             target: "callXdaiTransfer",
           },

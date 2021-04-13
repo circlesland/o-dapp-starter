@@ -58,8 +58,6 @@ const processDefinition = (processId: string) =>
         id: "logout",
         invoke: {
           src: async (context) => {
-            localStorage.removeItem("circles.session");
-            localStorage.removeItem("circles.key");
           },
           onDone: "#success",
           onError: "#error"
