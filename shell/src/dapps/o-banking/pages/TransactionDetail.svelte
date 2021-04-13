@@ -32,7 +32,7 @@
 
         <div class="text-left">
           <div>
-            <a href="/#/banking/trusts/Name%201">
+            <a href="/#/banking/trusts/Samuel">
               <h2 class="inline-block text-2xl sm:text-3xl font-bold">
                 <!-- {params.from} -->
                 Samuel

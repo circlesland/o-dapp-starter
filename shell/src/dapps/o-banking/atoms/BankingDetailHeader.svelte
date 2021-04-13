@@ -76,10 +76,10 @@
     {:else}
       <span class="block text-transactionnegative">Sent</span>
     {/if}
-    <span class="inline-block text-8xl font-circles ml-10 ">{amount}</span>
-    <span class="inline-block align-middle h-full pt-2 text-left">
+    <span class="inline-block text-8xl font-circles ml-10 "
+      >{amount}
       <svg
-        class="w-16 h-16 inline"
+        class="w-16 h-16 inline -ml-6"
         viewBox="0 0 209 215"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -89,7 +89,8 @@
           fill="white"
         />
         <circle cx="119.5" cy="111.5" r="18.5" fill="white" />
-      </svg>
-    </span>
+      </svg></span
+    >
+    <span class="inline-block align-middle h-full pt-2 text-left" />
   </div>
 </div>

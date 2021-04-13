@@ -20,7 +20,8 @@ module.exports = {
       colors: {
         base: "#000000",
         "base-300": "#D1D5DB",
-        red: "#e3342f",
+        red: "#DC143C",
+        green: "#32CD32",
         gradient1: "#01206D",
         gradient2: "#1157A9",
         circlesblue: "#08568B",

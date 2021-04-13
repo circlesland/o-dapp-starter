@@ -53,10 +53,10 @@
   {/if}
   <div class="self-center text-center mb-8 block">
     <span class="block text-base-300">Your Balance</span>
-    <span class="inline-block text-8xl font-circles ml-10 ">4500</span>
-    <span class="inline-block align-middle -mt-16 text-left">
+    <span class="inline-block text-8xl font-circles ml-10 "
+      >4500
       <svg
-        class="w-16 h-16 inline"
+        class="w-16 h-16 inline -ml-6"
         viewBox="0 0 209 215"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

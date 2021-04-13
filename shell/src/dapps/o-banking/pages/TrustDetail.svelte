@@ -92,7 +92,24 @@
     <div class="flex flex-col bg-white shadow p-4 w-full space-y-2">
       <div class="text-circleslightblue text-sm font-bold">TRUST</div>
 
-      <div class="flex items-center w-full space-x-2 sm:space-x-4">
+      <div class="flex flex-col">
+        <div class="text-left text-sm text-light mb-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4 inline -mt-1"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+            />
+          </svg>
+          <span class="inline text-dark"> 100% mutual trust. </span>
+        </div>
         <div class="text-left">
           <div>
             <div class="text-sm breadcrumbs">
@@ -111,6 +128,33 @@
             </div>
           </div>
         </div>
+        <div>
+          <button class="btn btn-sm btn-error">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              class="inline-block w-4 h-4 mr-2 stroke-current"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+              />
+            </svg>
+            Remove trust
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="justify-center mb-2 text-circlesdarkblue">
+    <div class="flex flex-col bg-white shadow p-4 w-full space-y-2">
+      <div class="text-circleslightblue text-sm font-bold">TRANSFER</div>
+
+      <div class="flex items-center w-full space-x-2 sm:space-x-4">
+        <button class="btn btn-block btn-primary">Send Money</button>
       </div>
     </div>
   </section>
