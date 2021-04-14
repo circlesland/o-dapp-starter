@@ -4,7 +4,7 @@ import { fatalError } from "@o-platform/o-process/dist/states/fatalError";
 import { createMachine } from "xstate";
 import { prompt } from "@o-platform/o-process/dist/states/prompt";
 import TextEditor from "../../../../../packages/o-editors/src/TextEditor.svelte";
-import TextAutocompleteEditor from "../../../../../packages/o-editors/src/TextAutocompleteEditor.svelte";
+import DropdownSelectEditor from "@o-platform/o-editors/src/DropdownSelectEditor.svelte";
 import { PlatformEvent } from "@o-platform/o-events/dist/platformEvent";
 
 export type SetTrustContextData = {
@@ -29,18 +29,18 @@ const strings = {
 };
 
 const trustList = [
-  { id: 1, name: "White", code: "#FFFFFF" },
-  { id: 2, name: "Red", code: "#FF0000" },
-  { id: 3, name: "Yellow", code: "#FF00FF" },
-  { id: 4, name: "Green", code: "#00FF00" },
-  { id: 5, name: "Blue", code: "#0000FF" },
-  { id: 6, name: "Black", code: "#000000" },
-  { id: 7, name: "Yeller", code: "#FF00FF" },
-  { id: 8, name: "Yelleri", code: "#FF00FF" },
-  { id: 9, name: "Yellera", code: "#FF00FF" },
-  { id: 10, name: "Yellero", code: "#00FF00" },
-  { id: 11, name: "Yellomatic", code: "#0000FF" },
-  { id: 12, name: "Black", code: "#000000" },
+  { value: 1, label: "White" },
+  { value: 2, label: "Red" },
+  { value: 3, label: "Yellow" },
+  { value: 4, label: "Green" },
+  { value: 5, label: "Blue" },
+  { value: 6, label: "Black" },
+  { value: 7, label: "Yeller" },
+  { value: 8, label: "Yelleri" },
+  { value: 9, label: "Yellera" },
+  { value: 10, label: "Yellero" },
+  { value: 11, label: "Yellomatic" },
+  { value: 12, label: "Black" },
 ];
 
 const processDefinition = (processId: string) =>
@@ -66,10 +66,10 @@ const processDefinition = (processId: string) =>
       },
       trustReceiver: prompt<SetTrustContext, any>({
         fieldName: "trustReceiver",
-        component: TextAutocompleteEditor,
+        component: DropdownSelectEditor,
         params: {
           label: strings.labelTrustReceiver,
-          data: trustList,
+          choices: trustList,
         },
         navigation: {
           next: "#checkTrustLimit",

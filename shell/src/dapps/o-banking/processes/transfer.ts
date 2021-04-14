@@ -3,7 +3,7 @@ import { ProcessContext } from "@o-platform/o-process/dist/interfaces/processCon
 import { fatalError } from "@o-platform/o-process/dist/states/fatalError";
 import { createMachine } from "xstate";
 import { prompt } from "@o-platform/o-process/dist/states/prompt";
-import TextAutocompleteEditor from "../../../../../packages/o-editors/src/TextAutocompleteEditor.svelte";
+import DropdownSelectEditor from "@o-platform/o-editors/src/DropdownSelectEditor.svelte";
 import HtmlViewer from "../../../../../packages/o-editors/src/HtmlViewer.svelte";
 import CurrencyTransfer from "../../../../../packages/o-editors/src/CurrencyTransfer.svelte";
 import { ipc } from "@o-platform/o-process/dist/triggers/ipc";
@@ -22,18 +22,18 @@ export type TransferContextData = {
 };
 
 const userNames = [
-  { id: 1, name: "Markus", code: "#FFFFFF" },
-  { id: 2, name: "Martin", code: "#FF0000" },
-  { id: 3, name: "Martina", code: "#FF00FF" },
-  { id: 4, name: "Michael", code: "#00FF00" },
-  { id: 5, name: "Bruce", code: "#0000FF" },
-  { id: 6, name: "Berry", code: "#000000" },
-  { id: 7, name: "Tina", code: "#FF00FF" },
-  { id: 8, name: "Frank", code: "#FF00FF" },
-  { id: 9, name: "Samuel", code: "#FF00FF" },
-  { id: 10, name: "Sandra", code: "#00FF00" },
-  { id: 11, name: "markus San", code: "#0000FF" },
-  { id: 12, name: "Klaus", code: "#000000" },
+  { value: 1, label: "Markus" },
+  { value: 2, label: "Martin" },
+  { value: 3, label: "Martina" },
+  { value: 4, label: "Michael" },
+  { value: 5, label: "Bruce" },
+  { value: 6, label: "Berry" },
+  { value: 7, label: "Tina" },
+  { value: 8, label: "Frank" },
+  { value: 9, label: "Samuel" },
+  { value: 10, label: "Sandra" },
+  { value: 11, label: "markus San" },
+  { value: 12, label: "Klaus" },
 ];
 
 /**
@@ -78,10 +78,10 @@ const processDefinition = (processId: string) =>
       },
       recipientAddress: prompt<TransferContext, any>({
         fieldName: "recipientAddress",
-        component: TextAutocompleteEditor,
+        component: DropdownSelectEditor,
         params: {
           label: strings.labelRecipientAddress,
-          data: userNames,
+          choices: userNames,
         },
         navigation: {
           next: "#tokens",
