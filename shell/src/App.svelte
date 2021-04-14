@@ -208,7 +208,7 @@
   </main>
 
   {#if lastLoadedDapp && !lastLoadedDapp.hideFooter && lastLoadedPage && !lastLoadedPage.hideFooter}
-    {#if !localStorage.getItem("circles.key")}
+    {#if !globalState.hasKey}
       <footer class="z-50  w-full sticky bottom-0 ">
         <div class="flex justify-around ">
           <button
@@ -243,7 +243,6 @@
             <div class="grid grid-cols-5">
               {#if lastLoadedDapp}
                 {#each lastLoadedDapp.pages
-
                   .filter((o) => !o.isSystem)
                   .slice(0, 2) as page}
                   <a

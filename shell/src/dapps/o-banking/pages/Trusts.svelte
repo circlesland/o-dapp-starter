@@ -1,16 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
-
-  onMount(() => {
-    if (params && params.inviteAccountAddress) {
-      execSendInviteGas(params.inviteAccountAddress);
-    }
-  });
-
-  export let params: {
-    inviteAccountAddress?: string
-  };
-
+  import {query} from "svelte-apollo";
+  import {setClient} from "svelte-apollo";
   import { RunProcess } from "@o-platform/o-process/dist/events/runProcess";
   import {
     shellProcess,
@@ -20,6 +11,41 @@
   import { setTrust } from "../processes/setTrust";
   import BankingHeader from "../atoms/BankingHeader.svelte";
   import {sendInviteGas} from "../processes/sendInviteGas";
+  import gql from "graphql-tag";
+
+  export let params: {
+    inviteAccountAddress?: string
+  };
+
+  onMount(() => {
+    if (params && params.inviteAccountAddress) {
+      execSendInviteGas(params.inviteAccountAddress);
+    }
+  });
+
+  setClient(<any>window.o.theGraphClient);
+
+  $:trusts = query(gql`
+    query safe($id:String!) {
+      safe(id: $id) {
+        incoming {
+          userAddress
+          canSendToAddress
+          limit
+        }
+        outgoing {
+          userAddress
+          canSendToAddress
+          limit
+        }
+      }
+    }`,
+    {
+      variables: {
+        id: "0x9a0bbbbd3789f184ca88f2f6a40f42406cb842ac"
+      }
+    });
+
 
   function execTransfer(recipientAddress?: string) {
     window.o.publishEvent(
@@ -92,6 +118,29 @@
 </script>
 
 <BankingHeader />
+
+<div class="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
+  {#if $trusts.loading}
+    Loading offers...
+  {:else if $trusts.error}
+    <b>An error occurred while loading the recent activities:</b> <br/>{$trusts.error.message}
+  {:else if $trusts.data && $trusts.data.safe && ($trusts.data.safe.incoming.length > 0  || $trusts.data.safe.outgoing.length > 0)}
+    {#each $trusts.data.safe.incoming as incoming}
+      <div>
+        userAddress: {incoming.userAddress}<br/>
+      </div>
+    {/each}
+
+    {#each $trusts.data.safe.outgoing as outgoing}
+      <div>
+        userAddress: {outgoing.userAddress}<br/>
+      </div>
+    {/each}
+  {:else}
+    <span>No recent activities</span>
+  {/if}
+</div>
+
 
 <div class="mx-4 -mt-6">
   <section class="flex items-center justify-center mb-2 text-circlesdarkblue">

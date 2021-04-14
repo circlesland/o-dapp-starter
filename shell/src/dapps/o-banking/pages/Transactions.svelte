@@ -55,8 +55,6 @@
 
 
 
-
-
 <div class="mx-4 -mt-6">
   <section
     on:click|once={() => loadDetailPage("daniel/samuel/200")}
