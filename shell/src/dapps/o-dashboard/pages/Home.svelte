@@ -3,11 +3,6 @@
   import { onMount } from "svelte";
   import DashboardHeader from "../atoms/DashboardHeader.svelte";
 
-  onMount(() => {
-    if (!localStorage.getItem("circles.session")) {
-      window.location = <any>"/";
-    }
-  });
 
   function buyXats() {
     window.o.publishEvent(

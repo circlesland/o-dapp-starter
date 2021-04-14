@@ -3,11 +3,6 @@
   import BankingHeader from "../atoms/BankingHeader.svelte";
   import { push } from "svelte-spa-router";
 
-  onMount(() => {
-    if (!localStorage.getItem("circles.session")) {
-      window.location = <any>"/";
-    }
-  });
 
   function loadDetailPage(path) {
     push("#/banking/transactions/" + path);

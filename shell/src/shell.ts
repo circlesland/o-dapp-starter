@@ -17,7 +17,8 @@ export interface GlobalState {
 
 export interface IShell {
   contactUsername?: string;
-  graphQLClient?: ApolloClient<NormalizedCacheObject>,
+  authClient?: ApolloClient<NormalizedCacheObject>,
+  theGraphClient?: ApolloClient<NormalizedCacheObject>,
   lastError?: any;
   events?: Subject<PlatformEvent>,
   publishEvent?: (event: PlatformEvent) => void,

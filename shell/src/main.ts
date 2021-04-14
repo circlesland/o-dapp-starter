@@ -184,12 +184,15 @@ const shell: IShell = {
    */
   events: <any>shellEvents.observable,
   publishEvent: event => shellEvents.publish(event),
-  graphQLClient: null
+  authClient: null
 };
 
 async function connectToApi() {
   const apiConnection = new ApiConnection("https://auth.circles.name/");
-  shell.graphQLClient = await apiConnection.client.subscribeToResult();
+  shell.authClient = await apiConnection.client.subscribeToResult();
+
+  const theGraphConnection = new ApiConnection("https://api.thegraph.com/subgraphs/name/circlesubi/circles");
+  shell.theGraphClient = await theGraphConnection.client.subscribeToResult();
 }
 connectToApi();
 
