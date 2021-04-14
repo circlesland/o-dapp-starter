@@ -139,7 +139,7 @@ const processDefinition = (processId: string) =>
         id: "storeSeedPhrase",
         entry: (context, event) => {
           // TODO: Store the seedphrase in the localStorage
-          localStorage.setItem("hasKey", context.data.seedPhrase);
+          localStorage.setItem("hasKey", "true");
         },
         always: "#success"
       },
