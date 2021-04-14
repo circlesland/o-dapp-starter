@@ -2,7 +2,26 @@
   import { onMount } from "svelte";
   import BankingHeader from "../atoms/BankingHeader.svelte";
   import { push } from "svelte-spa-router";
+  import gql from "graphql-tag";
 
+  onMount(async () => {
+    const result = await window.o.theGraphClient.query({
+      query: gql`query safe($id:String) {
+                  safe(id: $id) {
+                    balances {
+                      token {
+                        id
+                      }
+                      amount
+                    }
+                  }
+                }`,
+      variables: {
+        id: "0x9a0bbbbd3789f184ca88f2f6a40f42406cb842ac"
+      },
+    });
+    console.log(result);
+  });
 
   function loadDetailPage(path) {
     push("#/banking/transactions/" + path);
