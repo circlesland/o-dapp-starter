@@ -48,7 +48,7 @@ export class ApiConnection
         },
     };
 
-    private async connect() : Promise<ApolloClient<NormalizedCacheObject>> {
+    public connect() : ApolloClient<NormalizedCacheObject> {
         console.log("apollo client is connecting to: ", this._apiEndpointUrl);
 
         const httpLink = new HttpLink({

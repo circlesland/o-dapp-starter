@@ -19,6 +19,7 @@ import Error from "./shared/atoms/Error.svelte";
 import App from "src/App.svelte";
 import {AnyEventObject} from "xstate";
 import {Generate} from "@o-platform/o-utils/dist/generate";
+import {setClient} from "svelte-apollo";
 
 dayjs.extend(relativeTime)
 
@@ -190,11 +191,12 @@ const shell: IShell = {
 async function connectToApi() {
   const apiConnection = new ApiConnection("https://auth.circles.name/");
   shell.authClient = await apiConnection.client.subscribeToResult();
-
-  const theGraphConnection = new ApiConnection("https://api.thegraph.com/subgraphs/name/circlesubi/circles");
-  shell.theGraphClient = await theGraphConnection.client.subscribeToResult();
 }
-connectToApi();
+connectToApi().then(() => {
+});
+
+const theGraphConnection = new ApiConnection("https://api.thegraph.com/subgraphs/name/circlesubi/circles");
+shell.theGraphClient = theGraphConnection.connect();
 
 window.o = shell;
 
