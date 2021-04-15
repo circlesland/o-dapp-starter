@@ -6,6 +6,7 @@ import { prompt } from "@o-platform/o-process/dist/states/prompt";
 import TextEditor from "../../../../../packages/o-editors/src/TextEditor.svelte";
 import DropdownSelectEditor from "@o-platform/o-editors/src/DropdownSelectEditor.svelte";
 import { PlatformEvent } from "@o-platform/o-events/dist/platformEvent";
+import gql from "graphql-tag";
 
 export type SetTrustContextData = {
   safeAddress: string;
@@ -43,6 +44,28 @@ const trustList = [
   { value: 12, label: "Black" },
 ];
 
+const trustUsersQuery = {
+  query: gql`
+    query safe($id: String!) {
+      safe(id: $id) {
+        incoming {
+          userAddress
+          canSendToAddress
+          limit
+        }
+        outgoing {
+          userAddress
+          canSendToAddress
+          limit
+        }
+      }
+    }
+  `,
+  variables: {
+    id: "0xd460db4cfa021c42edeb7e555d904400dab65ecc",
+  },
+};
+
 const processDefinition = (processId: string) =>
   createMachine<SetTrustContext, any>({
     id: `${processId}:setTrust`,
@@ -70,6 +93,11 @@ const processDefinition = (processId: string) =>
         params: {
           label: strings.labelTrustReceiver,
           choices: trustList,
+          graphql: true,
+          graphqlQuery: trustUsersQuery,
+          optionIdentifier: "canSendToAddress",
+          getOptionLabel: (option) => option.canSendToAddress,
+          getSelectionLabel: (option) => option.canSendToAddress,
         },
         navigation: {
           next: "#checkTrustLimit",
