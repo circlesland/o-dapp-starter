@@ -5,17 +5,15 @@
   import { Continue } from "@o-platform/o-process/dist/events/continue";
   import { onMount } from "svelte";
   export let context: ChoiceSelectorContext;
-  import gql from "graphql-tag";
 
   let selected = undefined;
-  let items = undefined;
+
   let graphql = false;
   let optionIdentifier = "value";
   let getOptionLabel = (option) => option.label;
   let getSelectionLabel = (option) => option.label;
 
   onMount(() => {
-    items = getDropdownData();
     graphql = context.params.graphql;
     getOptionLabel = context.params.getOptionLabel
       ? context.params.getOptionLabel
@@ -43,18 +41,6 @@
     }
   }
 
-  // const optionIdentifier = "canSendToAddress";
-  // const getOptionLabel = (option) => option.canSendToAddress;
-  // const getSelectionLabel = (option) => option.canSendToAddress;
-
-  function getDropdownData() {
-    if (context.params.graphql) {
-      return getGraphQlData();
-    } else {
-      return context.params.choices;
-    }
-  }
-
   async function getGraphQlData() {
     const result = await window.o.theGraphClient.query(
       context.params.graphqlQuery
@@ -70,13 +56,11 @@
         <span class="label-text">{context.params.label}</span>
       </label>
     </div>
-    {console.log("ITEMS: ", items)}
-    {console.log("ASDASD ", context.params.choices)}
 
     {#if graphql}
       <Select
-        loadOptions={getDropdownData}
-        placeholder={context.params.label}
+        loadOptions={getGraphQlData}
+        placeholder="Search..."
         listAutoWidth={false}
         listPlacement="top"
         containerClasses="w-80 min-w-full"
@@ -87,7 +71,6 @@
     {:else}
       <Select
         items={context.params.choices}
-        on:select={handleSelect}
         showChevron={true}
         listAutoWidth={false}
         listPlacement="top"

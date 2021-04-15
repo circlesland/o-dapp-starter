@@ -29,21 +29,6 @@ const strings = {
   labelTrustLimit: "Enter the trust limit (0-100)",
 };
 
-const trustList = [
-  { value: 1, label: "White" },
-  { value: 2, label: "Red" },
-  { value: 3, label: "Yellow" },
-  { value: 4, label: "Green" },
-  { value: 5, label: "Blue" },
-  { value: 6, label: "Black" },
-  { value: 7, label: "Yeller" },
-  { value: 8, label: "Yelleri" },
-  { value: 9, label: "Yellera" },
-  { value: 10, label: "Yellero" },
-  { value: 11, label: "Yellomatic" },
-  { value: 12, label: "Black" },
-];
-
 const trustUsersQuery = {
   query: gql`
     query safe($id: String!) {
@@ -92,7 +77,6 @@ const processDefinition = (processId: string) =>
         component: DropdownSelectEditor,
         params: {
           label: strings.labelTrustReceiver,
-          choices: trustList,
           graphql: true,
           graphqlQuery: trustUsersQuery,
           optionIdentifier: "canSendToAddress",

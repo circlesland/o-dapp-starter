@@ -10,6 +10,7 @@ import { ipc } from "@o-platform/o-process/dist/triggers/ipc";
 import { transferXdai } from "./transferXdai";
 import { transferCircles } from "./transferCircles";
 import { PlatformEvent } from "@o-platform/o-events/dist/platformEvent";
+import gql from "graphql-tag";
 
 export type TransferContextData = {
   safeAddress: string;
@@ -21,20 +22,27 @@ export type TransferContextData = {
   acceptSummary?: boolean;
 };
 
-const userNames = [
-  { value: 1, label: "Markus" },
-  { value: 2, label: "Martin" },
-  { value: 3, label: "Martina" },
-  { value: 4, label: "Michael" },
-  { value: 5, label: "Bruce" },
-  { value: 6, label: "Berry" },
-  { value: 7, label: "Tina" },
-  { value: 8, label: "Frank" },
-  { value: 9, label: "Samuel" },
-  { value: 10, label: "Sandra" },
-  { value: 11, label: "markus San" },
-  { value: 12, label: "Klaus" },
-];
+const trustUsersQuery = {
+  query: gql`
+    query safe($id: String!) {
+      safe(id: $id) {
+        incoming {
+          userAddress
+          canSendToAddress
+          limit
+        }
+        outgoing {
+          userAddress
+          canSendToAddress
+          limit
+        }
+      }
+    }
+  `,
+  variables: {
+    id: "0xd460db4cfa021c42edeb7e555d904400dab65ecc",
+  },
+};
 
 /**
  * This is the context on which the process will work.
@@ -81,7 +89,11 @@ const processDefinition = (processId: string) =>
         component: DropdownSelectEditor,
         params: {
           label: strings.labelRecipientAddress,
-          choices: userNames,
+          graphql: true,
+          graphqlQuery: trustUsersQuery,
+          optionIdentifier: "canSendToAddress",
+          getOptionLabel: (option) => option.canSendToAddress,
+          getSelectionLabel: (option) => option.canSendToAddress,
         },
         navigation: {
           next: "#tokens",
