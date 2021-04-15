@@ -2,10 +2,13 @@
   import BankingHeader from "../atoms/BankingHeader.svelte";
   import { push } from "svelte-spa-router";
   import gql from "graphql-tag";
+  import Time from "svelte-time";
 
   import { query } from "svelte-apollo";
   import { setClient } from "svelte-apollo";
   setClient(<any>window.o.theGraphClient);
+
+  let timestampSevenDays = new Date().getTime() + 7 * 24 * 60 * 60 * 1000;
 
   $: transactions = query(
     gql`
@@ -31,6 +34,10 @@
   function loadDetailPage(path) {
     push("#/banking/transactions/" + path);
   }
+
+  function dateOlderThanSevenDays(unixTime: number) {
+    return timestampSevenDays > unixTime;
+  }
 </script>
 
 <BankingHeader />
@@ -46,6 +53,14 @@
       {console.log(notification)}
       <div>
         when: {notification.time}<br />
+        {#if dateOlderThanSevenDays(notification.time)}
+          <Time
+            timestamp={new Date(notification.time * 1000)}
+            format="D. MMMM YYYY"
+          />
+        {:else}
+          <Time relative timestamp={new Date(notification.time * 1000)} /><br />
+        {/if}
         from: {notification.hubTransfer.from}<br />
         to: {notification.hubTransfer.to}<br />
         amount: {notification.hubTransfer.amount}
